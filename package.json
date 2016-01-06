@@ -1,0 +1,36 @@
+{
+  "name": "terria-server",
+  "version": "0.0.1",
+  "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, ogr2ogr conversion service, and express static server.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/supervisor app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TerriaJS/TerriaJS-Server"
+  },
+  "keywords": [
+    "terriajs",
+    "National",
+    "Map"
+  ],
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/TerriaJS/TerriaJS-Server/issues"
+  },
+  "homepage": "https://github.com/TerriaJS/TerriaJS-Server",
+  "dependencies": {
+    "compression": "^1.6.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "formidable": "^1.0.17",
+    "ogr2ogr": "^0.5.1",
+    "proj4": "^2.3.12",
+    "proj4js-defs": "0.0.1",
+    "request": "^2.67.0",
+    "supervisor": "^0.9.1",
+    "yargs": "^3.31.0"
+  }
+}
