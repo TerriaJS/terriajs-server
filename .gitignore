@@ -1,3 +1,12 @@
 
 # added by GitSavvy
 /error.log
+
+# added by GitSavvy
+/node_modules/
+
+# added by GitSavvy
+/output.log
+
+# added by GitSavvy
+/wwwroot
