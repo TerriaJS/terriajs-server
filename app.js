@@ -104,6 +104,7 @@ var cors = require('cors');
 var proxy = require('./proxy');
 var proj4lookup = require('./proj4lookup');
 var convert = require('./convert');
+var serveWwwRoot = exists(argv.wwwroot + '/index.html');
 
 var po = proxy._proxyOptions = {};
 po.upstreamProxy = argv['upstream-proxy'];
@@ -130,7 +131,8 @@ app.use(cors());
 app.disable('etag');
 
 // Serve the bulk of our application as a static web directory.
-app.use(express.static(argv.wwwroot));
+if (serveWwwRoot)
+    app.use(express.static(argv.wwwroot));
 
 app.use('/proxy', proxy);      // Proxy for servers that don't support CORS
 app.use('/proj4def', proj4lookup);     // Proj4def lookup service, to avoid downloading all definitions into the client.
@@ -139,9 +141,13 @@ app.get('/ping', function(req, res){
   res.status(200).send('OK');
 });
 
-// Redirect unknown pages back home. We don't actually have a 404 page, for starters.
 app.use(function(req, res, next) {
-    res.redirect(303, '/');
+    if (serveWwwRoot) {
+        // Redirect unknown pages back home. We don't actually have a 404 page, for starters.
+        res.redirect(303, '/');
+    } else {
+        res.status(404).send('No TerriaJS website here.');
+    }
 });
 
 app.listen(argv.port, argv.public ? undefined : 'localhost');
