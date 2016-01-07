@@ -1,11 +1,11 @@
 {
-  "name": "terria-server",
-  "version": "0.0.1",
+  "name": "terriajs-server",
+  "version": "0.0.2",
   "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, ogr2ogr conversion service, and express static server.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/.bin/supervisor app"
+    "start": "node_modules/.bin/supervisor --no-restart-on exit -- app"
   },
   "repository": {
     "type": "git",
