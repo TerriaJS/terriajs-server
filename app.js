@@ -56,25 +56,22 @@ var cluster = require('cluster');
 
 // The master process just spins up a few workers and quits.
 if (cluster.isMaster) {
-    var cpuCount = require('os').cpus().length;
     var packagejson = require('./package.json');
     console.log ('TerriaJS Server ' + packagejson.version);
 
-    try {
-        fs.accessSync(argv.wwwroot + '/index.html', fs.F_OK);
-        try {
-            fs.accessSync(argv.wwwroot + '/build', fs.F_OK);
-        } catch (e) {
+    var cpuCount = require('os').cpus().length;
+    if (exists(argv.wwwroot + '/index.html', fs.F_OK)) {
+        if (!exists(argv.wwwroot + '/build', fs.F_OK)) {
             console.warn('Warning: "' + argv.wwwroot + '" has not been built. You should do this:\n\n' + 
                 '> cd ' + argv.wwwroot + '/..\n' +
                 '> gulp\n');
         }
-    } catch (e) {
+    } else {
         console.warn('Warning: "' + argv.wwwroot + '" is not a TerriaJS wwwroot directory.');
     }
-    try {
-        fs.accessSync(argv.configFile, fs.F_OK);
-    } catch (e) {
+    if (exists(argv.configFile, fs.F_OK)) {
+        console.log('Using configuration file "' + argv.configFile + '".');
+    } else {
         console.warn('Warning: Can\'t open config file "' + argv.configFile + '". ALL proxy requests will be accepted.\n');
     }
     console.log('Serving directory "' + argv.wwwroot + '" on port ' + argv.port + '.');
