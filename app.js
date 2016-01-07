@@ -24,7 +24,6 @@ var yargs = require('yargs')
         'description' : 'Run a public server that listens on all interfaces.'
     },
     'config-file' : {
-        'default' : './config.json',
         'description' : 'File containing { "proxyDomains": ["foo.com"] }'
     },
     'upstream-proxy' : {
@@ -47,9 +46,13 @@ if (argv.help) {
 }
 
 argv.wwwroot = argv._.length > 0 ? argv._[0] : process.cwd() + '/wwwroot'; // is there a way to name a positional argument with yarg? I can't find it.
-if (argv.configFile === './config.json') {
-    // we need to make convert './' to be relative to current directory, not relative to program directory.
-    argv.configFile = process.cwd() + '/config.json';
+if (argv.configFile === undefined) {
+    // if unspecified, we should look in the wwwroot for a Terria config file, else in this directory.
+    if (exists(argv.wwwroot + '/config.json')) {
+        argv.configFile = argv.wwwroot + '/config.json';
+    } else {
+        argv.configFile = __dirname + '/config.json';
+    }
 }
 
 var cluster = require('cluster');

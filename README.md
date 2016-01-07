@@ -15,6 +15,18 @@ This is a basic NodeJS Express server that serves up a (not included) static Ter
 3. `cd terriajs`
 4. `npm install`
 
+### Configure
+
+If you are running the server separately from a built TerriaJS map, create a local config.json with a list of domains you're willing to proxy for:
+
+```json
+{
+    "proxyDomains": [
+        "gov.au"
+    ]
+}
+```
+
 ### Run
 
 1. `node app path/to/myterriamap/wwwroot`
