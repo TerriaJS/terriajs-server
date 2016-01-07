@@ -136,7 +136,7 @@ app.use(cors());
 app.disable('etag');
 
 // Serve the bulk of our application as a static web directory.
-app.use(express.static(path.join(__dirname, 'wwwroot')));
+app.use(express.static(argv.wwwroot));
 
 app.use('/proxy', proxy);      // Proxy for servers that don't support CORS
 app.use('/proj4def', crs);     // Proj4def lookup service, to avoid downloading all definitions into the client.
