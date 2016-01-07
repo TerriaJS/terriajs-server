@@ -38,19 +38,27 @@ if (argv.help) {
 
 argv.wwwroot = argv._.length > 0 ? argv._[0] : process.cwd() + '/wwwroot'; // is there a way to name a positional argument with yarg? I can't find it.
 
-try {
-    fs.accessSync(argv.wwwroot + '/index.html', fs.F_OK);
-} catch (e) {
-    console.log(argv.wwwroot + ' does not appear to be a TerriaJS wwwroot directory.');
-    process.exit(1);
-}
 
 var cluster = require('cluster');
 
 // The master process just spins up a few workers and quits.
 if (cluster.isMaster) {
     var cpuCount = require('os').cpus().length;
-    console.log('Launching ' +  cpuCount + ' workers; listening on port ' + argv.port + '.');
+
+    try {
+        fs.accessSync(argv.wwwroot + '/index.html', fs.F_OK);
+        try {
+            fs.accessSync(argv.wwwroot + '/build', fs.F_OK);
+        } catch (e) {
+            console.warn('Warning: "' + argv.wwwroot + '" has not been built. You should do this:\n\n' + 
+                '> cd ' + argv.wwwroot + '/..\n' +
+                '> gulp\n');
+        }
+    } catch (e) {
+        console.warn('Warning: "' + argv.wwwroot + '" is not a TerriaJS wwwroot directory.');
+    }
+    console.log('Serving directory "' + argv.wwwroot + '" on port ' + argv.port + '.');
+    console.log('Launching ' +  cpuCount + ' worker processes.');
 
     // Create a worker for each CPU
     for (var i = 0; i < cpuCount; i += 1) {
