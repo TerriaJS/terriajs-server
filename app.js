@@ -4,6 +4,45 @@
  * Terria server, used to run NationalMap. It is primarily a static web app, but there are a couple of helper functions
  * that run server-side.
  */
+var fs = require('fs');
+var yargs = require('yargs')
+    .usage('$0 [options] [path-to-wwwroot]')
+    .options({
+    'port' : {
+        'default' : 3001,
+        'description' : 'Port to listen on.'
+    },
+    'public' : {
+        'type' : 'boolean',
+        'default' : true,
+        'description' : 'Run a public server that listens on all interfaces.'
+    },
+    'upstream-proxy' : {
+        'description' : 'A standard proxy server that will be used to retrieve data.  Specify a URL including port, e.g. "http://proxy:8000".'
+    },
+    'bypass-upstream-proxy-hosts' : {
+        'description' : 'A comma separated list of hosts that will bypass the specified upstream_proxy, e.g. "lanhost1,lanhost2"'
+    },
+    'help' : {
+        'alias' : 'h',
+        'type' : 'boolean',
+        'description' : 'Show this help.'
+    }
+});
+
+var argv = yargs.argv;
+if (argv.help) {
+    return yargs.showHelp();
+}
+
+argv.wwwroot = argv._.length > 0 ? argv._[0] : process.cwd() + '/wwwroot'; // is there a way to name a positional argument with yarg? I can't find it.
+
+try {
+    fs.accessSync(argv.wwwroot + '/index.html', fs.F_OK);
+} catch (e) {
+    console.log(argv.wwwroot + ' does not appear to be a TerriaJS wwwroot directory.');
+    process.exit(1);
+}
 
 var cluster = require('cluster');
 
