@@ -7,7 +7,7 @@
  */
 var fs = require('fs');
 var yargs = require('yargs')
-    .usage('$0 [options] [path-to-wwwroot]')
+    .usage('$0 [options] [path/to/wwwroot]')
     .options({
     'port' : {
         'default' : 3001,
@@ -76,8 +76,6 @@ if (cluster.isMaster) {
     return;
 }
 
-/*jshint es3:false*/
-
 var express = require('express');
 var compression = require('compression');
 var path = require('path');
@@ -86,7 +84,6 @@ var cors = require('cors');
 var proxy = require('./proxy');
 var crs = require('./crs');
 var convert = require('./convert');
-
 
 var po = proxy._proxyOptions = {};
 po.upstreamProxy = argv['upstream-proxy'];
