@@ -1,7 +1,14 @@
 /* jshint node: true */
 "use strict";
 
-
+function exists(pathName) {
+    try {
+        fs.accessSync(pathName, fs.F_OK);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
 
 var fs = require('fs');
 var yargs = require('yargs')
@@ -50,6 +57,8 @@ var cluster = require('cluster');
 // The master process just spins up a few workers and quits.
 if (cluster.isMaster) {
     var cpuCount = require('os').cpus().length;
+    var packagejson = require('./package.json');
+    console.log ('TerriaJS Server ' + packagejson.version);
 
     try {
         fs.accessSync(argv.wwwroot + '/index.html', fs.F_OK);
