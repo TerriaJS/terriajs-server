@@ -147,7 +147,7 @@ function doProxy(req, res, next, callback) {
 
     // Are we allowed to proxy for this host?
     if (!proxyAllowedHost(remoteUrl.host)) {
-        res.status(400).send('Host is not in list of allowed hosts: ' + remoteUrl.host);
+        res.status(403).send('Host is not in list of allowed hosts: ' + remoteUrl.host);
         return;
     }
 
