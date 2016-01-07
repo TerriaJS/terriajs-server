@@ -18,6 +18,10 @@ var yargs = require('yargs')
         'default' : true,
         'description' : 'Run a public server that listens on all interfaces.'
     },
+    'config-file' : {
+        'default' : './config.json',
+        'description' : 'File containing { "proxyDomains": ["foo.com"] }'
+    },
     'upstream-proxy' : {
         'description' : 'A standard proxy server that will be used to retrieve data.  Specify a URL including port, e.g. "http://proxy:8000".'
     },
@@ -32,12 +36,16 @@ var yargs = require('yargs')
 });
 
 var argv = yargs.argv;
+global.argv = argv;
 if (argv.help) {
     return yargs.showHelp();
 }
 
 argv.wwwroot = argv._.length > 0 ? argv._[0] : process.cwd() + '/wwwroot'; // is there a way to name a positional argument with yarg? I can't find it.
-
+if (argv.configFile === './config.json') {
+    // we need to make convert './' to be relative to current directory, not relative to program directory.
+    argv.configFile = process.cwd() + '/config.json';
+}
 
 var cluster = require('cluster');
 
@@ -56,6 +64,11 @@ if (cluster.isMaster) {
         }
     } catch (e) {
         console.warn('Warning: "' + argv.wwwroot + '" is not a TerriaJS wwwroot directory.');
+    }
+    try {
+        fs.accessSync(argv.configFile, fs.F_OK);
+    } catch (e) {
+        console.warn('Warning: Can\'t open config file "' + argv.configFile + '". ALL proxy requests will be accepted.\n');
     }
     console.log('Serving directory "' + argv.wwwroot + '" on port ' + argv.port + '.');
     console.log('Launching ' +  cpuCount + ' worker processes.');

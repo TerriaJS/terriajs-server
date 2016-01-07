@@ -3,7 +3,13 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-var configSettings = require('./config.json');
+
+var configSettings;
+try {
+    configSettings = require(global.argv.configFile);
+} catch (e) {
+    configSettings = { proxyDomains: [], proxyAllDomains: true };
+}
 var url = require('url');
 
 
@@ -44,6 +50,9 @@ var proxyDomains = configSettings.proxyDomains;
 
 //Non CORS hosts and domains we proxy to
 function proxyAllowedHost(host) {
+    if (configSettings.proxyAllDomains) {
+        return true;
+    }
     host = host.toLowerCase();
     //check that host is from one of these domains
     for (var i = 0; i < proxyDomains.length; i++) {
