@@ -50,7 +50,7 @@ var cluster = require('cluster');
 // The master process just spins up a few workers and quits.
 if (cluster.isMaster) {
     var cpuCount = require('os').cpus().length;
-    console.log('Launching ' +  cpuCount + ' workers.');
+    console.log('Launching ' +  cpuCount + ' workers; listening on port ' + argv.port + '.');
 
     // Create a worker for each CPU
     for (var i = 0; i < cpuCount; i += 1) {
