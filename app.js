@@ -71,6 +71,7 @@ if (cluster.isMaster) {
     return;
 }
 
+
 /*global console,require,__dirname*/
 /*jshint es3:false*/
 
@@ -83,33 +84,6 @@ var proxy = require('./proxy');
 var crs = require('./crs');
 var convert = require('./convert');
 
-var yargs = require('yargs').options({
-    'port' : {
-        'default' : 3001,
-        'description' : 'Port to listen on.'
-    },
-    'public' : {
-        'type' : 'boolean',
-        'default' : true,
-        'description' : 'Run a public server that listens on all interfaces.'
-    },
-    'upstream-proxy' : {
-        'description' : 'A standard proxy server that will be used to retrieve data.  Specify a URL including port, e.g. "http://proxy:8000".'
-    },
-    'bypass-upstream-proxy-hosts' : {
-        'description' : 'A comma separated list of hosts that will bypass the specified upstream_proxy, e.g. "lanhost1,lanhost2"'
-    },
-    'help' : {
-        'alias' : 'h',
-        'type' : 'boolean',
-        'description' : 'Show this help.'
-    }
-});
-var argv = yargs.argv;
-
-if (argv.help) {
-    return yargs.showHelp();
-}
 
 var po = proxy._proxyOptions = {};
 po.upstreamProxy = argv['upstream-proxy'];
