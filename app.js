@@ -68,8 +68,6 @@ if (cluster.isMaster) {
     return;
 }
 
-
-/*global console,require,__dirname*/
 /*jshint es3:false*/
 
 var express = require('express');
