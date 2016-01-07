@@ -1,6 +1,6 @@
 ## TerriaJS-Server
 
-This is a basic NodeJS Express server that serves up a (not included) static TerriaJS site (such as National Map) with a few additional useful services:
+This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
 
 * `/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
 * `/proj4def`: a proj4 coordinate reference system lookup service.
@@ -8,16 +8,17 @@ This is a basic NodeJS Express server that serves up a (not included) static Ter
 * `/ping`: returns 200 OK.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
 
-### Install
+### Stand-alone installation (without serving NationalMap)
 
-1. Download and build your National Map (or AREMI, etc) somewhere.
-2. `git clone https://github.com/terriajs/terriajs-server`
-3. `cd terriajs`
-4. `npm install`
+#### Install
 
-### Configure
+1. `git clone https://github.com/terriajs/terriajs-server`
+2. `cd terriajs-server`
+3. `npm install`
 
-If you are running the server separately from a built TerriaJS map, create a local config.json with a list of domains you're willing to proxy for:
+#### Configure
+
+Create a local config.json with a list of domains you're willing to proxy for:
 
 ```json
 {
@@ -27,9 +28,9 @@ If you are running the server separately from a built TerriaJS map, create a loc
 }
 ```
 
-### Run
+#### Run
 
-1. `node app path/to/myterriamap/wwwroot`
+1. `node app`
 
 ```
 app [options] [path-to-wwwroot]
@@ -46,3 +47,8 @@ Options:
                                  "lanhost1,lanhost2"
   --help, -h                     Show this help.                       [boolean]
   ```
+
+  ### Installation with NationalMap
+
+  Just [install NationalMap](https://github.com/NICTA/nationalmap/wiki/Deploying-a-copy-of-National-Map). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
+
