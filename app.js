@@ -1,10 +1,8 @@
 /* jshint node: true */
 "use strict";
 
-/**
- * Terria server, used to run NationalMap. It is primarily a static web app, but there are a couple of helper functions
- * that run server-side.
- */
+
+
 var fs = require('fs');
 var yargs = require('yargs')
     .usage('$0 [options] [path/to/wwwroot]')
