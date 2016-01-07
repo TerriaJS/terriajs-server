@@ -102,7 +102,7 @@ var path = require('path');
 var cors = require('cors');
 
 var proxy = require('./proxy');
-var crs = require('./crs');
+var proj4lookup = require('./proj4lookup');
 var convert = require('./convert');
 
 var po = proxy._proxyOptions = {};
@@ -133,7 +133,7 @@ app.disable('etag');
 app.use(express.static(argv.wwwroot));
 
 app.use('/proxy', proxy);      // Proxy for servers that don't support CORS
-app.use('/proj4def', crs);     // Proj4def lookup service, to avoid downloading all definitions into the client.
+app.use('/proj4def', proj4lookup);     // Proj4def lookup service, to avoid downloading all definitions into the client.
 app.use('/convert', convert);  // OGR2OGR wrapper to allow supporting file types like Shapefile.
 app.get('/ping', function(req, res){
   res.status(200).send('OK');
