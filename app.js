@@ -49,11 +49,8 @@ var cluster = require('cluster');
 
 // The master process just spins up a few workers and quits.
 if (cluster.isMaster) {
-
-    // Count the machine's CPUs
     var cpuCount = require('os').cpus().length;
-    cpuCount = 1; // TODO REMOVE
-    console.log('Cores Used:', cpuCount);
+    console.log('Launching ' +  cpuCount + ' workers.');
 
     // Create a worker for each CPU
     for (var i = 0; i < cpuCount; i += 1) {
