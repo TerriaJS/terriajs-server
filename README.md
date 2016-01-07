@@ -2,6 +2,12 @@
 
 This is a basic NodeJS Express server that serves up a (not included) static TerriaJS site (such as National Map) with a few additional useful services.
 
+* `/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
+* `/crs`: a proj4 coordinate reference system lookup service.
+* `/convert`: an ogr2ogr server-side conversion service.
+* `/ping`: returns 200 OK.
+* All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
+
 ### Install
 
 1. Download and build your National Map (or AREMI, etc) somewhere.
