@@ -62,11 +62,11 @@ if (cluster.isMaster) {
 
     // Listen for dying workers
     cluster.on('exit', function (worker) {
-
-        // Replace the dead worker, we're not sentimental
-        console.log('Worker ' + worker.id + ' died :(');
-        cluster.fork();
-
+        if (!worker.suicide) {
+            // Replace the dead worker if not a startup error like port in use.
+            console.log('Worker ' + worker.id + ' died. Replacing it.');
+            cluster.fork();
+        }
     });
     return;
 }
@@ -151,6 +151,20 @@ app.use(function(req, res, next) {
 });
 
 app.listen(argv.port, argv.public ? undefined : 'localhost');
+process.on('uncaughtException', function(err) {
+    if(err.errno === 'EADDRINUSE') {
+        if (cluster.worker.id === 1) { // we don't need to see this message 8 times
+            console.log('Port ' + argv.port + ' is in use - exiting.');
+        }
+        cluster.worker.kill(); // sets "suicide" so the worker isn't replaced.
+    } else {
+         console.log(err);
+         process.exit(1);
+    }
+    
+});     
+
+//
 
 /*
 //sample simple NM service. To use, uncomment and move above the fallback redirection.
