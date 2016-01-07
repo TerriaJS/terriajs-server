@@ -10,3 +10,6 @@
 
 # added by GitSavvy
 /wwwroot
+
+# added by GitSavvy
+/npm-debug.log
