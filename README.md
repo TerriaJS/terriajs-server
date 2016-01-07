@@ -1,6 +1,6 @@
 ## TerriaJS-Server
 
-This is a basic NodeJS Express server that serves up a (not included) static TerriaJS site (such as National Map) with a few additional useful services.
+This is a basic NodeJS Express server that serves up a (not included) static TerriaJS site (such as National Map) with a few additional useful services:
 
 * `/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
 * `/crs`: a proj4 coordinate reference system lookup service.

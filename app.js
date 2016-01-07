@@ -148,7 +148,7 @@ app.listen(argv.port, argv.public ? undefined : 'localhost');
 process.on('uncaughtException', function(err) {
     if(err.errno === 'EADDRINUSE') {
         if (cluster.worker.id === 1) { // we don't need to see this message 8 times
-            console.log('Port ' + argv.port + ' is in use - exiting.');
+            console.error('Error: Port ' + argv.port + ' is in use. Exiting.');
         }
         cluster.worker.kill(); // sets "suicide" so the worker isn't replaced.
     } else {
@@ -157,8 +157,6 @@ process.on('uncaughtException', function(err) {
     }
     
 });     
-
-//
 
 /*
 //sample simple NM service. To use, uncomment and move above the fallback redirection.
