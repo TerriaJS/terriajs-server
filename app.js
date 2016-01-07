@@ -63,16 +63,16 @@ if (cluster.isMaster) {
     console.log ('TerriaJS Server ' + packagejson.version);
 
     var cpuCount = require('os').cpus().length;
-    if (exists(argv.wwwroot + '/index.html', fs.F_OK)) {
-        if (!exists(argv.wwwroot + '/build', fs.F_OK)) {
-            console.warn('Warning: "' + argv.wwwroot + '" has not been built. You should do this:\n\n' + 
-                '> cd ' + argv.wwwroot + '/..\n' +
-                '> gulp\n');
-        }
-    } else {
+    if (!exists(argv.wwwroot)) {
+        console.warn('Warning: "' + argv.wwwroot + '" does not exist.');
+    } else if (!exists(argv.wwwroot + '/index.html')) {
         console.warn('Warning: "' + argv.wwwroot + '" is not a TerriaJS wwwroot directory.');
+    } else if (!exists(argv.wwwroot + '/build')) {
+        console.warn('Warning: "' + argv.wwwroot + '" has not been built. You should do this:\n\n' + 
+            '> cd ' + argv.wwwroot + '/..\n' +
+            '> gulp\n');
     }
-    if (exists(argv.configFile, fs.F_OK)) {
+    if (exists(argv.configFile)) {
         console.log('Using configuration file "' + argv.configFile + '".');
     } else {
         console.warn('Warning: Can\'t open config file "' + argv.configFile + '". ALL proxy requests will be accepted.\n');
