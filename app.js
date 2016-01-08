@@ -1,16 +1,16 @@
 /* jshint node: true */
 "use strict";
+var fs = require('fs');
 
 function exists(pathName) {
     try {
-        fs.accessSync(pathName, fs.F_OK);
+        fs.statSync(pathName);
         return true;
     } catch (e) {
         return false;
     }
 }
 
-var fs = require('fs');
 var yargs = require('yargs')
     .usage('$0 [options] [path/to/wwwroot]')
     .options({
