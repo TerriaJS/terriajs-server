@@ -45,7 +45,7 @@ if (argv.help) {
     return yargs.showHelp();
 }
 
-argv.wwwroot = argv._.length > 0 ? argv._[0] : process.cwd() + '/wwwroot'; // is there a way to name a positional argument with yarg? I can't find it.
+argv.wwwroot = argv._.length > 0 ? argv._[0] : process.cwd() + '/wwwroot';
 if (argv.configFile === undefined) {
     // if unspecified, we should look in the wwwroot for a Terria config file, else in this directory.
     if (exists(argv.wwwroot + '/config.json')) {
