@@ -79,7 +79,7 @@ if (cluster.isMaster) {
     portInUse(argv.port, listenHost, function(inUse) {
         var cpuCount = require('os').cpus().length;
         if (inUse) {
-            console.error('Error: Port ' + argv.port + ' is in use. Exiting master.');
+            console.error('Error: Port ' + argv.port + ' is in use. Exiting.');
             process.exit(1);
         } else {
             console.log('Serving directory "' + argv.wwwroot + '" on port ' + argv.port + '.');
