@@ -8,6 +8,17 @@ var ogr2ogr = require('ogr2ogr');
 var request = require('request');
 var formidable = require('formidable');
 
+router.testGdal = function() {
+    // test doing 'something' with an empty GeoJSON object. It will either fail with ENOENT, or fail with OGR2OGR output.
+    ogr2ogr({}).exec(function(error) {
+        if ((error !== undefined) && error.message.match(/ENOENT/)) {
+            console.log('Warning: ogr2ogr (gdal) is not installed or inaccessible, so the format conversion service will fail.');
+        } else {
+            // GDAL is installed ok.
+        }
+    });
+};
+
 // provide conversion to geojson service
 // reguires install of gdal on server: sudo apt-get install gdal-bin
 router.post('/', function(req, res, next) {

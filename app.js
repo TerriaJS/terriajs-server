@@ -83,6 +83,7 @@ if (cluster.isMaster) {
             process.exit(1);
         } else {
             console.log('Serving directory "' + argv.wwwroot + '" on port ' + argv.port + '.');
+            require('./convert').testGdal();
 
             if (!exists(argv.wwwroot)) {
                 console.warn('Warning: "' + argv.wwwroot + '" does not exist.');

@@ -24,7 +24,7 @@
   "dependencies": {
     "compression": "^1.6.0",
     "cors": "^2.7.1",
-    "express": "^4.13.3",
+    "express": "^4.8.0",
     "formidable": "^1.0.17",
     "ogr2ogr": "^0.5.1",
     "proj4": "^2.3.12",
