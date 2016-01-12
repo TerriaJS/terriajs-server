@@ -1,6 +1,6 @@
 {
   "name": "terriajs-server",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, ogr2ogr conversion service, and express static server.",
   "main": "app.js",
   "scripts": {
