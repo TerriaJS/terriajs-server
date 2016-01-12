@@ -11,6 +11,19 @@ function exists(pathName) {
     }
 }
 
+function portInUse(port, host, callback) {
+    var server = require('net').createServer();
+
+    server.listen(port, host);
+    server.on('error', function () {
+        callback(true);
+    });
+    server.on('listening', function () {
+        server.close();
+        callback(false);
+    });
+}
+
 var yargs = require('yargs')
     .usage('$0 [options] [path/to/wwwroot]')
     .options({
@@ -55,6 +68,7 @@ if (argv.configFile === undefined) {
     }
 }
 
+var listenHost = argv.public ? undefined : 'localhost';
 var cluster = require('cluster');
 
 // The master process just spins up a few workers and quits.
@@ -62,35 +76,45 @@ if (cluster.isMaster) {
     var packagejson = require('./package.json');
     console.log ('TerriaJS Server ' + packagejson.version);
 
-    var cpuCount = require('os').cpus().length;
-    if (!exists(argv.wwwroot)) {
-        console.warn('Warning: "' + argv.wwwroot + '" does not exist.');
-    } else if (!exists(argv.wwwroot + '/index.html')) {
-        console.warn('Warning: "' + argv.wwwroot + '" is not a TerriaJS wwwroot directory.');
-    } else if (!exists(argv.wwwroot + '/build')) {
-        console.warn('Warning: "' + argv.wwwroot + '" has not been built. You should do this:\n\n' + 
-            '> cd ' + argv.wwwroot + '/..\n' +
-            '> gulp\n');
-    }
-    if (exists(argv.configFile)) {
-        console.log('Using configuration file "' + argv.configFile + '".');
-    } else {
-        console.warn('Warning: Can\'t open config file "' + argv.configFile + '". ALL proxy requests will be accepted.\n');
-    }
-    console.log('Serving directory "' + argv.wwwroot + '" on port ' + argv.port + '.');
-    console.log('Launching ' +  cpuCount + ' worker processes.');
+    portInUse(argv.port, listenHost, function(inUse) {
+        var cpuCount = require('os').cpus().length;
+        if (inUse) {
+            console.error('Error: Port ' + argv.port + ' is in use. Exiting master.');
+            process.exit(1);
+        } else {
+            console.log('Serving directory "' + argv.wwwroot + '" on port ' + argv.port + '.');
 
-    // Create a worker for each CPU
-    for (var i = 0; i < cpuCount; i += 1) {
-        cluster.fork();
-    }
+            if (!exists(argv.wwwroot)) {
+                console.warn('Warning: "' + argv.wwwroot + '" does not exist.');
+            } else if (!exists(argv.wwwroot + '/index.html')) {
+                console.warn('Warning: "' + argv.wwwroot + '" is not a TerriaJS wwwroot directory.');
+            } else if (!exists(argv.wwwroot + '/build')) {
+                console.warn('Warning: "' + argv.wwwroot + '" has not been built. You should do this:\n\n' + 
+                    '> cd ' + argv.wwwroot + '/..\n' +
+                    '> gulp\n');
+            }
+            if (exists(argv.configFile)) {
+                console.log('Using configuration file "' + argv.configFile + '".');
+            } else {
+                console.warn('Warning: Can\'t open config file "' + argv.configFile + '". ALL proxy requests will be accepted.\n');
+            }
 
-    // Listen for dying workers
-    cluster.on('exit', function (worker) {
-        if (!worker.suicide) {
-            // Replace the dead worker if not a startup error like port in use.
-            console.log('Worker ' + worker.id + ' died. Replacing it.');
-            cluster.fork();
+            console.log('Launching ' +  cpuCount + ' worker processes.');
+
+            // Create a worker for each CPU
+            for (var i = 0; i < cpuCount; i += 1) {
+                cluster.fork();
+            }
+
+            // Listen for dying workers
+            cluster.on('exit', function (worker) {
+                if (!worker.suicide) {
+                    // Replace the dead worker if not a startup error like port in use.
+                    console.log('Worker ' + worker.id + ' died. Replacing it.');
+                    cluster.fork();
+                }
+            });
+    
         }
     });
     return;
@@ -150,18 +174,10 @@ app.use(function(req, res, next) {
     }
 });
 
-app.listen(argv.port, argv.public ? undefined : 'localhost');
+app.listen(argv.port, listenHost);
 process.on('uncaughtException', function(err) {
-    if(err.errno === 'EADDRINUSE') {
-        if (cluster.worker.id === 1) { // we don't need to see this message 8 times
-            console.error('Error: Port ' + argv.port + ' is in use. Exiting.');
-        }
-        cluster.worker.kill(); // sets "suicide" so the worker isn't replaced.
-    } else {
-         console.log(err);
-         process.exit(1);
-    }
-    
+    console.log(err);
+    process.exit(1);    
 });     
 
 /*
