@@ -154,9 +154,12 @@ app.use(compression());
 app.use(cors());
 app.disable('etag');
 
+var show404 = serveWwwRoot && exists(argv.wwwroot + '/404.html');
+
 // Serve the bulk of our application as a static web directory.
-if (serveWwwRoot)
-    app.use(express.static(argv.wwwroot));
+if (serveWwwRoot) {
+    app.use(express.static(argv.wwwroot));   
+}
 
 app.use('/proxy', proxy);      // Proxy for servers that don't support CORS
 app.use('/proj4def', proj4lookup);     // Proj4def lookup service, to avoid downloading all definitions into the client.
@@ -166,8 +169,10 @@ app.get('/ping', function(req, res){
 });
 
 app.use(function(req, res, next) {
-    if (serveWwwRoot) {
-        // Redirect unknown pages back home. We don't actually have a 404 page, for starters.
+    if (show404) {
+        res.status(404).sendFile(argv.wwwroot + '/404.html');
+    } else if (serveWwwRoot) {
+        // Redirect unknown pages back home.
         res.redirect(303, '/');
     } else {
         res.status(404).send('No TerriaJS website here.');
