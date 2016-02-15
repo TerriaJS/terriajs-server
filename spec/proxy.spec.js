@@ -61,9 +61,16 @@ describe('proxy', function() {
         it('should overwrite cache-control header to two weeks if no max age is specified in req', function(done) {
             request(buildApp({}))
                 [verb]('/example.com')
-                .set('Cache-Control', 'no-cache')
                 .expect(200)
                 .expect('Cache-Control', 'public,max-age=1209600')
+                .end(assert(done));
+        });
+
+        it('should pass back headers from the proxied request', function(done) {
+            request(buildApp({}))
+                [verb]('/example.com')
+                .expect(200)
+                .expect('fakeheader', 'fakevalue')
                 .end(assert(done));
         });
 
@@ -239,12 +246,47 @@ describe('proxy', function() {
                     .end(assert(done))
             });
         });
+
+        describe('when domain has authentication specified', function() {
+            it('should set an auth header for that domain', function(done) {
+                request(buildApp({
+                    proxyAuth: {
+                        'example.com': {
+                            authorization: 'blahfaceauth'
+                        }
+                    }
+                }))[verb]('/example.com/auth')
+                    .expect(200)
+                    .expect(function() {
+                        expect(nodeRequest[verb].calls.argsFor(0)[0].headers.authorization).toBe('blahfaceauth');
+                    })
+                    .end(assert(done));
+            });
+
+            it('should not set auth headers for other domains', function(done) {
+                request(buildApp({
+                    proxyAuth: {
+                        'example2.com': {
+                            authorization: 'blahfaceauth'
+                        }
+                    }
+                }))[verb]('/example.com/auth')
+                    .expect(200)
+                    .expect(function() {
+                        expect(nodeRequest[verb].calls.argsFor(0)[0].headers.authorization).toBeUndefined();
+                    })
+                    .end(assert(done));
+            });
+        });
     }
 
     function requestFake(params, cb) {
         cb(null, {
             statusCode: 200,
-            headers: []
+            headers: {
+                'fakeheader': 'fakevalue',
+                'Cache-Control': 'no-cache'
+            }
         }, '');
         return new Stream();
     }
