@@ -2,10 +2,10 @@
   "name": "terriajs-server",
   "version": "1.2.0",
   "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, ogr2ogr conversion service, and express static server.",
-  "main": "app.js",
+  "main": "lib/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/.bin/supervisor --no-restart-on exit -- app",
+    "test": "jasmine",
+    "start": "node_modules/.bin/supervisor --no-restart-on exit -- lib/app.js",
     "postpublish": "bash -c \"git tag -a ${npm_package_version} -m \"${npm_package_version}\" && git push origin ${npm_package_version}\""
   },
   "repository": {
@@ -31,5 +31,9 @@
     "proj4js-defs": "0.0.1",
     "request": "^2.67.0",
     "yargs": "^3.31.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "supertest": "^1.1.0"
   }
 }
