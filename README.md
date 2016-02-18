@@ -48,6 +48,10 @@ Options:
   --help, -h                     Show this help.                       [boolean]
   ```
 
+#### Tests
+
+1. Run `npm test`
+
 ### Installation with NationalMap
 
   Just [install NationalMap](https://github.com/NICTA/nationalmap/wiki/Deploying-a-copy-of-National-Map). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
