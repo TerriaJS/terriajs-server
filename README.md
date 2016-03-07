@@ -46,7 +46,11 @@ Options:
                                  bypass the specified upstream_proxy, e.g.
                                  "lanhost1,lanhost2"
   --help, -h                     Show this help.                       [boolean]
-  ```
+```
+
+To run the server as a daemon with nohup, do this instead:
+
+`./run_server.sh [arguments as above]`
 
 #### Tests
 
