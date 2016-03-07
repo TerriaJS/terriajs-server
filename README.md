@@ -32,7 +32,7 @@ Create a local config.json with a list of domains you're willing to proxy for:
 
 #### Run
 
-1. `node app`
+1. `npm start -- [options] [path/to/wwwroot]`
 
 ```
 lib/app.js [options] [path/to/wwwroot]
@@ -54,9 +54,9 @@ Options:
   --help, -h                     Show this help.                       [boolean]
 ```
 
-To run the server as a daemon with nohup, do this instead:
+To run the server in the foreground, you can do this:
 
-`./run_server.sh [arguments as above]`
+`node . [arguments as above]`
 
 #### Tests
 

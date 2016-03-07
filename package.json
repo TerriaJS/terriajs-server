@@ -5,7 +5,8 @@
   "main": "lib/app.js",
   "scripts": {
     "test": "jasmine",
-    "start": "node_modules/.bin/supervisor --no-restart-on exit -- lib/app.js",
+    "start": "bash ./run_server.sh",
+    "stop": "bash ./stop_server.sh",
     "postpublish": "bash -c \"git tag -a ${npm_package_version} -m \"${npm_package_version}\" && git push origin ${npm_package_version}\""
   },
   "repository": {
