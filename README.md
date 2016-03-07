@@ -7,6 +7,8 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * `/convert`: an ogr2ogr server-side conversion service.
 * `/ping`: returns 200 OK.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
+* If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
+* Services that require HTTP authentication can be proxied by adding credentials to a `proxyauth.json` file.
 
 ### Stand-alone installation (without serving NationalMap)
 
@@ -33,12 +35,16 @@ Create a local config.json with a list of domains you're willing to proxy for:
 1. `node app`
 
 ```
-app [options] [path-to-wwwroot]
+lib/app.js [options] [path/to/wwwroot]
 
 Options:
   --port                         Port to listen on.              [default: 3001]
   --public                       Run a public server that listens on all
                                  interfaces.           [boolean] [default: true]
+  --config-file                  File containing domains to proxy for. See
+                                 config.json.example
+  --proxy-auth-file              File containing auth information for proxied
+                                 domains. See proxyAuth.json.example
   --upstream-proxy               A standard proxy server that will be used to
                                  retrieve data.  Specify a URL including port,
                                  e.g. "http://proxy:8000".
