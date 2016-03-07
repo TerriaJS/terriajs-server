@@ -1,7 +1,8 @@
-1.3.1
+1.4.0
 
 * Added `run_server.sh` and `stop_server.sh` scripts.
 * Fixed a bug that would cause the server to crash if `config.json` was missing.
+* Added support for HTTP error code 500.
 
 1.0.1
 
