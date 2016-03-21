@@ -6,11 +6,13 @@
 * Rename proxyAuth.json to proxyauth.json
 * Allow single line # comments in config files. 
 * Add /proxyableDomains endpoint which returns JSON list of domains we can proxy for.
+* Allow catalog files outside your codebase to be specified using `initPaths: [...]`
 
-1.3.1
+1.4.0
 
 * Added `run_server.sh` and `stop_server.sh` scripts.
 * Fixed a bug that would cause the server to crash if `config.json` was missing.
+* Added support for HTTP error code 500.
 
 1.0.1
 
