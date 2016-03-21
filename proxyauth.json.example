@@ -1,0 +1,9 @@
+{
+    # This allows hosts which require basic HTTP auth to be proxied for. Warning: You are essentially bypassing security for this host and exposing it to
+    # the web, so you may want to combine this with another security mechanism such as an IP whitelist.
+    "proxyAuth": {
+        "www.some.remote.service.example.com": {
+            "authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3MK"
+        }
+    }
+}
