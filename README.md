@@ -5,6 +5,7 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * `/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
 * `/proj4def`: a proj4 coordinate reference system lookup service.
 * `/convert`: an ogr2ogr server-side conversion service.
+* `/proxyabledomains`: return a JSON of domains the server is willing to proxy for
 * `/ping`: returns 200 OK.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
 * If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
@@ -19,39 +20,26 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 3. `npm install`
 
 #### Configure
-
-Create a local config.json with a list of domains you're willing to proxy for:
-
-```json
-{
-    "proxyDomains": [
-        "gov.au"
-    ]
-}
-```
+ 
+Copy serverconfig.json.example to serverconfig.json and configure as needed. See comments inside that file.
 
 #### Run
 
 1. `npm start -- [options] [path/to/wwwroot]`
 
 ```
+TerriaJS Server 2.0.0
 lib/app.js [options] [path/to/wwwroot]
 
 Options:
-  --port                         Port to listen on.              [default: 3001]
-  --public                       Run a public server that listens on all
-                                 interfaces.           [boolean] [default: true]
-  --config-file                  File containing domains to proxy for. See
-                                 config.json.example
-  --proxy-auth-file              File containing auth information for proxied
-                                 domains. See proxyAuth.json.example
-  --upstream-proxy               A standard proxy server that will be used to
-                                 retrieve data.  Specify a URL including port,
-                                 e.g. "http://proxy:8000".
-  --bypass-upstream-proxy-hosts  A comma separated list of hosts that will
-                                 bypass the specified upstream_proxy, e.g.
-                                 "lanhost1,lanhost2"
-  --help, -h                     Show this help.                       [boolean]
+  --port             Port to listen on.                          [default: 3001]
+  --public           Run a public server that listens on all interfaces.
+                                                       [boolean] [default: true]
+  --config-file      File containing settings such as allowed domains to proxy.
+                     See serverconfig.json.example
+  --proxy-auth-file  File containing auth information for proxied domains. See
+                     proxyAuth.json.example
+  --help, -h         Show this help.                                   [boolean]
 ```
 
 To run the server in the foreground, you can do this:
