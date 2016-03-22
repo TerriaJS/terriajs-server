@@ -7,6 +7,7 @@
 * Allow single line # comments in config files. 
 * Add /proxyableDomains endpoint which returns JSON list of domains we can proxy for.
 * Allow catalog files outside your codebase to be specified using `initPaths: [...]`
+* Config files are only looked for in the current directory, not in wwwroot or wwwroot/..
 
 1.4.0
 
