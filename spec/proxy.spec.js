@@ -3,13 +3,13 @@
 var express = require('express');
 var proxy = require('../lib/proxy');
 var request = require('supertest');
-var nodeRequest = require('request');
 var Stream = require('stream').Writable;
 
 describe('proxy', function() {
+    var fakeRequest;
+
     beforeEach(function() {
-        spyOn(nodeRequest, 'get').and.callFake(requestFake);
-        spyOn(nodeRequest, 'post').and.callFake(requestFake);
+        fakeRequest = jasmine.createSpy('request').and.callFake(requestFake);
     });
 
     describe('on get,', function() {
@@ -21,12 +21,12 @@ describe('proxy', function() {
     });
 
     function doCommonTests(verb) {
-        it('should proxy through to the path that is is given', function(done) {
-            request(buildApp({}))
-                [verb]('/https://example.com/blah?query=value&otherQuery=otherValue')
+        it('should proxy through to the path that is given', function(done) {
+            request(buildApp({}))[verb]('/https://example.com/blah?query=value&otherQuery=otherValue')
                 .expect(200)
                 .expect(function() {
-                    expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('https://example.com/blah?query=value&otherQuery=otherValue');
+                    expect(fakeRequest.calls.argsFor(0)[0].url).toBe('https://example.com/blah?query=value&otherQuery=otherValue');
+                    expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                 })
                 .end(assert(done));
         });
@@ -36,7 +36,8 @@ describe('proxy', function() {
                 [verb]('/example.com/')
                 .expect(200)
                 .expect(function(err) {
-                    expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                 })
                 .end(assert(done));
         });
@@ -46,7 +47,8 @@ describe('proxy', function() {
                 [verb]('/example.com')
                 .expect(200)
                 .expect(function() {
-                    expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                 })
                 .end(assert(done));
         });
@@ -177,7 +179,8 @@ describe('proxy', function() {
                     [verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -187,7 +190,8 @@ describe('proxy', function() {
                     [verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -199,7 +203,8 @@ describe('proxy', function() {
                 }))[verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -211,7 +216,8 @@ describe('proxy', function() {
                 }))[verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -223,7 +229,8 @@ describe('proxy', function() {
                     proxyDomains: ['example.com']
                 }))[verb]('/example.com/blah')
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('http://example.com/blah');
+                        expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/blah');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .expect(200)
                     .end(assert(done));
@@ -258,7 +265,8 @@ describe('proxy', function() {
                 }))[verb]('/example.com/auth')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].headers.authorization).toBe('blahfaceauth');
+                        expect(fakeRequest.calls.argsFor(0)[0].headers.authorization).toBe('blahfaceauth');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -273,25 +281,16 @@ describe('proxy', function() {
                 }))[verb]('/example.com/auth')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].headers.authorization).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].headers.authorization).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
         });
     }
 
-    function requestFake(params, cb) {
-        cb(null, {
-            statusCode: 200,
-            headers: {
-                'fakeheader': 'fakevalue',
-                'Cache-Control': 'no-cache'
-            }
-        }, '');
-        return new Stream();
-    }
-
     function buildApp(options) {
+        options.request = fakeRequest;
         var app = express();
         app.use(proxy(options));
         app.use(function(err, req, res, next) {
@@ -299,6 +298,37 @@ describe('proxy', function() {
             res.status(500).send('Something broke!');
         });
         return app;
+    }
+
+    function requestFake() {
+        var request = {
+            on: function(event, cb) {
+                if (event === 'response') {
+                    var response = {
+                        statusCode: 200,
+                        headers: {
+                            'fakeheader': 'fakevalue',
+                            'Cache-Control': 'no-cache'
+                        },
+                        on: function(event, cb) {
+                            if (event === 'data') {
+
+                            } else if (event === 'end') {
+                                cb();
+                            }
+
+                            return response;
+                        }
+                    };
+
+                    cb(response);
+                }
+
+                return request;
+            }
+        };
+
+        return request;
     }
 
     function assert(done) {

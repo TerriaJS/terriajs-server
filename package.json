@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/TerriaJS/TerriaJS-Server",
   "dependencies": {
+    "body-parser": "^1.15.0",
     "compression": "^1.6.0",
     "cors": "^2.7.1",
     "express": "^4.8.0",
