@@ -18,6 +18,17 @@ describe('proxy', function() {
 
     describe('on post,', function() {
         doCommonTests('post');
+
+        it('should pass the body through', function(done) {
+            request(buildApp({}))
+                .post('/example.com')
+                .send('boaty mcboatface')
+                .expect(200)
+                .expect(function() {
+                    expect(fakeRequest.calls.argsFor(0)[0].body).toEqual(new Buffer('boaty mcboatface'));
+                })
+                .end(assert(done));
+        });
     });
 
     function doCommonTests(verb) {
@@ -60,11 +71,10 @@ describe('proxy', function() {
                 .end(assert(done))
         });
 
-        it('should overwrite cache-control header to two weeks if no max age is specified in req', function(done) {
+        it('should stream back the body of the request made', function(done) {
             request(buildApp({}))
                 [verb]('/example.com')
-                .expect(200)
-                .expect('Cache-Control', 'public,max-age=1209600')
+                .expect(200, 'blahblah2')
                 .end(assert(done));
         });
 
@@ -74,6 +84,39 @@ describe('proxy', function() {
                 .expect(200)
                 .expect('fakeheader', 'fakevalue')
                 .end(assert(done));
+        });
+
+        describe('should change headers', function() {
+            it('to overwrite cache-control header to two weeks if no max age is specified in req', function(done) {
+                request(buildApp({}))
+                    [verb]('/example.com')
+                    .expect(200)
+                    .expect('Cache-Control', 'public,max-age=1209600')
+                    .end(assert(done));
+            });
+
+            it('to filter out disallowed ones passed in req', function(done) {
+                request(buildApp({}))
+                    [verb]('/example.com')
+                    .set('Proxy-Connection', 'delete me!')
+                    .set('unfilteredheader', 'don\'t delete me!')
+                    .expect(200)
+                    .expect(function() {
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Proxy-Connection']).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['unfilteredheader']).toBe('don\'t delete me!');
+                    })
+                    .end(assert(done));
+            });
+
+            it('to filter out disallowed ones that come back from the response', function(done) {
+                request(buildApp({}))
+                    [verb]('/example.com')
+                    .expect(200)
+                    .expect(function(res) {
+                        expect(res.headers['Proxy-Connection']).toBeUndefined();
+                    })
+                    .end(assert(done));
+            });
         });
 
         describe('when specifying max age', function() {
@@ -304,17 +347,29 @@ describe('proxy', function() {
         var request = {
             on: function(event, cb) {
                 if (event === 'response') {
+                    var dataCb, endCb;
+
                     var response = {
                         statusCode: 200,
                         headers: {
                             'fakeheader': 'fakevalue',
-                            'Cache-Control': 'no-cache'
+                            'Cache-Control': 'no-cache',
+                            'Proxy-Connection': 'delete me'
                         },
                         on: function(event, cb) {
                             if (event === 'data') {
-
+                                dataCb = cb;
                             } else if (event === 'end') {
-                                cb();
+                                endCb = cb;
+
+                                // Now we've got all our callbacks, do a fake response
+                                setTimeout(function() {
+                                    // Two chunks of body
+                                    dataCb('blah');
+                                    dataCb('blah2');
+
+                                    endCb();
+                                }, 100);
                             }
 
                             return response;
