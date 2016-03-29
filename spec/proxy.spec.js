@@ -3,13 +3,13 @@
 var express = require('express');
 var proxy = require('../lib/proxy');
 var request = require('supertest');
-var nodeRequest = require('request');
 var Stream = require('stream').Writable;
 
 describe('proxy', function() {
+    var fakeRequest;
+
     beforeEach(function() {
-        spyOn(nodeRequest, 'get').and.callFake(requestFake);
-        spyOn(nodeRequest, 'post').and.callFake(requestFake);
+        fakeRequest = jasmine.createSpy('request').and.callFake(requestFake);
     });
 
     describe('on get,', function() {
@@ -18,15 +18,26 @@ describe('proxy', function() {
 
     describe('on post,', function() {
         doCommonTests('post');
+
+        it('should pass the body through', function(done) {
+            request(buildApp({}))
+                .post('/example.com')
+                .send('boaty mcboatface')
+                .expect(200)
+                .expect(function() {
+                    expect(fakeRequest.calls.argsFor(0)[0].body).toEqual(new Buffer('boaty mcboatface'));
+                })
+                .end(assert(done));
+        });
     });
 
     function doCommonTests(verb) {
-        it('should proxy through to the path that is is given', function(done) {
-            request(buildApp({}))
-                [verb]('/https://example.com/blah?query=value&otherQuery=otherValue')
+        it('should proxy through to the path that is given', function(done) {
+            request(buildApp({}))[verb]('/https://example.com/blah?query=value&otherQuery=otherValue')
                 .expect(200)
                 .expect(function() {
-                    expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('https://example.com/blah?query=value&otherQuery=otherValue');
+                    expect(fakeRequest.calls.argsFor(0)[0].url).toBe('https://example.com/blah?query=value&otherQuery=otherValue');
+                    expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                 })
                 .end(assert(done));
         });
@@ -36,7 +47,8 @@ describe('proxy', function() {
                 [verb]('/example.com/')
                 .expect(200)
                 .expect(function(err) {
-                    expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                 })
                 .end(assert(done));
         });
@@ -46,7 +58,8 @@ describe('proxy', function() {
                 [verb]('/example.com')
                 .expect(200)
                 .expect(function() {
-                    expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/');
+                    expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                 })
                 .end(assert(done));
         });
@@ -58,11 +71,10 @@ describe('proxy', function() {
                 .end(assert(done))
         });
 
-        it('should overwrite cache-control header to two weeks if no max age is specified in req', function(done) {
+        it('should stream back the body of the request made', function(done) {
             request(buildApp({}))
                 [verb]('/example.com')
-                .expect(200)
-                .expect('Cache-Control', 'public,max-age=1209600')
+                .expect(200, 'blahblah2')
                 .end(assert(done));
         });
 
@@ -72,6 +84,39 @@ describe('proxy', function() {
                 .expect(200)
                 .expect('fakeheader', 'fakevalue')
                 .end(assert(done));
+        });
+
+        describe('should change headers', function() {
+            it('to overwrite cache-control header to two weeks if no max age is specified in req', function(done) {
+                request(buildApp({}))
+                    [verb]('/example.com')
+                    .expect(200)
+                    .expect('Cache-Control', 'public,max-age=1209600')
+                    .end(assert(done));
+            });
+
+            it('to filter out disallowed ones passed in req', function(done) {
+                request(buildApp({}))
+                    [verb]('/example.com')
+                    .set('Proxy-Connection', 'delete me!')
+                    .set('unfilteredheader', 'don\'t delete me!')
+                    .expect(200)
+                    .expect(function() {
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Proxy-Connection']).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['unfilteredheader']).toBe('don\'t delete me!');
+                    })
+                    .end(assert(done));
+            });
+
+            it('to filter out disallowed ones that come back from the response', function(done) {
+                request(buildApp({}))
+                    [verb]('/example.com')
+                    .expect(200)
+                    .expect(function(res) {
+                        expect(res.headers['Proxy-Connection']).toBeUndefined();
+                    })
+                    .end(assert(done));
+            });
         });
 
         describe('when specifying max age', function() {
@@ -177,7 +222,8 @@ describe('proxy', function() {
                     [verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -187,7 +233,8 @@ describe('proxy', function() {
                     [verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -199,7 +246,8 @@ describe('proxy', function() {
                 }))[verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -211,7 +259,8 @@ describe('proxy', function() {
                 }))[verb]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].proxy).toBe('http://proxy/');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -223,7 +272,8 @@ describe('proxy', function() {
                     proxyDomains: ['example.com']
                 }))[verb]('/example.com/blah')
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].url).toBe('http://example.com/blah');
+                        expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/blah');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .expect(200)
                     .end(assert(done));
@@ -258,7 +308,8 @@ describe('proxy', function() {
                 }))[verb]('/example.com/auth')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].headers.authorization).toBe('blahfaceauth');
+                        expect(fakeRequest.calls.argsFor(0)[0].headers.authorization).toBe('blahfaceauth');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
@@ -273,25 +324,16 @@ describe('proxy', function() {
                 }))[verb]('/example.com/auth')
                     .expect(200)
                     .expect(function() {
-                        expect(nodeRequest[verb].calls.argsFor(0)[0].headers.authorization).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].headers.authorization).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
             });
         });
     }
 
-    function requestFake(params, cb) {
-        cb(null, {
-            statusCode: 200,
-            headers: {
-                'fakeheader': 'fakevalue',
-                'Cache-Control': 'no-cache'
-            }
-        }, '');
-        return new Stream();
-    }
-
     function buildApp(options) {
+        options.request = fakeRequest;
         var app = express();
         app.use(proxy(options));
         app.use(function(err, req, res, next) {
@@ -299,6 +341,49 @@ describe('proxy', function() {
             res.status(500).send('Something broke!');
         });
         return app;
+    }
+
+    function requestFake() {
+        var request = {
+            on: function(event, cb) {
+                if (event === 'response') {
+                    var dataCb, endCb;
+
+                    var response = {
+                        statusCode: 200,
+                        headers: {
+                            'fakeheader': 'fakevalue',
+                            'Cache-Control': 'no-cache',
+                            'Proxy-Connection': 'delete me'
+                        },
+                        on: function(event, cb) {
+                            if (event === 'data') {
+                                dataCb = cb;
+                            } else if (event === 'end') {
+                                endCb = cb;
+
+                                // Now we've got all our callbacks, do a fake response
+                                setTimeout(function() {
+                                    // Two chunks of body
+                                    dataCb('blah');
+                                    dataCb('blah2');
+
+                                    endCb();
+                                }, 100);
+                            }
+
+                            return response;
+                        }
+                    };
+
+                    cb(response);
+                }
+
+                return request;
+            }
+        };
+
+        return request;
     }
 
     function assert(done) {
