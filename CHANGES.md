@@ -1,4 +1,4 @@
-2.0.0
+### 2.0.0
 
 * Expect a server-specific configuration file, serverconfig.json, instead of one shared with the client.
 * Move bypassProxyHosts option to that configuration file as bypassUpStreamProxyFor.
@@ -9,16 +9,20 @@
 * Allow catalog files outside your codebase to be specified using `initPaths: [...]`
 * Config files are only looked for in the current directory, not in wwwroot or wwwroot/..
 
-1.4.0
+### 1.4.1
+
+* Fixed a bug that caused all headers to be passed to the remote server by the proxy service, including headers that should be excluded.
+
+### 1.4.0
 
 * Added `run_server.sh` and `stop_server.sh` scripts.
 * Fixed a bug that would cause the server to crash if `config.json` was missing.
 * Added support for HTTP error code 500.
 
-1.0.1
+### 1.0.1
 
 * Remove supervisor, as it wasn't doing anything useful and caused CPU and other issues.
 
-1.0.0
+### 1.0.0
 
 * First stable release.
