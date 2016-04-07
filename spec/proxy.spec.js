@@ -269,7 +269,7 @@ describe('proxy', function() {
         describe('when specifying an allowed list of domains to proxy', function() {
             it('should proxy a domain on that list', function(done) {
                 request(buildApp({
-                    proxyDomains: ['example.com']
+                    proxyableDomains: ['example.com']
                 }))[verb]('/example.com/blah')
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/blah');
@@ -281,7 +281,7 @@ describe('proxy', function() {
 
             it('should block a domain on that list', function(done) {
                 request(buildApp({
-                    proxyDomains: ['example.com']
+                    proxyableDomains: ['example.com']
                 }))[verb]('/example2.com/blah')
                     .expect(403)
                     .end(assert(done))
@@ -289,7 +289,7 @@ describe('proxy', function() {
 
             it('should not block a domain on the list if proxyAllDomains is true', function(done) {
                 request(buildApp({
-                    proxyDomains: ['example.com'],
+                    proxyableDomains: ['example.com'],
                     proxyAllDomains: true
                 }))[verb]('/example2.com/blah')
                     .expect(200)
