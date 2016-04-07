@@ -5,6 +5,8 @@ var proxy = require('../lib/proxy');
 var request = require('supertest');
 var Stream = require('stream').Writable;
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
 describe('proxy', function() {
     var fakeRequest;
 
