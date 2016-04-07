@@ -1,5 +1,7 @@
 ## TerriaJS-Server
 
+[![Build Status](https://travis-ci.org/TerriaJS/terriajs-server.svg?branch=master)](https://travis-ci.org/TerriaJS/terriajs-server)
+
 This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
 
 * `/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
