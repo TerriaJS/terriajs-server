@@ -1,3 +1,14 @@
+### 2.0.0
+
+* Expect a server-specific configuration file, serverconfig.json, instead of one shared with the client.
+* Move bypassProxyHosts option to that configuration file as bypassUpStreamProxyFor.
+* Move upstreamProxy to config file.
+* Rename proxyAuth.json to proxyauth.json
+* Allow single line # comments in config files. 
+* Add /proxyableDomains endpoint which returns JSON list of domains we can proxy for.
+* Allow catalog files outside your codebase to be specified using `initPaths: [...]`
+* Config files are only looked for in the current directory, not in wwwroot or wwwroot/..
+
 ### 1.4.1
 
 * Fixed a bug that caused all headers to be passed to the remote server by the proxy service, including headers that should be excluded.
