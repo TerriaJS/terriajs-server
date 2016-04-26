@@ -1,3 +1,6 @@
+### 2.1.0
+* Support "port" parameter in config file.
+
 ### 2.0.0
 
 * Expect a server-specific configuration file, serverconfig.json, instead of one shared with the client.
