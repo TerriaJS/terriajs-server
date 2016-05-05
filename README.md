@@ -13,7 +13,9 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
 * Services that require HTTP authentication can be proxied by adding credentials to a `proxyauth.json` file.
 
-### Stand-alone installation (without serving NationalMap)
+Generally, you don't want to manually install TerriaJS-Server. It comes installed with TerriaMap (see below).
+
+### Stand-alone installation (without serving TerriaMap)
 
 #### Install
 
