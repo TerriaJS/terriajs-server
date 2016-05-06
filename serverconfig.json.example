@@ -12,13 +12,6 @@
     # If this setting is true, the allowProxyFor list is ignored, and all requests are accepted.
     "proxyAllDomains": false,
 
-    # This allows hosts which require basic HTTP auth to be proxied for. Warning: You are essentially bypassing security for this host and exposing it to
-    # the web, so you may want to combine this with another security mechanism such as an IP whitelist.
-    "proxyAuth": {
-        "www.some.remote.service.example.com": {
-            "authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3MK"
-        }
-    },
     # Pass requests through to another proxy upstream.
     "upstreamProxy": "proxy.example.com",
 
