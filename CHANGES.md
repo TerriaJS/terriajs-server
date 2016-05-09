@@ -1,4 +1,9 @@
+### 2.2.0
+
+* Add support for the `feedback` service.  See serverconfig.json.example for how to enable and configure it.
+
 ### 2.1.0
+
 * Support "port" parameter in config file.
 
 ### 2.0.0

@@ -22,6 +22,19 @@
     # Hosts in this list will not be passed through to the upstream proxy.
     "bypassUpstreamProxyFor": [
       "server.example.com"
-    ]
+    ],
+
+    # Enables and configures the feedback service.  This service accepts posted JSON like:
+    #   {
+    #       "name":"My Name",
+    #       "email":"myemail@example.com",
+    #       "comment":"This thing is so great! yeah!"
+    #   }
+    # And creates a GitHub issue based on the feedback.
+    "feedback": {
+        "userAgent": "TerriaBot (TerriaJS Feedback)",
+        "issuesUrl": "https://api.github.com/repos/TerriaJS/NationalMap-Feedback/issues",
+        "accessToken": "provide your GitHub access token here"
+    }
 }
 
