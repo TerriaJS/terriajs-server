@@ -8,7 +8,7 @@
         "gov.au",
         "csiro.au"
     ],
-    
+
     # If this setting is true, the allowProxyFor list is ignored, and all requests are accepted.
     "proxyAllDomains": false,
 
@@ -35,6 +35,10 @@
         "userAgent": "TerriaBot (TerriaJS Feedback)",
         "issuesUrl": "https://api.github.com/repos/TerriaJS/NationalMap-Feedback/issues",
         "accessToken": "provide your GitHub access token here"
-    }
+    },
+
+    # The value of the Express "trust proxy" application setting.
+    # See http://expressjs.com/en/api.html#trust.proxy.options.table
+    "trustProxy": false
 }
 
