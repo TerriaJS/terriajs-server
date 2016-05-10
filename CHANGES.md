@@ -1,3 +1,7 @@
+### 2.2.1
+
+* Add `trustProxy` setting to configuration file, which is passed through to Express.  See serverconfig.json.example.
+
 ### 2.2.0
 
 * Add support for the `feedback` service.  See serverconfig.json.example for how to enable and configure it.
@@ -12,7 +16,7 @@
 * Move bypassProxyHosts option to that configuration file as bypassUpStreamProxyFor.
 * Move upstreamProxy to config file.
 * Rename proxyAuth.json to proxyauth.json
-* Allow single line # comments in config files. 
+* Allow single line # comments in config files.
 * Add /proxyableDomains endpoint which returns JSON list of domains we can proxy for.
 * Allow catalog files outside your codebase to be specified using `initPaths: [...]`
 * Config files are only looked for in the current directory, not in wwwroot or wwwroot/..
