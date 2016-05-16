@@ -48,6 +48,12 @@ Options:
   --help, -h         Show this help.                                   [boolean]
 ```
 
+For example, to run with port 3009:
+
+```
+npm start -- --port 3009
+```
+
 To run the server in the foreground, you can do this:
 
 `node . [arguments as above]`
