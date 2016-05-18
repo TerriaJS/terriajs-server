@@ -287,7 +287,7 @@ describe('proxy', function() {
                     .end(assert(done));
             });
 
-            it('should block a domain on that list', function(done) {
+            it('should block a domain not on that list', function(done) {
                 request(buildApp({
                     proxyableDomains: ['example.com']
                 }))[verb]('/example2.com/blah')
