@@ -1,3 +1,7 @@
+### 2.2.2
+
+* Fixed a bug that caused the proxy to proxy any domain, even when given a whitelist.
+
 ### 2.2.1
 
 * Add `trustProxy` setting to configuration file, which is passed through to Express.  See serverconfig.json.example.
