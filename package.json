@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/TerriaJS/TerriaJS-Server",
   "dependencies": {
-    "basic-auth-connect": "^1.0.0",
+    "basic-auth": "git://github.com/TerriaJS/basic-auth#proxy-auth",
     "body-parser": "^1.15.0",
     "compression": "^1.6.0",
     "cors": "^2.7.1",
