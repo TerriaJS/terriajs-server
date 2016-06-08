@@ -39,6 +39,13 @@
 
     # The value of the Express "trust proxy" application setting.
     # See http://expressjs.com/en/api.html#trust.proxy.options.table
-    "trustProxy": false
+    "trustProxy": false,
+
+    # Add very simple HTTP basic authentication with a single username/password for all users.
+    # All services are authenticated except /ping.
+    "basicAuthentication": {
+        "username": "myusername",
+        "password": "mypassword"
+    }
 }
 

@@ -1,3 +1,16 @@
+### 2.3.0
+
+* Added support for requiring HTTP basic authentication on all requests by supplying something like the following in the server configuration file:
+
+```
+{
+    "basicAuthentication": {
+        "username": "myusername",
+        "password": "mypassword"
+    }
+}
+```
+
 ### 2.2.2
 
 * Fixed a bug that caused the proxy to proxy any domain, even when given a whitelist.
