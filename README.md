@@ -11,7 +11,8 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * `/ping`: returns 200 OK.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
 * If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
-* Services that require HTTP authentication can be proxied by adding credentials to a `proxyauth.json` file.
+* Supports very simple authentication via a single username/password included in requests using HTTP basic authentication.
+* Proxied services that require HTTP authentication can be proxied by adding credentials to a `proxyauth.json` file.
 
 Generally, you don't want to manually install TerriaJS-Server. It comes installed with TerriaMap (see below).
 
@@ -24,7 +25,7 @@ Generally, you don't want to manually install TerriaJS-Server. It comes installe
 3. `npm install`
 
 #### Configure
- 
+
 Copy `serverconfig.json.example` to `serverconfig.json` and configure as needed. See comments inside that file.
 
 If you want to proxy authenticated layers, do the same for `proxyauth.json.example`.
