@@ -1,5 +1,6 @@
 ### 2.3.0
 
+* The `feedback` service now includes the `User-Agent` header sent by the user's browser.
 * Added support for requiring HTTP basic authentication on all requests by supplying something like the following in the server configuration file:
 
 ```
