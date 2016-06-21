@@ -1,6 +1,8 @@
 ### 2.4.0
 
 * Support `maxConversionSize` parameter to determine what sized files can be converted. Still defaults to 1MB.
+* Remove warning message when no proxy auth file specified. (Still warn when it's specified but not available.)
+* Support repeated command line parameters, such as `--port 3001 --port 4000`. The rightmost one wins.
 
 ### 2.3.0
 
