@@ -1,3 +1,7 @@
+### 2.4.0
+
+* Support `maxConversionSize` parameter to determine what sized files can be converted. Still defaults to 1MB.
+
 ### 2.3.0
 
 * The `feedback` service now includes the `User-Agent` header sent by the user's browser.

@@ -12,12 +12,15 @@
     # If this setting is true, the allowProxyFor list is ignored, and all requests are accepted.
     "proxyAllDomains": false,
 
-    # Pass requests through to another proxy upstream.
-    "upstreamProxy": "proxy.example.com",
+    # The largest size, in bytes, of files we will convert using OGR2OGR. Defaults to 1000000
+    "maxConversionSize": 1000000,
 
     # List of directories where init (catalog) files will be sought, before defaulting to wwwroot/init. This helps with managing catalog files
     # separately from the main codebase.
     "initPaths": [ "../randominits" ],
+
+    # Pass requests through to another proxy upstream.
+    "upstreamProxy": "proxy.example.com",
 
     # Hosts in this list will not be passed through to the upstream proxy.
     "bypassUpstreamProxyFor": [
