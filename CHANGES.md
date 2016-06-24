@@ -5,6 +5,8 @@
 * Support repeated command line parameters, such as `--port 3001 --port 4000`. The rightmost one wins.
 * Enable 'strict' argument mode. This helps catch mistyped argument names.
 * Support creating and resolving short URLs with different, prefixed providers.
+* Config files (config.json and proxyauth.json) are now interpreted as JSON5, so they can include `//` and `/* */` comments. 
+* Deprecation warning: `#` comments in config files will be removed in version 3.
 
 ### 2.3.0
 
