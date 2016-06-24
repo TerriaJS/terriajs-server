@@ -29,7 +29,7 @@ Generally, you don't want to manually install TerriaJS-Server. It comes installe
 
 #### Configure
 
-Copy `serverconfig.json.example` to `serverconfig.json` and configure as needed. See comments inside that file.
+Copy `serverconfig.json.example` to `serverconfig.json` and configure as needed. See comments inside that file. (Comments are allowed; see json5.org).
 
 If you want to proxy authenticated layers, do the same for `proxyauth.json.example`.
 
