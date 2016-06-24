@@ -7,6 +7,7 @@
 * Support creating and resolving short URLs with different, prefixed providers.
 * Config files (config.json and proxyauth.json) are now interpreted as JSON5, so they can include `//` and `/* */` comments. 
 * Deprecation warning: `#` comments in config files will be removed in version 3.
+* With "--public false", now run just one CPU and don't restart on crashes, to facilitate development and testing.
 
 ### 2.3.0
 
