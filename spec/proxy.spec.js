@@ -1,7 +1,7 @@
 "use strict";
 
 var express = require('express');
-var proxy = require('../lib/proxy');
+var proxy = require('../lib/controllers/proxy');
 var request = require('supertest');
 var Stream = require('stream').Writable;
 

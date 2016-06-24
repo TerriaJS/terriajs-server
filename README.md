@@ -11,6 +11,7 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * `/ping`: returns 200 OK.
 * `/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and Google URL Shortener implemented)
 * `/share` (POST): stores a piece of JSON with a configured storage provider (Gist implemented)
+* `/serverconfig`: retrieve (safe) information about how the server is configured.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
 * If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
 * Supports very simple authentication via a single username/password included in requests using HTTP basic authentication.
@@ -37,18 +38,15 @@ If you want to proxy authenticated layers, do the same for `proxyauth.json.examp
 1. `npm start -- [options] [path/to/wwwroot]`
 
 ```
-TerriaJS Server 2.0.0
-lib/app.js [options] [path/to/wwwroot]
+TerriaJS Server 2.3.0
+node_modules/terriajs-server/lib/app.js [options] [path/to/wwwroot]
 
 Options:
-  --port             Port to listen on.                          [default: 3001]
-  --public           Run a public server that listens on all interfaces.
-                                                       [boolean] [default: true]
-  --config-file      File containing settings such as allowed domains to proxy.
-                     See serverconfig.json.example
-  --proxy-auth-file  File containing auth information for proxied domains. See
-                     proxyauth.json.example
-  --help, -h         Show this help.                                   [boolean]
+  --port         Port to listen on.                [default: 3001]
+  --public       Run a public server that listens on all interfaces.  [boolean] [default: true]
+  --config-file  File containing settings such as allowed domains to proxy. See serverconfig.json.example
+  --proxy-auth   File containing auth information for proxied domains. See proxyauth.json.example
+  --help, -h     Show this help.  [boolean]
 ```
 
 For example, to run with port 3009:
