@@ -5,6 +5,7 @@
 * Support repeated command line parameters, such as `--port 3001 --port 4000`. The rightmost one wins.
 * Enable 'strict' argument mode. This helps catch mistyped argument names.
 * Support creating and resolving short URLs with different, prefixed providers.
+* Provide /serverconfig endpoint to retrieve information about how the server is configured.
 
 ### 2.3.0
 
