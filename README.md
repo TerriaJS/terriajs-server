@@ -11,7 +11,7 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * `/ping`: returns 200 OK.
 * `/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and Google URL Shortener implemented)
 * `/share` (POST): stores a piece of JSON with a configured storage provider (Gist implemented)
-* `/config`: retrieve (safe) information about how the server is configured.
+* `/serverconfig`: retrieve (safe) information about how the server is configured.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
 * If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
 * Supports very simple authentication via a single username/password included in requests using HTTP basic authentication.
