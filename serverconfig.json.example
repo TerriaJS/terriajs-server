@@ -62,7 +62,9 @@
         },
         "g": {
             service: "gist",
-            accessToken: "Your Github access token goes here",
+            // Optional: your Github access token with Gist creation privileges. If not supplied, all Gists will be created as "anonymous" and lower 
+            // usage limits apply
+            // accessToken: "ABC123",
             
             // Optional: user agent HTTP Header to set
             userAgent: "My service",
@@ -75,4 +77,3 @@
     // Which service (of those defined above) should be used when new URLs are requested.
     newShareUrlPrefix: "g"
 }
-
