@@ -4,14 +4,14 @@
 
 This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
 
-* `/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
-* `/proj4def`: a proj4 coordinate reference system lookup service.
-* `/convert`: an ogr2ogr server-side conversion service.
-* `/proxyabledomains`: return a JSON of domains the server is willing to proxy for
-* `/ping`: returns 200 OK.
-* `/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and Google URL Shortener implemented)
-* `/share` (POST): stores a piece of JSON with a configured storage provider (Gist implemented)
-* `/serverconfig`: retrieve (safe) information about how the server is configured.
+* `/api/v1/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
+* `/api/v1/proj4def`: a proj4 coordinate reference system lookup service.
+* `/api/v1/convert`: an ogr2ogr server-side conversion service.
+* `/api/v1/proxyabledomains`: return a JSON of domains the server is willing to proxy for
+* `/api/v1/ping`: returns 200 OK.
+* `/api/v1/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and Google URL Shortener implemented)
+* `/api/v1/share` (POST): stores a piece of JSON with a configured storage provider (Gist implemented)
+* `/api/v1/serverconfig`: retrieve (safe) information about how the server is configured.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
 * If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
 * Supports very simple authentication via a single username/password included in requests using HTTP basic authentication.
@@ -43,11 +43,11 @@ node_modules/terriajs-server/lib/app.js [options] [path/to/wwwroot]
 
 Options:
   --port         Port to listen on.                [default: 3001]
-  --public       Run a public server that listens on all interfaces.  [boolean] [default: true]
+  --public       Run a public server that listens on all interfaces. [boolean] [default: true]
   --config-file  File containing settings such as allowed domains to proxy. See serverconfig.json.example
   --proxy-auth   File containing auth information for proxied domains. See proxyauth.json.example
-  --help, -h     Show this help.  [boolean]
-```
+  --verbose      Produce more output                  [boolean] [default: false]
+  --help, -h     Show this help.                                       [boolean]```
 
 For example, to run with port 3009:
 
