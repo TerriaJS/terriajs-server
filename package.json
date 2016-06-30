@@ -30,6 +30,7 @@
     "express": "^4.8.0",
     "formidable": "^1.0.17",
     "json5": "^0.5.0",
+    "morgan": "^1.7.0",
     "ogr2ogr": "^0.5.1",
     "proj4": "^2.3.12",
     "proj4js-defs": "0.0.1",
