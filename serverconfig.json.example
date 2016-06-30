@@ -75,5 +75,8 @@
         }
     },
     // Which service (of those defined above) should be used when new URLs are requested.
-    newShareUrlPrefix: "g"
+    newShareUrlPrefix: "g",
+
+    // The domain at which you're running the server. Mostly used for describing the available endpoints. Defaults to "localhost"
+    hostName: 'example.com'
 }

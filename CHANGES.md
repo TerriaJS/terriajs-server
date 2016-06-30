@@ -11,6 +11,7 @@
 * With "--public false", now run just one CPU and don't restart on crashes, to facilitate development and testing.
 * All API features are now being moved to `/api/v1` (eg `/api/v1/ping`). They are currently available also under `/ping` but will be removed.
 * Verbose output and logging can be enabled with `--verbose`.
+* Support `hostName` parameter in config file, to provide better URLs.
 
 ### 2.3.0
 
