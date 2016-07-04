@@ -6,7 +6,7 @@
 * Enable 'strict' argument mode. This helps catch mistyped argument names.
 * Support creating and resolving short URLs with different, prefixed providers.
 * Provide /serverconfig endpoint to retrieve information about how the server is configured, including version.
-* Config files (config.json and proxyauth.json) are now interpreted as JSON5, so they can include `//` and `/* */` comments. 
+* Config files (config.json and proxyauth.json) are now interpreted as JSON5, so they can include `//` and `/* */` comments.
 * Deprecation warning: `#` comments in config files will be removed in version 3.
 * With "--public false", now run just one CPU and don't restart on crashes, to facilitate development and testing.
 * All API features are now being moved to `/api/v1` (eg `/api/v1/ping`). They are currently available also under `/ping` but will be removed.
