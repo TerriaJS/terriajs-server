@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/TerriaJS/TerriaJS-Server",
   "dependencies": {
+    "aws-sdk": "^2.4.4",
     "basic-auth": "^1.0.4",
     "body-parser": "^1.15.0",
     "compression": "^1.6.0",
@@ -36,6 +37,8 @@
     "proj4js-defs": "0.0.1",
     "request": "^2.67.0",
     "request-promise": "^3.0.0",
+    "shortid": "^2.2.6",
+    "when": "^3.7.7",
     "yargs": "^3.31.0"
   },
   "devDependencies": {
