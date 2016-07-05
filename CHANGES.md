@@ -1,3 +1,7 @@
+### 2.5.0
+* Support AWS S3 as a share data (URL shortener) backend.
+* Tweak behaviour of data provided by `/share` when behind proxies.
+
 ### 2.4.0
 
 * Support `maxConversionSize` parameter to determine what sized files can be converted. Still defaults to 1MB.
