@@ -73,6 +73,9 @@
             // See http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html
             "accessKeyId": "ABC123",    
             "secretAccessKey": "abc+123-XYZ",
+
+            // Optional: The length of the random share key to generate (not including prefix), up to 55 characters. Default: 16
+            "keyLength": 16
         },
         "g": {
             service: "gist",
