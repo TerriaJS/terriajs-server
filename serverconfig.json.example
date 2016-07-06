@@ -74,7 +74,7 @@
             "accessKeyId": "ABC123",    
             "secretAccessKey": "abc+123-XYZ",
 
-            // Optional: The length of the random share key to generate (not including prefix), up to 55 characters. Default: 16
+            // Optional: The length of the random share key to generate (not including prefix), up to 54 characters. Defaults to the full length.
             "keyLength": 16
         },
         "g": {
