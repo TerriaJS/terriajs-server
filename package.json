@@ -39,7 +39,7 @@
     "request": "^2.67.0",
     "request-promise": "^3.0.0",
     "when": "^3.7.7",
-    "yargs": "^3.31.0"
+    "yargs": "^4.7.1"
   },
   "devDependencies": {
     "jasmine": "^2.4.1",
