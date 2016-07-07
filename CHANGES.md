@@ -1,6 +1,8 @@
 ### 2.5.0
+
 * Support AWS S3 as a share data (URL shortener) backend.
 * Tweak behaviour of data provided by `/share` when behind proxies.
+* v2.4.0 accidentally required NodeJS 5, when previously it worked on 0.10.  This version restores support back to NodeJS 4.
 
 ### 2.4.0
 
