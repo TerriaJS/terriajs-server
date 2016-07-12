@@ -95,5 +95,13 @@
     newShareUrlPrefix: "g",
 
     // The domain at which you're running the server. Mostly used for describing the available endpoints. Defaults to "localhost"
-    hostName: 'example.com'
+    hostName: 'example.com',
+
+    // Optional: Run TerriaJS-Server in HTTPS mode. (In production, it's probably better to use Nginx or something to do the HTTPS bit.)
+    https: {
+        // Name and location of keys. You can make self-signed certs for testing like: 
+        // openssl req -nodes -new -x509 -keyout key.pem -out cert.pem
+        key: 'key.pem', 
+        cert: 'cert.pem'
+    }
 }

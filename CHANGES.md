@@ -1,3 +1,6 @@
+### 2.6.0
+* Support HTTPS.
+
 ### 2.5.0
 
 * Support AWS S3 as a share data (URL shortener) backend.
