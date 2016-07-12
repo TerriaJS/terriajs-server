@@ -16,6 +16,7 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * If files `[wwwroot]/404.html` and/or `[wwwroot]/500.html` exist, they will be served for those HTTP error codes.
 * Supports very simple authentication via a single username/password included in requests using HTTP basic authentication.
 * Proxied services that require HTTP authentication can be proxied by adding credentials to a `proxyauth.json` file.
+* It can be run in HTTPS mode, although there are better ways of doing that in production.
 
 Generally, you don't want to manually install TerriaJS-Server. It comes installed with TerriaMap (see below).
 
@@ -38,7 +39,7 @@ If you want to proxy authenticated layers, do the same for `proxyauth.json.examp
 1. `npm start -- [options] [path/to/wwwroot]`
 
 ```
-TerriaJS Server 2.3.0
+TerriaJS Server 2.6.0
 node_modules/terriajs-server/lib/app.js [options] [path/to/wwwroot]
 
 Options:
