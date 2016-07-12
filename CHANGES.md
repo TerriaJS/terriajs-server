@@ -1,3 +1,6 @@
+### 2.5.1
+* Fix bug in finding the path of config files, which shows up under Node 6.
+
 ### 2.5.0
 
 * Support AWS S3 as a share data (URL shortener) backend.
