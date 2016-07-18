@@ -402,6 +402,6 @@ describe('proxy', function() {
                 fail(err);
             }
             done();
-        }
+        };
     }
 });
