@@ -1,5 +1,7 @@
 ### 2.6.0
+
 * Support HTTPS.
+* Fix node engines specification in package.json.  terriajs-server requires at least node v4.0, but 5.x, 6.x, etc. are fine.
 
 ### 2.5.1
 
