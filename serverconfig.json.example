@@ -103,5 +103,23 @@
         // openssl req -nodes -new -x509 -keyout key.pem -out cert.pem
         key: 'key.pem', 
         cert: 'cert.pem'
+    },
+
+    // Parameters that can be appended with the proxyWithKey service.
+    keys: {
+        // eg. With this key, a call to http://example.com/proxywithkey/myapi/api.com/v1/users/18
+        // would return the response of http://api.com/v1/users/18?key=ABC123.
+        "myapi": [{
+            key: "key",
+            value: "ABC123"
+        }],
+        // You can also append more than one parameter.
+        "yourapi": [{
+            key: "secret_key",
+            value: "ABCDE12345"
+        }, {
+            key: "another_key",
+            value: "XYZ"
+        }]
     }
 }
