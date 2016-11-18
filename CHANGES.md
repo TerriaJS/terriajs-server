@@ -1,3 +1,7 @@
+### 3.0.0
+
+* Add support for a `proxyWithKey` service, which adds a key from the config file to the parameters of a URL, eg. http://example.com/proxywithkey/mykey/myapi.com/v1/users/18.
+
 ### 2.6.0
 
 * Support HTTPS.
