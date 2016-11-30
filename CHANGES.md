@@ -1,3 +1,7 @@
+### 2.6.1
+
+* The `feedback` service now includes the Share URL for the current state of the map, if provided.
+
 ### 2.6.0
 
 * Support HTTPS.
