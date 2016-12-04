@@ -1,3 +1,7 @@
+### 2.6.2
+
+* No code changes, but fixes permissions on the run_server script which prevented it from starting (due to 2.6.1 being published from a Windows system).
+
 ### 2.6.1
 
 * The `feedback` service now includes the Share URL for the current state of the map, if provided.
