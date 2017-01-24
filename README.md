@@ -5,6 +5,7 @@
 This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
 
 * `/api/v1/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
+* `/api/v1/proxywithkey/X`: a service which adds the secret key parameters configured for X to the URL. Add keys to config.json.
 * `/api/v1/proj4def`: a proj4 coordinate reference system lookup service.
 * `/api/v1/convert`: an ogr2ogr server-side conversion service.
 * `/api/v1/proxyabledomains`: return a JSON of domains the server is willing to proxy for
