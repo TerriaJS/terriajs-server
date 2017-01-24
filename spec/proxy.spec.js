@@ -3,7 +3,7 @@
 var express = require('express');
 var proxy = require('../lib/controllers/proxy');
 var request = require('supertest');
-var Stream = require('stream').Writable;
+// var Stream = require('stream').Writable;
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
@@ -345,7 +345,7 @@ describe('proxy', function() {
     function buildApp(options) {
         options.request = fakeRequest;
         var app = express();
-        app.use(proxy(options));
+        app.use(proxy(options).router);
         app.use(function(err, req, res, next) {
             console.error(err.stack);
             res.status(500).send('Something broke!');
