@@ -1,6 +1,10 @@
+### 2.7.0
+
+* Add support for a `proxyWithKey` service, which adds keys from the config file to the parameters of a URL, eg. http://example.com/proxywithkey/mykey/myapi.com/v1/users/18.
+
 ### 2.6.2
 
-* No code changes, but fixes permissions on the run_server script which prevented it from starting (due to 2.6.1 being published from a Windows system).
+* No code changes, but fixes permissions on the `run_server` script which prevented it from starting (due to 2.6.1 being published from a Windows system).
 
 ### 2.6.1
 
