@@ -1,5 +1,7 @@
 ## TerriaJS-Server
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/TerriaJS/terriajs-server.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/TerriaJS/terriajs-server.svg?branch=master)](https://travis-ci.org/TerriaJS/terriajs-server)
 
 This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
