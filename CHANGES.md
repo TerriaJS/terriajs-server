@@ -1,3 +1,7 @@
+### 2.6.3
+
+* Don't let Express URL decode the path passed to the proxy service.
+
 ### 2.6.2
 
 * No code changes, but fixes permissions on the run_server script which prevented it from starting (due to 2.6.1 being published from a Windows system).
