@@ -1,11 +1,7 @@
 if [ -f "terriajs.pid" ]; then
     pid=`cat "terriajs.pid"`
-    ps | grep "^ *${pid}" > /dev/null
-    running=$?
-    if [ $running -eq 0 ]; then
-        echo "(Killing old server)."
-        kill $pid
-    fi
+    echo "(Killing old server)."
+    node -e "require('process').kill(${pid})"
 else
     echo "TerriaJS server not running."
 fi
