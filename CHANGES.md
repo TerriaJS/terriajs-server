@@ -1,3 +1,7 @@
+### 2.6.4
+
+* Made `npm stop` / `stop_server.sh` work on Windows systems.
+
 ### 2.6.3
 
 * Don't let Express URL decode the path passed to the proxy service.
