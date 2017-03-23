@@ -1,3 +1,7 @@
+### 2.6.5
+
+* No code changes, but fixes permissions on the run_server script which prevented it from starting (due to 2.6.4 being published from a Windows system, again).
+
 ### 2.6.4
 
 * Made `npm stop` / `stop_server.sh` work on Windows systems.
