@@ -19,11 +19,11 @@ describe('proxy', function() {
     });
 
     describe('on get,', function() {
-        doCommonTests('get');
+        doCommonTests('GET');
     });
 
     describe('on post,', function() {
-        doCommonTests('post');
+        doCommonTests('POST');
 
         it('should pass the body through', function(done) {
             request(buildApp(openProxyOptions))
@@ -39,7 +39,7 @@ describe('proxy', function() {
 
     function doCommonTests(verb) {
         it('should proxy through to the path that is given', function(done) {
-            request(buildApp(openProxyOptions))[verb]('/https://example.com/blah?query=value&otherQuery=otherValue')
+            request(buildApp(openProxyOptions))[verb.toLowerCase()]('/https://example.com/blah?query=value&otherQuery=otherValue')
                 .expect(200)
                 .expect(function() {
                     expect(fakeRequest.calls.argsFor(0)[0].url).toBe('https://example.com/blah?query=value&otherQuery=otherValue');
@@ -50,7 +50,7 @@ describe('proxy', function() {
 
         it('should add http if it isn\'t provided', function(done) {
             request(buildApp(openProxyOptions))
-                [verb]('/example.com/')
+                [verb.toLowerCase()]('/example.com/')
                 .expect(200)
                 .expect(function(err) {
                     expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/');
@@ -61,7 +61,7 @@ describe('proxy', function() {
 
         it('should add a trailing slash if it isn\'t provided', function(done) {
             request(buildApp(openProxyOptions))
-                [verb]('/example.com')
+                [verb.toLowerCase()]('/example.com')
                 .expect(200)
                 .expect(function() {
                     expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/');
@@ -72,21 +72,21 @@ describe('proxy', function() {
 
         it('should return 400 if no url is specified', function(done) {
             request(buildApp(openProxyOptions))
-                [verb]('/')
+                [verb.toLowerCase()]('/')
                 .expect(400)
                 .end(assert(done))
         });
 
         it('should stream back the body of the request made', function(done) {
             request(buildApp(openProxyOptions))
-                [verb]('/example.com')
+                [verb.toLowerCase()]('/example.com')
                 .expect(200, 'blahblah2')
                 .end(assert(done));
         });
 
         it('should pass back headers from the proxied request', function(done) {
             request(buildApp(openProxyOptions))
-                [verb]('/example.com')
+                [verb.toLowerCase()]('/example.com')
                 .expect(200)
                 .expect('fakeheader', 'fakevalue')
                 .end(assert(done));
@@ -95,7 +95,7 @@ describe('proxy', function() {
         describe('should change headers', function() {
             it('to overwrite cache-control header to two weeks if no max age is specified in req', function(done) {
                 request(buildApp(openProxyOptions))
-                    [verb]('/example.com')
+                    [verb.toLowerCase()]('/example.com')
                     .expect(200)
                     .expect('Cache-Control', 'public,max-age=1209600')
                     .end(assert(done));
@@ -103,7 +103,7 @@ describe('proxy', function() {
 
             it('to filter out disallowed ones passed in req', function(done) {
                 request(buildApp(openProxyOptions))
-                    [verb]('/example.com')
+                    [verb.toLowerCase()]('/example.com')
                     .set('Proxy-Connection', 'delete me!')
                     .set('unfilteredheader', 'don\'t delete me!')
                     .expect(200)
@@ -116,7 +116,7 @@ describe('proxy', function() {
 
             it('to filter out disallowed ones that come back from the response', function(done) {
                 request(buildApp(openProxyOptions))
-                    [verb]('/example.com')
+                    [verb.toLowerCase()]('/example.com')
                     .expect(200)
                     .expect(function(res) {
                         expect(res.headers['Proxy-Connection']).toBeUndefined();
@@ -129,28 +129,28 @@ describe('proxy', function() {
             describe('should return 400 for', function() {
                 it('a max-age specifying url with no actual url specified', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_3000ms')
+                        [verb.toLowerCase()]('/_3000ms')
                         .expect(400)
                         .end(assert(done));
                 });
 
                 it('a max-age specifying url with just \'/\' as a url', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_3000ms/')
+                        [verb.toLowerCase()]('/_3000ms/')
                         .expect(400)
                         .end(assert(done));
                 });
 
                 it('a max-age specifying url with an invalid max-age value', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_FUBAR/example.com')
+                        [verb.toLowerCase()]('/_FUBAR/example.com')
                         .expect(400)
                         .end(assert(done));
                 });
 
                 it('a max-age specifying url with an invalid unit for a max-age value', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_3000q/example.com')
+                        [verb.toLowerCase()]('/_3000q/example.com')
                         .expect(400)
                         .end(assert(done));
                 });
@@ -159,7 +159,7 @@ describe('proxy', function() {
             describe('should correctly interpret', function() {
                 it('ms (millisecond)', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_3000ms/example.com')
+                        [verb.toLowerCase()]('/_3000ms/example.com')
                         .set('Cache-Control', 'no-cache')
                         .expect(200)
                         .expect('Cache-Control', 'public,max-age=3')
@@ -168,7 +168,7 @@ describe('proxy', function() {
 
                 it('s (second)', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_3s/example.com')
+                        [verb.toLowerCase()]('/_3s/example.com')
                         .set('Cache-Control', 'no-cache')
                         .expect(200)
                         .expect('Cache-Control', 'public,max-age=3')
@@ -177,7 +177,7 @@ describe('proxy', function() {
 
                 it('m (minute)', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_2m/example.com')
+                        [verb.toLowerCase()]('/_2m/example.com')
                         .set('Cache-Control', 'no-cache')
                         .expect(200)
                         .expect('Cache-Control', 'public,max-age=120')
@@ -186,7 +186,7 @@ describe('proxy', function() {
 
                 it('h (hour)', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_2h/example.com')
+                        [verb.toLowerCase()]('/_2h/example.com')
                         .set('Cache-Control', 'no-cache')
                         .expect(200)
                         .expect('Cache-Control', 'public,max-age=7200')
@@ -195,7 +195,7 @@ describe('proxy', function() {
 
                 it('d (day)', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_2d/example.com')
+                        [verb.toLowerCase()]('/_2d/example.com')
                         .set('Cache-Control', 'no-cache')
                         .expect(200)
                         .expect('Cache-Control', 'public,max-age=172800')
@@ -204,7 +204,7 @@ describe('proxy', function() {
 
                 it('w (week)', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_2w/example.com')
+                        [verb.toLowerCase()]('/_2w/example.com')
                         .set('Cache-Control', 'no-cache')
                         .expect(200)
                         .expect('Cache-Control', 'public,max-age=1209600')
@@ -213,7 +213,7 @@ describe('proxy', function() {
 
                 it('y (year)', function(done) {
                     request(buildApp(openProxyOptions))
-                        [verb]('/_2y/example.com')
+                        [verb.toLowerCase()]('/_2y/example.com')
                         .set('Cache-Control', 'no-cache')
                         .expect(200)
                         .expect('Cache-Control', 'public,max-age=63072000')
@@ -225,7 +225,7 @@ describe('proxy', function() {
         describe('upstream proxy', function() {
             it('is used when one is specified', function(done) {
                 request(buildApp({upstreamProxy: 'http://proxy/', proxyAllDomains: true}))
-                    [verb]('/https://example.com/blah')
+                    [verb.toLowerCase()]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].proxy).toBe('http://proxy/');
@@ -236,7 +236,7 @@ describe('proxy', function() {
 
             it('is not used when none is specified', function(done) {
                 request(buildApp(openProxyOptions))
-                    [verb]('/https://example.com/blah')
+                    [verb.toLowerCase()]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].proxy).toBeUndefined();
@@ -250,7 +250,7 @@ describe('proxy', function() {
                     proxyAllDomains: true,
                     upstreamProxy: 'http://proxy/',
                     bypassUpstreamProxyHosts: {'example.com': true}
-                }))[verb]('/https://example.com/blah')
+                }))[verb.toLowerCase()]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].proxy).toBeUndefined();
@@ -264,7 +264,7 @@ describe('proxy', function() {
                     proxyAllDomains: true,
                     upstreamProxy: 'http://proxy/',
                     bypassUpstreamProxyHosts: {'example2.com': true}
-                }))[verb]('/https://example.com/blah')
+                }))[verb.toLowerCase()]('/https://example.com/blah')
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].proxy).toBe('http://proxy/');
@@ -278,7 +278,7 @@ describe('proxy', function() {
             it('should proxy a domain on that list', function(done) {
                 request(buildApp({
                     proxyableDomains: ['example.com']
-                }))[verb]('/example.com/blah')
+                }))[verb.toLowerCase()]('/example.com/blah')
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].url).toBe('http://example.com/blah');
                         expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
@@ -290,7 +290,7 @@ describe('proxy', function() {
             it('should block a domain not on that list', function(done) {
                 request(buildApp({
                     proxyableDomains: ['example.com']
-                }))[verb]('/example2.com/blah')
+                }))[verb.toLowerCase()]('/example2.com/blah')
                     .expect(403)
                     .end(assert(done))
             });
@@ -299,7 +299,7 @@ describe('proxy', function() {
                 request(buildApp({
                     proxyableDomains: ['example.com'],
                     proxyAllDomains: true
-                }))[verb]('/example2.com/blah')
+                }))[verb.toLowerCase()]('/example2.com/blah')
                     .expect(200)
                     .end(assert(done))
             });
@@ -314,7 +314,7 @@ describe('proxy', function() {
                             authorization: 'blahfaceauth'
                         }
                     }
-                }))[verb]('/example.com/auth')
+                }))[verb.toLowerCase()]('/example.com/auth')
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].headers.authorization).toBe('blahfaceauth');
@@ -331,7 +331,7 @@ describe('proxy', function() {
                             authorization: 'blahfaceauth'
                         }
                     }
-                }))[verb]('/example.com/auth')
+                }))[verb.toLowerCase()]('/example.com/auth')
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].headers.authorization).toBeUndefined();
