@@ -1,3 +1,7 @@
+### 2.6.6
+
+* Fixed a bug that caused `Content-Length: 0` to be included in proxied GET requests.
+
 ### 2.6.5
 
 * No code changes, but fixes permissions on the run_server script which prevented it from starting (due to 2.6.4 being published from a Windows system, again).
