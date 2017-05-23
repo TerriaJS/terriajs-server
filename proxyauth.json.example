@@ -11,11 +11,11 @@
 
     "some.other.service.example.com": {
         "parameters": [{
-             key: "Secret-Key",
-             value: "ABCDE12345"
+             "key": "Secret-Key",
+             "value": "ABCDE12345"
          }, {
-             key: "Another-Key",
-             value: "XYZ"
+             "key": "Another-Key",
+             "value": "XYZ"
          }]
     }
 }
