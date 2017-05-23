@@ -1,3 +1,7 @@
+### 2.6.7
+
+* Added support for server-supplied custom headers, by extending the process used to insert the basic http auth header `authorization`.
+
 ### 2.6.6
 
 * Fixed a bug that caused `Content-Length: 0` to be included in proxied GET requests.
