@@ -10,11 +10,11 @@
     // This allows you to pass other pre-specified headers (typically for authentication or authorization).
 
     "some.other.service.example.com": {
-        "parameters": [{
-             "key": "Secret-Key",
+        "headers": [{
+             "name": "Secret-Key",
              "value": "ABCDE12345"
          }, {
-             "key": "Another-Key",
+             "name": "Another-Header",
              "value": "XYZ"
          }]
     }

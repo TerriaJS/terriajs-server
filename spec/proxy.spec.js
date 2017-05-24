@@ -349,11 +349,11 @@ describe('proxy', function() {
                     proxyAllDomains: true,
                     proxyAuth: {
                         'example.com': {
-                            "parameters": [{
-                                 key: "Secret-Key",
+                            "headers": [{
+                                 name: "Secret-Key",
                                  value: "ABCDE12345"
                              }, {
-                                 key: "Another-Key",
+                                 name: "Another-Header",
                                  value: "XYZ"
                              }]
                         }
@@ -362,7 +362,7 @@ describe('proxy', function() {
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].headers['Secret-Key']).toBe('ABCDE12345');
-                        expect(fakeRequest.calls.argsFor(0)[0].headers['Another-Key']).toBe('XYZ');
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Another-Header']).toBe('XYZ');
                         expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
@@ -373,11 +373,11 @@ describe('proxy', function() {
                     proxyAllDomains: true,
                     proxyAuth: {
                         'example2.com': {
-                            "parameters": [{
-                                 key: "Secret-Key",
+                            "headers": [{
+                                 name: "Secret-Key",
                                  value: "ABCDE12345"
                              }, {
-                                 key: "Another-Key",
+                                 name: "Another-Header",
                                  value: "XYZ"
                              }]
                         }
@@ -386,7 +386,7 @@ describe('proxy', function() {
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].headers['Secret-Key']).toBeUndefined();
-                        expect(fakeRequest.calls.argsFor(0)[0].headers['Another-Key']).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Another-Header']).toBeUndefined();
                         expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
