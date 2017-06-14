@@ -1,3 +1,7 @@
+### 2.6.7
+
+* Allow setting the size limit for proxy POST requests using `proxyPostSizeLimit` in the server config.
+
 ### 2.6.6
 
 * Fixed a bug that caused `Content-Length: 0` to be included in proxied GET requests.
