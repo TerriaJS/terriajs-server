@@ -30,6 +30,18 @@
       "server.example.com"
     ],
 
+    // List of URLs and parameters to request tokens.
+    "esriTokenAuth": {
+        "postSizeLimit": 1024,
+        "servers": {
+            "https://example.com/somelayer": {
+                "username": "myusername",
+                "password": "mypassword",
+                "tokenUrl": "https://example.com/tokens/generateToken"
+            }
+        }
+    }
+
     // Enables and configures the feedback service.  This service accepts posted JSON like:
     //   {
     //       "name":"My Name",
