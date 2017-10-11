@@ -1,5 +1,9 @@
 ### 2.6.7
 
+* Added esri-token-auth service which is able to request tokens from ESRI token servers with username / password authentication and forward them on to anonymous clients.
+
+### 2.6.7
+
 * Allow setting the size limit for proxy POST requests using `proxyPostSizeLimit` in the server config. If no unit is specified bytes is assumed, or use some reasonable unit like 'kb' for kilobytes or 'mb' for megabytes.
 
 ### 2.6.6
