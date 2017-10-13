@@ -30,6 +30,20 @@
       "server.example.com"
     ],
 
+    // List of URLs and parameters to request tokens.
+    // Be careful using this configuration as this configuration effectively currently opens up access to these services and allows anyone to
+    // anonymously mint tokens for the specified server using these credentials.
+    "esriTokenAuth": {
+        "postSizeLimit": 1024,
+        "servers": {
+            "https://example.com/somelayer": {
+                "username": "myusername",
+                "password": "mypassword",
+                "tokenUrl": "https://example.com/tokens/generateToken"
+            }
+        }
+    }
+
     // Enables and configures the feedback service.  This service accepts posted JSON like:
     //   {
     //       "name":"My Name",
