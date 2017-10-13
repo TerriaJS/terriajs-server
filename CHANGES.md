@@ -1,4 +1,4 @@
-### 2.6.7
+### 2.7.0
 
 * Added esri-token-auth service which is able to request tokens from ESRI token servers with username / password authentication and forward them on to anonymous clients.
 
