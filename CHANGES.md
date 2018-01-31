@@ -1,3 +1,7 @@
+### 2.7.1
+
+* Added support for server-supplied custom headers, by extending the process used to insert the basic http auth header `authorization`.
+
 ### 2.7.0
 
 * Added esri-token-auth service which is able to request tokens from ESRI token servers with username / password authentication and forward them on to anonymous clients.

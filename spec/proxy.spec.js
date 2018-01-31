@@ -307,7 +307,7 @@ describe('proxy', function() {
             });
         });
 
-        describe('when domain has authentication specified', function() {
+        describe('when domain has basic authentication specified', function() {
             it('should set an auth header for that domain', function(done) {
                 request(buildApp({
                     proxyAllDomains: true,
@@ -337,6 +337,56 @@ describe('proxy', function() {
                     .expect(200)
                     .expect(function() {
                         expect(fakeRequest.calls.argsFor(0)[0].headers.authorization).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
+                    })
+                    .end(assert(done));
+            });
+        });
+
+        describe('when domain has other headers specified', function() {
+            it('should set the header for that domain', function(done) {
+                request(buildApp({
+                    proxyAllDomains: true,
+                    proxyAuth: {
+                        'example.com': {
+                            "headers": [{
+                                 name: "Secret-Key",
+                                 value: "ABCDE12345"
+                             }, {
+                                 name: "Another-Header",
+                                 value: "XYZ"
+                             }]
+                        }
+                    }
+                }))[methodName]('/example.com/auth')
+                    .expect(200)
+                    .expect(function() {
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Secret-Key']).toBe('ABCDE12345');
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Another-Header']).toBe('XYZ');
+                        expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
+                    })
+                    .end(assert(done));
+            });
+
+            it('should not set the headers for other domains', function(done) {
+                request(buildApp({
+                    proxyAllDomains: true,
+                    proxyAuth: {
+                        'example2.com': {
+                            "headers": [{
+                                 name: "Secret-Key",
+                                 value: "ABCDE12345"
+                             }, {
+                                 name: "Another-Header",
+                                 value: "XYZ"
+                             }]
+                        }
+                    }
+                }))[methodName]('/example.com/auth')
+                    .expect(200)
+                    .expect(function() {
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Secret-Key']).toBeUndefined();
+                        expect(fakeRequest.calls.argsFor(0)[0].headers['Another-Header']).toBeUndefined();
                         expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
                     })
                     .end(assert(done));
