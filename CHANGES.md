@@ -1,6 +1,8 @@
 ### 2.7.1
 
 * Added support for server-supplied custom headers, by extending the process used to insert the basic http auth header `authorization`.
+* Running with `--public false` now runs just a single server process, to support easier debugging.
+* Improved validation of the Esri token configuration.
 
 ### 2.7.0
 
