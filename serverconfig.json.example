@@ -12,6 +12,9 @@
     // If this setting is true, the allowProxyFor list is ignored, and all requests are accepted.
     proxyAllDomains: false,
 
+    // The largest size, in bytes, of data that the proxy will send in a POST request
+    proxyPostSizeLimit: 102400,
+
     // The largest size, in bytes, of files we will convert using OGR2OGR. Defaults to 1000000
     maxConversionSize: 1000000,
 
@@ -26,6 +29,20 @@
     bypassUpstreamProxyFor: [
       "server.example.com"
     ],
+
+    // List of URLs and parameters to request tokens.
+    // Be careful using this configuration as this configuration effectively currently opens up access to these services and allows anyone to
+    // anonymously mint tokens for the specified server using these credentials.
+    "esriTokenAuth": {
+        "postSizeLimit": 1024,
+        "servers": {
+            "https://example.com/somelayer": {
+                "username": "myusername",
+                "password": "mypassword",
+                "tokenUrl": "https://example.com/tokens/generateToken"
+            }
+        }
+    }
 
     // Enables and configures the feedback service.  This service accepts posted JSON like:
     //   {
@@ -64,14 +81,14 @@
             "service": "s3",
             // Required: the AWS region to access
             "region": "us-west-2",
-            
+
             // Required: an existing S3 bucket in which to store objects
             "bucket": "terria-sharedata"
-            
+
             // Optional: The access key ID and secret access key of a user with S3 getObject and putObject permission on the above bucket
-            // If not provided here, you must ensure they're available as environment variables or in a shared credentials file. 
+            // If not provided here, you must ensure they're available as environment variables or in a shared credentials file.
             // See http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html
-            "accessKeyId": "ABC123",    
+            "accessKeyId": "ABC123",
             "secretAccessKey": "abc+123-XYZ",
 
             // Optional: The length of the random share key to generate (not including prefix), up to 54 characters. Defaults to the full length.
@@ -79,10 +96,10 @@
         },
         "g": {
             service: "gist",
-            // Optional: your Github access token with Gist creation privileges. If not supplied, all Gists will be created as "anonymous" and lower 
+            // Optional: your Github access token with Gist creation privileges. If not supplied, all Gists will be created as "anonymous" and lower
             // usage limits apply
             // accessToken: "ABC123",
-            
+
             // Optional: user agent HTTP Header to set
             userAgent: "My service",
             // Optional: The filename to give to the gist file (default: usercatalog.json)
@@ -99,9 +116,9 @@
 
     // Optional: Run TerriaJS-Server in HTTPS mode. (In production, it's probably better to use Nginx or something to do the HTTPS bit.)
     https: {
-        // Name and location of keys. You can make self-signed certs for testing like: 
+        // Name and location of keys. You can make self-signed certs for testing like:
         // openssl req -nodes -new -x509 -keyout key.pem -out cert.pem
-        key: 'key.pem', 
+        key: 'key.pem',
         cert: 'cert.pem'
     }
 }
