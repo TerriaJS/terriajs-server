@@ -4,6 +4,7 @@
 * Running with `--public false` now runs just a single server process, to support easier debugging.
 * Improved validation of the Esri token configuration.
 * Fixed a problem where a proxy error (such as an invalid content length) detected after the proxy had started sending the response would cause the worker to crash with an exception saying "Can't set headers after they are sent."
+* Added `Strict-Transport-Security` to the list of response headers that are not passed through to the client by the proxy.
 
 ### 2.7.0
 
