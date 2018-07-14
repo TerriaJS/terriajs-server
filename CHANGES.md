@@ -1,6 +1,6 @@
 ### 2.7.3
 
-* Proxy authentication can now optionally be specified with the `proxyAuth` key in the `--config-file`, in addition to with `--proxy-auth`.
+* Proxy authentication can now optionally be specified with the `proxyAuth` key in the `--config-file`, as an alternative to `--proxy-auth`.
 
 ### 2.7.2
 
