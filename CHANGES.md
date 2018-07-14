@@ -1,3 +1,7 @@
+### 2.7.3
+
+* Proxy authentication can now optionally be specified with the `proxyAuth` key in the `--config-file`, as an alternative to `--proxy-auth`.
+
 ### 2.7.2
 
 * When using `--proxy-auth` to automatically supply HTTP basic authentication credentials, and the remote server returns 403 (Forbidden), we now retry the request without the credentials. This will usually result in the server responding with a 401 (Unauthorized), causing the user's browser to prompt for credentials. This is useful when some of the resources on the server are not available with the automatic credentials but will work if more powerful credentials are supplied.
