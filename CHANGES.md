@@ -1,3 +1,8 @@
+### 2.7.4
+
+* The `proxy` now verifies that the target of a server-side redirect (e.g. HTTP 301 status code) is in the whitelist. If it's not, the redirect is returned to the client instead of handled on the server.
+* Added a list of IP addresses that the proxy will refuse to connect to, even if resolved from a hostname that is in the proxy whitelist. By default, the list includes all IP addresses that are not normal, internet-routable addresses. The list can be customized by setting `blackedlistedAddresses` in the config file. If your server has privileged access to any internet-routable addresses, be sure to add those addresses to the blacklist.
+
 ### 2.7.3
 
 * Proxy authentication can now optionally be specified with the `proxyAuth` key in the `--config-file`, as an alternative to `--proxy-auth`.
