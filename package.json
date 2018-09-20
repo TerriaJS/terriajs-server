@@ -29,7 +29,7 @@
   "dependencies": {
     "aws-sdk": "^2.4.4",
     "base-x": "^2.0.4",
-    "basic-auth": "^1.0.4",
+    "basic-auth": "^2.0.1",
     "body-parser": "^1.15.0",
     "compression": "^1.6.0",
     "cors": "^2.7.1",
