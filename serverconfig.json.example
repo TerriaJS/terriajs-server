@@ -152,5 +152,17 @@
         // openssl req -nodes -new -x509 -keyout key.pem -out cert.pem
         key: 'key.pem',
         cert: 'cert.pem'
+    },
+
+    // True to automatically redirect `http` requests to `https`.
+    // If `trustProxy` is defined, the protocol will be determined from the `X-Forwarded-Proto` header
+    // if it exists. The default is false.
+    redirectToHttps: true,
+
+    // The list of hosts for which `http` access is allowed, even if `redirectToHttps` is true.
+    // This is mostly useful to allow non-https access to localhost in development.
+    // The default is `["localhost"]`.
+    httpAllowedHosts: [
+        "localhost"
     }
 }
