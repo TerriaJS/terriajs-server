@@ -15,6 +15,9 @@
     "restart": "pm2 restart ecosystem.config.js --update-env",
     "postpublish": "bash -c \"git tag -a ${npm_package_version} -m \"${npm_package_version}\" && git push origin ${npm_package_version}\""
   },
+  "bin": {
+    "terriajs-server": "terriajs-server.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/TerriaJS/TerriaJS-Server"
