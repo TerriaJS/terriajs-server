@@ -1,3 +1,7 @@
+### 2.9.0
+
+* Added automatic rate limiting of failed authentication attempts.
+
 ### 2.8.0
 
 * Added the ability to set `redirectToHttps` in the server config to automatically redirect requests. The list `httpAllowedHosts` in the server config can be used to specify specific hosts for which `http` access is still allowed.
