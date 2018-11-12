@@ -1,3 +1,7 @@
+### 2.8.0
+
+* Added the ability to set `redirectToHttps` in the server config to automatically redirect requests. The list `httpAllowedHosts` in the server config can be used to specify specific hosts for which `http` access is still allowed.
+
 ### 2.7.4
 
 * The `proxy` now verifies that the target of a server-side redirect (e.g. HTTP 301 status code) is in the whitelist. If it's not, the redirect is returned to the client instead of handled on the server.
