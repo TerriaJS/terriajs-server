@@ -86,7 +86,15 @@
     feedback: {
         userAgent: "TerriaBot (TerriaJS Feedback)",
         issuesUrl: "https://api.github.com/repos/TerriaJS/NationalMap-Feedback/issues",
-        accessToken: "provide your GitHub access token here"
+        accessToken: "provide your GitHub access token here",
+        // Add additional suported feedback parameters if required on a custom feedback form.
+        // name gives the key that the parameter uses and descriptiveLabel is used as the title for the parameter in the GitHub issue description.
+        additionalParameters: [
+            {
+                name: "organisation",
+                descriptiveLabel: "Organisation"
+            {
+        ]
     },
 
     // The value of the Express "trust proxy" application setting. Set this to true if you want to provide publicly usable URLs behind a reverse proxy
