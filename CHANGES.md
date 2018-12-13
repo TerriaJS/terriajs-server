@@ -1,5 +1,6 @@
-### next minor
+### 2.9.0
 
+* Added automatic rate limiting of failed authentication attempts.
 * Added support for additional feedback parameters. These additional parameters are described in `feedback.additionalParameters` in the config file.
 
 ### 2.8.0
