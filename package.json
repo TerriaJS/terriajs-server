@@ -39,6 +39,7 @@
     "compression": "^1.6.0",
     "cors": "^2.7.1",
     "express": "^4.8.0",
+    "express-brute": "^1.0.1",
     "formidable": "^1.0.17",
     "json5": "^0.5.0",
     "morgan": "^1.7.0",
