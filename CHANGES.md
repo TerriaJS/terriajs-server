@@ -1,3 +1,7 @@
+### 2.9._
+
+* Fixed throwing an exception in a worker after conversion service runs on Nodejs verions 10+.
+
 ### 2.9.0
 
 * Added automatic rate limiting of failed authentication attempts.
