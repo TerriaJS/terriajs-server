@@ -158,6 +158,9 @@
             // usage limits apply
             // accessToken: "ABC123",
 
+            // Optional: your enterprise Github API URL goes here. If not supplied, Github's default api will be used
+            // gistAPI : "https://api.github.example.com/gists",
+
             // Optional: user agent HTTP Header to set
             userAgent: "My service",
             // Optional: The filename to give to the gist file (default: usercatalog.json)
