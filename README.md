@@ -50,13 +50,12 @@ Options:
   --config-file  File containing settings such as allowed domains to proxy. See serverconfig.json.example
   --proxy-auth   File containing auth information for proxied domains. See proxyauth.json.example
   --verbose      Produce more output                  [boolean] [default: false]
-  --help, -h     Show this help.                                       [boolean]```
+  --help, -h     Show this help.                                       [boolean]
+```
 
 For example, to run with port 3009:
 
-```
-npm start -- --port 3009
-```
+`npm start -- --port 3009`
 
 To run the server in the foreground, you can do this:
 
@@ -68,5 +67,5 @@ To run the server in the foreground, you can do this:
 
 ### Installation with TerriaMap
 
-  Just [install TerriaMap](http://terria.io/Documentation). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
+Just [install TerriaMap](http://terria.io/Documentation). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
 
