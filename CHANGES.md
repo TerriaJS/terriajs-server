@@ -1,3 +1,7 @@
+### 2.9.3
+
+* Removed support for Google URL shortener creation and resolving.
+
 ### 2.9.2
 
 * Fixed throwing an exception in a worker after conversion service runs on Nodejs verions 10+.
