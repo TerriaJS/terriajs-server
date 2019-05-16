@@ -11,7 +11,7 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * `/api/v1/convert`: an ogr2ogr server-side conversion service.
 * `/api/v1/proxyabledomains`: return a JSON of domains the server is willing to proxy for
 * `/api/v1/ping`: returns 200 OK.
-* `/api/v1/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and Google URL Shortener implemented)
+* `/api/v1/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and AWS S3 implemented)
 * `/api/v1/share` (POST): stores a piece of JSON with a configured storage provider (Gist implemented)
 * `/api/v1/serverconfig`: retrieve (safe) information about how the server is configured.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
@@ -36,27 +36,30 @@ Copy `serverconfig.json.example` to `serverconfig.json` and configure as needed.
 
 If you want to proxy authenticated layers, do the same for `proxyauth.json.example`.
 
+TerriaJS-Server is run through PM2, a process manager which handles automatic restarting, logging and load balancing. The default configuration is for a development environment with a single process. To use multiple processes, modify the configuration in ecosystem.config.js.
+
 #### Run
 
 1. `npm start -- [options] [path/to/wwwroot]`
 
 ```
-TerriaJS Server 2.6.0
-node_modules/terriajs-server/lib/app.js [options] [path/to/wwwroot]
+terriajs-server.js [options] [path/to/wwwroot]
 
 Options:
-  --port         Port to listen on.                [default: 3001]
-  --public       Run a public server that listens on all interfaces. [boolean] [default: true]
-  --config-file  File containing settings such as allowed domains to proxy. See serverconfig.json.example
-  --proxy-auth   File containing auth information for proxied domains. See proxyauth.json.example
-  --verbose      Produce more output                  [boolean] [default: false]
-  --help, -h     Show this help.                                       [boolean]```
+  --port         Port to listen on.                [default: 3001]      [number]
+  --public       Run a public server that listens on all interfaces.
+                                                       [boolean] [default: true]
+  --config-file  File containing settings such as allowed domains to proxy. See
+                 serverconfig.json.example
+  --proxy-auth   File containing auth information for proxied domains. See
+                 proxyauth.json.example
+  --verbose      Produce more output and logging.     [boolean] [default: false]
+  --help, -h     Show this help.                                       [boolean]
+```
 
 For example, to run with port 3009:
 
-```
-npm start -- --port 3009
-```
+`npm start -- --port 3009`
 
 To run the server in the foreground, you can do this:
 
@@ -68,5 +71,5 @@ To run the server in the foreground, you can do this:
 
 ### Installation with TerriaMap
 
-  Just [install TerriaMap](http://terria.io/Documentation). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
+Just [install TerriaMap](http://terria.io/Documentation). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
 
