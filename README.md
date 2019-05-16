@@ -11,7 +11,7 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 * `/api/v1/convert`: an ogr2ogr server-side conversion service.
 * `/api/v1/proxyabledomains`: return a JSON of domains the server is willing to proxy for
 * `/api/v1/ping`: returns 200 OK.
-* `/api/v1/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and Google URL Shortener implemented)
+* `/api/v1/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and AWS S3 implemented)
 * `/api/v1/share` (POST): stores a piece of JSON with a configured storage provider (Gist implemented)
 * `/api/v1/serverconfig`: retrieve (safe) information about how the server is configured.
 * All other requests are served from the `wwwroot` directory you provide on the command line, which defaults to `./wwwroot`
@@ -59,9 +59,7 @@ Options:
 
 For example, to run with port 3009:
 
-```
-npm start -- --port 3009
-```
+`npm start -- --port 3009`
 
 To run the server in the foreground, you can do this:
 
@@ -73,5 +71,5 @@ To run the server in the foreground, you can do this:
 
 ### Installation with TerriaMap
 
-  Just [install TerriaMap](http://terria.io/Documentation). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
+Just [install TerriaMap](http://terria.io/Documentation). TerriaJS-Server is installed to `node_modules/terriajs-server`, and you can run it manually as `node_modules/terriajs-server ./wwwroot`.
 
