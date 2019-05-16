@@ -8,7 +8,7 @@ const path = require('path');
 // Pass through additional arguments that might ultimately have come from
 // something like `npm run start -- --port 3009`
 const argpos = process.argv.indexOf('--');
-const args = argpos > -1 ? process.argv.slice(argpos + 1 ) : [];
+const args = argpos > -1 ? process.argv.slice(argpos + 1) : [];
 
 module.exports = {
   apps : [{
