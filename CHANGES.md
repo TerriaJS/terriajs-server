@@ -1,6 +1,17 @@
-### 2.9.0
+### 2.9.3
+
+* Removed support for Google URL shortener creation and resolving.
+
+### 2.9.2
+
+* Fixed throwing an exception in a worker after conversion service runs on Nodejs verions 10+.
+
+### 2.9.1
 
 * Added automatic rate limiting of failed authentication attempts.
+
+### 2.9.0
+
 * Added support for additional feedback parameters. These additional parameters are described in `feedback.additionalParameters` in the config file.
 
 ### 2.8.0
