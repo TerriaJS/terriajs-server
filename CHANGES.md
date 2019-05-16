@@ -1,3 +1,28 @@
+### 2.9.3
+
+* Removed support for Google URL shortener creation and resolving.
+
+### 2.9.2
+
+* Fixed throwing an exception in a worker after conversion service runs on Nodejs verions 10+.
+
+### 2.9.1
+
+* Added automatic rate limiting of failed authentication attempts.
+
+### 2.9.0
+
+* Added support for additional feedback parameters. These additional parameters are described in `feedback.additionalParameters` in the config file.
+
+### 2.8.0
+
+* Added the ability to set `redirectToHttps` in the server config to automatically redirect requests. The list `httpAllowedHosts` in the server config can be used to specify specific hosts for which `http` access is still allowed.
+
+### 2.7.4
+
+* The `proxy` now verifies that the target of a server-side redirect (e.g. HTTP 301 status code) is in the whitelist. If it's not, the redirect is returned to the client instead of handled on the server.
+* Added a list of IP addresses that the proxy will refuse to connect to, even if resolved from a hostname that is in the proxy whitelist. By default, the list includes all IP addresses that are not normal, internet-routable addresses. The list can be customized by setting `blackedlistedAddresses` in the config file. If your server has privileged access to any internet-routable addresses, be sure to add those addresses to the blacklist.
+
 ### 2.7.3
 
 * Proxy authentication can now optionally be specified with the `proxyAuth` key in the `--config-file`, as an alternative to `--proxy-auth`.
