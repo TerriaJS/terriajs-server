@@ -1,3 +1,7 @@
+### 3.0.0
+
+* Switched to [pm2](http://pm2.keymetrics.io/) for managing the server process.
+
 ### 2.9.3
 
 * Removed support for Google URL shortener creation and resolving.
