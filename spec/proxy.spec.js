@@ -222,6 +222,18 @@ describe('proxy', function() {
                         .end(assert(done));
                 });
             });
+
+            describe("for an error response", function() {
+              it("should not set max-age", function(done) {
+                request(buildApp(openProxyOptions))
+                      [methodName]('/_2h/example.com')
+                      .set('Cache-Control', 'no-cache')
+                      .set('x-give-response-status', '500')
+                      .expect(500)
+                      .expect('cache-control', 'no-cache')
+                      .end(assert(done));
+              });
+            });
         });
 
         describe('upstream proxy', function() {
@@ -405,14 +417,15 @@ describe('proxy', function() {
         return app;
     }
 
-    function requestFake() {
+    function requestFake(req) {
+        const responseStatus = req.headers['x-give-response-status'] || 200;
         var request = {
             on: function(event, cb) {
                 if (event === 'response') {
                     var dataCb, endCb;
 
                     var response = {
-                        statusCode: 200,
+                        statusCode: responseStatus,
                         headers: {
                             'fakeheader': 'fakevalue',
                             'Cache-Control': 'no-cache',
