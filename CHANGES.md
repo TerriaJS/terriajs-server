@@ -1,3 +1,11 @@
+### 3.0.2
+
+* Stop setting cache-control directives for error responses.
+
+### 3.0.1
+
+* Increase post limit to 200kb on `share` endpoint.
+
 ### 3.0.0
 
 * Switched to [pm2](http://pm2.keymetrics.io/) for managing the server process.
