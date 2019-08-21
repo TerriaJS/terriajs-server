@@ -1,6 +1,6 @@
 {
     // Port to listen on. Overriden by the --port command line setting.
-    port: 3001,
+    port: 4243,
 
     // List of domains which the server is willing to proxy for. Subdomains are included automatically.
     allowProxyFor : [
