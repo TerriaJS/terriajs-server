@@ -1,3 +1,7 @@
+### 3.1.0
+
+* Added support for the HTTP Strict-Transport-Security (HSTS) header.
+
 ### 3.0.2
 
 * Stop setting cache-control directives for error responses.
