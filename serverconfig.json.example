@@ -183,10 +183,14 @@
     // if it exists. The default is false.
     redirectToHttps: true,
 
+    // The `Strict-Transport-Security` header value to include in https responses when
+    // `redirectToHttps` is enabled. Ignored if `redirectToHttps` is false.
+    strictTransportSecurity: "max-age=63072000; includeSubDomains; preload",
+
     // The list of hosts for which `http` access is allowed, even if `redirectToHttps` is true.
     // This is mostly useful to allow non-https access to localhost in development.
     // The default is `["localhost"]`.
     httpAllowedHosts: [
         "localhost"
-    }
+    ]
 }
