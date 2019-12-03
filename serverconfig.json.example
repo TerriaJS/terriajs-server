@@ -2,6 +2,10 @@
     // Port to listen on. Overriden by the --port command line setting.
     port: 3001,
 
+    // If you are serving TerriaMap from a directory, specify the path to it here,
+    // otherwise leave it as '/' for root paths
+    baseHref: "/",
+
     // List of domains which the server is willing to proxy for. Subdomains are included automatically.
     allowProxyFor : [
         "nicta.com.au",
