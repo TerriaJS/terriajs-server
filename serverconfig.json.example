@@ -189,5 +189,14 @@
     // The default is `["localhost"]`.
     httpAllowedHosts: [
         "localhost"
-    ]
+    ],
+
+    // A object of domain values for which additional parameters are appended to the url querystring.
+    // By default no additional parameters are appended.
+    // Eg a request to somedomain.com becomes somedomain.com?apikey=123
+    "appendParamToQueryString": {
+        "somedomain.com": {
+            "apikey": "123"
+        }
+    }
 }

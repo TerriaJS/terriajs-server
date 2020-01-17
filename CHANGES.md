@@ -1,3 +1,7 @@
+### 3.2.0
+
+* Support appending additional parameters to a querystring via the `/proxy` endpoint.
+
 ### 3.1.0
 
 * Added support for the HTTP Strict-Transport-Security (HSTS) header.
