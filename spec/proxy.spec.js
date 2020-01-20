@@ -409,9 +409,12 @@ describe('proxy', function() {
                 request(buildApp({
                     proxyAllDomains: true,
                     appendParamToQueryString: {
-                        "example.com": {
-                            "foo": "bar"
-                        }
+                        "example.com": [{
+                            "regexPattern": ".",
+                            "params": {
+                               "foo": "bar"
+                            }
+                        }]
                     }
                 }))[methodName]('/example.com')
                     .expect(200)
@@ -422,14 +425,85 @@ describe('proxy', function() {
                     .end(assert(done));
             });
 
+            it('append params to the querystring for a specified domain using specified regex', function(done) {
+                request(buildApp({
+                    proxyAllDomains: true,
+                    appendParamToQueryString: {
+                        "example.com": [{
+                            "regexPattern": "something",
+                            "params": {
+                               "foo": "bar"
+                            }
+                        }]
+                    }
+                }))[methodName]('/example.com/something/else')
+                    .expect(200)
+                    .expect(function() {
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        expect(hitUrl.searchParams.get('foo')).toBe('bar');
+                    })
+                    .end(assert(done));
+            });
+
+            it('no params appended when mismatch in regex', function(done) {
+                request(buildApp({
+                    proxyAllDomains: true,
+                    appendParamToQueryString: {
+                        "example.com": [{
+                            "regexPattern": "something",
+                            "params": {
+                               "foo": "bar"
+                            }
+                        }]
+                    }
+                }))[methodName]('/example.com/nothing/else')
+                    .expect(200)
+                    .expect(function() {
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        expect(hitUrl.searchParams.get('foo')).toBeNull();
+                    })
+                    .end(assert(done));
+            });
+
+
+            it('no params appended when mismatch in regex', function(done) {
+                request(buildApp({
+                    proxyAllDomains: true,
+                    appendParamToQueryString: {
+                        "example.com": [{
+                            "regexPattern": "something",
+                            "params": {
+                               "foo": "bar"
+                            }
+                        }, {
+                           "regexPattern": "nothing",
+                            "params": {
+                               "yep": "works"
+                            }
+                        }
+                        ]
+                    }
+                }))[methodName]('/example.com/nothing/else')
+                    .expect(200)
+                    .expect(function() {
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        expect(hitUrl.searchParams.get('foo')).toBeNull();
+                        expect(hitUrl.searchParams.get('yep')).toBe('works');
+                    })
+                    .end(assert(done));
+            });
+
             it('append multiple params to the querystring for a specified domain', function(done) {
                 request(buildApp({
                     proxyAllDomains: true,
                     appendParamToQueryString: {
-                        "example.com": {
-                            "foo": "bar",
-                            "another": "val"
-                        }
+                        "example.com": [{
+                            "regexPattern": ".",
+                            "params": {
+                               "foo": "bar",
+                                "another": "val"
+                            }
+                        }]
                     }
                 }))[methodName]('/example.com')
                     .expect(200)
@@ -444,9 +518,12 @@ describe('proxy', function() {
                 request(buildApp({
                     proxyAllDomains: true,
                     appendParamToQueryString: {
-                        "example.com": {
-                            "foo": "bar"
-                        }
+                        "example.com": [{
+                            "regexPattern": ".",
+                            "params": {
+                               "foo": "bar"
+                            }
+                        }]
                     }
                 }))[methodName]('/example.com?already=here')
                     .expect(200)
@@ -461,9 +538,12 @@ describe('proxy', function() {
                 request(buildApp({
                     proxyAllDomains: true,
                     appendParamToQueryString: {
-                        "example.com": {
-                            "foo": "bar"
-                        }
+                        "example.com": [{
+                            "regexPattern": ".",
+                            "params": {
+                               "foo": "bar"
+                            }
+                        }]
                     }
                 }))[methodName]('/example2.com')
                     .expect(200)
@@ -473,7 +553,6 @@ describe('proxy', function() {
                     })
                     .end(assert(done));
             });
-
         });
     }
 

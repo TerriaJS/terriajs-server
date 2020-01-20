@@ -191,12 +191,18 @@
         "localhost"
     ],
 
-    // A object of domain values for which additional parameters are appended to the url querystring.
+    // An array of options which you to inform which additional parameters are appended to the url querystring.
     // By default no additional parameters are appended.
-    // Eg a request to somedomain.com becomes somedomain.com?apikey=123
+    // A regex pattern is used to test whether parameters whould be attached. Set to '.' to match everything
+    // Eg a request to somedomain.com/secured becomes somedomain.com/secured?apikey=123
     "appendParamToQueryString": {
-        "somedomain.com": {
-            "apikey": "123"
-        }
+        "somedomain.com": [
+            {
+                "regexPattern": "secured",
+                "params": {
+                    "apikey": "123"
+                }
+            }
+        ]   
     }
 }
