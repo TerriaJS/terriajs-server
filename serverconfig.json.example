@@ -189,5 +189,20 @@
     // The default is `["localhost"]`.
     httpAllowedHosts: [
         "localhost"
-    ]
+    ],
+
+    // An array of options which you to inform which additional parameters are appended to the url querystring.
+    // By default no additional parameters are appended.
+    // A regex pattern is used to test whether parameters should be attached. Set to '.' to match everything
+    // Eg a request to somedomain.com/secured becomes somedomain.com/secured?apikey=123
+    "appendParamToQueryString": {
+        "somedomain.com": [
+            {
+                "regexPattern": "secured",
+                "params": {
+                    "apikey": "123"
+                }
+            }
+        ]   
+    }
 }
