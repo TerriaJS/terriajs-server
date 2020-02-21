@@ -165,7 +165,7 @@
     newShareUrlPrefix: "g",
 
     // The largest size, in bytes, of share JSON which can be received - can also be string, it defaults to '200kb'
-    shareMaxPostSize: "200kb",
+    shareMaxRequestSize: "200kb",
 
     // The domain at which you're running the server. Mostly used for describing the available endpoints. Defaults to "localhost"
     hostName: 'example.com',
