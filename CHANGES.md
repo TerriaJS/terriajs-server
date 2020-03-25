@@ -1,3 +1,7 @@
+### Next version
+
+* Added option to configure post limit on `share` endpoint (see `shareMaxRequestSize` in `serverconfig.json.example`)
+
 ### 3.2.0
 
 * Support appending additional parameters to a querystring via the `/proxy` endpoint.
