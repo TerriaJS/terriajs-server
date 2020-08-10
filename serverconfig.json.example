@@ -167,6 +167,9 @@
     // Which service (of those defined above) should be used when new URLs are requested.
     newShareUrlPrefix: "g",
 
+    // The largest size, in bytes, of share JSON which can be received - can also be string, it defaults to '200kb'
+    shareMaxRequestSize: "200kb",
+
     // The domain at which you're running the server. Mostly used for describing the available endpoints. Defaults to "localhost"
     hostName: 'example.com',
 
@@ -192,5 +195,20 @@
     // The default is `["localhost"]`.
     httpAllowedHosts: [
         "localhost"
-    ]
+    ],
+
+    // An array of options which you to inform which additional parameters are appended to the url querystring.
+    // By default no additional parameters are appended.
+    // A regex pattern is used to test whether parameters should be attached. Set to '.' to match everything
+    // Eg a request to somedomain.com/secured becomes somedomain.com/secured?apikey=123
+    "appendParamToQueryString": {
+        "somedomain.com": [
+            {
+                "regexPattern": "secured",
+                "params": {
+                    "apikey": "123"
+                }
+            }
+        ]   
+    }
 }
