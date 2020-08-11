@@ -9,8 +9,11 @@
         "csiro.au"
     ],
 
-    // Whether to route unmatched routes to /index.html and let the frontend resolve the route
-    resolveUnmatchedPathsWithIndexHtml: false,
+    singlePageRouting: {
+      resolvePathRelativeToWwwroot: "/index.html",
+      // Whether to route unmatched routes to /index.html and let the frontend resolve the route
+      resolveUnmatchedPathsWithIndexHtml: false
+    },
 
     // If this setting is true, the allowProxyFor list is ignored, and all requests are accepted.
     proxyAllDomains: false,
@@ -116,7 +119,7 @@
     // which means that the actual allowed rate will be higher when multiple terriajs-server processes
     // are used. The first two wait times after `freeRetries` are `minWait`. Successive wait times are
     // the sum of the two previous wait times, up to `maxWait`.
-    // The defaults are as shown here. 
+    // The defaults are as shown here.
     rateLimit: {
         // The number of retries the user gets before they need to start waiting.
         freeRetries: 2,
@@ -209,6 +212,6 @@
                     "apikey": "123"
                 }
             }
-        ]   
+        ]
     }
 }
