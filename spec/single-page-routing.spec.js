@@ -1,11 +1,9 @@
 "use strict";
 
 var fs = require('fs');
-var express = require('express');
 var makeServer = require('../lib/makeserver');
 var singlePageRouting = require('../lib/controllers/single-page-routing');
 var request = require('supertest');
-var Stream = require('stream').Writable;
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
@@ -175,11 +173,6 @@ describe('single-page-routing', function() {
         };
         const mergedOptions = Object.assign(options, serverOptions);
         var app = makeServer(mergedOptions);
-        app.use(express.static(serverOptions.wwwroot));
-        const spa = singlePageRouting(serverOptions, spaOptions);
-        if (spa) {
-          app.use("*", spa);
-        }
         app.use(function(err, req, res, next) {
             console.error(err.stack);
             res.status(500).send('Something broke!');
