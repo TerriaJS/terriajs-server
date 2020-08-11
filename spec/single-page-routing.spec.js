@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var express = require('express');
-var makeServer = require('../lib/makeServer');
+var makeServer = require('../lib/makeserver');
 var singlePageRouting = require('../lib/controllers/single-page-routing');
 var request = require('supertest');
 var Stream = require('stream').Writable;
