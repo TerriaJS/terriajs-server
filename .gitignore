@@ -14,4 +14,7 @@
 # added by GitSavvy
 /npm-debug.log
 
+# don't lock libs
+package-lock.json
+
 terriajs.pid
