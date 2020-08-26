@@ -1,4 +1,5 @@
-.history
+# https://marketplace.visualstudio.com/items?itemName=xyz.local-history
+.history/
 
 # added by GitSavvy
 /error.log
