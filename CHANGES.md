@@ -1,6 +1,7 @@
 ### Next version
 
 * Added option to configure post limit on `share` endpoint (see `shareMaxRequestSize` in `serverconfig.json.example`)
+* Added option for resolving unmatched paths/routes to index.html for single page applications via `resolveUnmatchedPathsWithIndexHtml`
 
 ### 3.2.0
 
