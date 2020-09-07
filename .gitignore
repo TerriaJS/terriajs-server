@@ -18,5 +18,9 @@
 
 # don't lock libs
 package-lock.json
+yarn.lock
+yarn-error.log
 
 terriajs.pid
+
+/dist/

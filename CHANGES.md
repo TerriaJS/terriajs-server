@@ -1,6 +1,9 @@
 ### Next version
 * [The next feature]
 
+### 3.3.1
+* Improved support with `resolvePathRelativeToWwwroot` triggering `serveWwwRoot`
+
 ### 3.3.0
 
 * Added option to configure post limit on `share` endpoint (see `shareMaxRequestSize` in `serverconfig.json.example`)
