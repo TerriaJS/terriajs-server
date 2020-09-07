@@ -11,9 +11,17 @@
         "other.domain.example.com",
       ],
       "config": {
-        "allowProxyFor" : [
-        ]
+        "registryConfigurationId": "map-config-terria"
       }
-    }
+    },
+    {
+      "vhost": "another.host.terria.io",
+      "aliases": [
+        "alias.another.host.terria.io",
+      ],
+      "config": {
+        "registryConfigurationId": "map-config-another"
+      }
+    },
   ]
 }
