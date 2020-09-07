@@ -20,3 +20,5 @@
 package-lock.json
 
 terriajs.pid
+
+/dist/
