@@ -10,6 +10,12 @@
   "files": [
     "/dist"
   ],
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/catalog-converter"
+    ]
+  },
   "scripts": {
     "lint": "eslint 'lib/**/*.ts' 'spec/**/*.ts'",
     "build": "tsc --module commonjs ",
@@ -44,7 +50,7 @@
     "base-x": "^3.0.5",
     "basic-auth": "^2.0.1",
     "body-parser": "^1.15.0",
-    "catalog-converter": "git://github.com/TerriaJS/catalog-converter#master",
+    "catalog-converter": "^0.0.2",
     "compression": "^1.6.0",
     "cors": "^2.7.1",
     "express": "^4.8.0",
@@ -63,6 +69,7 @@
     "yargs": "^13.2.4"
   },
   "devDependencies": {
+    "@types/node": "^14.6.4",
     "@types/jest": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
     "@typescript-eslint/parser": "^2.30.0",
