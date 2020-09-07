@@ -1,6 +1,3 @@
-/* jshint node: true */
-"use strict";
-
 const options = require("./options");
 const makeserver = require("./makeserver");
 
