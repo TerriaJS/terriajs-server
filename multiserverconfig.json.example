@@ -1,0 +1,19 @@
+{
+  "common": {
+    "port": 3001,
+  },
+  "hosts": [
+    {
+      "vhost": "main.host.terria.io",
+      "aliases": [
+        "localhost",
+        "alias.host.terria.io",
+        "other.domain.example.com",
+      ],
+      "config": {
+        "allowProxyFor" : [
+        ]
+      }
+    }
+  ]
+}
