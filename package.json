@@ -10,12 +10,6 @@
   "files": [
     "/dist"
   ],
-  "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/catalog-converter"
-    ]
-  },
   "scripts": {
     "lint": "eslint 'lib/**/*.ts' 'lib/**/*.js'",
     "build": "tsc --module commonjs ",

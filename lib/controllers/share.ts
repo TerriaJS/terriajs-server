@@ -1,7 +1,11 @@
 /* jshint node: true, esnext: true */
 "use strict";
 
-import { CatalogResult } from "../../node_modules/catalog-converter/src/convert";
+import {
+  CatalogResult,
+  convertCatalog,
+  convertMember
+} from "catalog-converter";
 
 const bodyParser = require("body-parser");
 const requestp = require("request-promise");
@@ -17,12 +21,12 @@ const splitPrefixRe = /^(([^-]+)-)?(.*)$/;
 function makeGist(serviceOptions: any, body: any) {
   const gistFile: any = {};
   gistFile[serviceOptions.gistFilename || "usercatalog.json"] = {
-    content: body,
+    content: body
   };
 
   const headers: any = {
     "User-Agent": serviceOptions.userAgent || "TerriaJS-Server",
-    Accept: "application/vnd.github.v3+json",
+    Accept: "application/vnd.github.v3+json"
   };
   if (serviceOptions.accessToken !== undefined) {
     headers["Authorization"] = "token " + serviceOptions.accessToken;
@@ -35,16 +39,16 @@ function makeGist(serviceOptions: any, body: any) {
     body: {
       files: gistFile,
       description: serviceOptions.gistDescription || "User-created catalog",
-      public: false,
+      public: false
     },
-    transform: function (body: any, response: any) {
+    transform: function(body: any, response: any) {
       if (response.statusCode === 201) {
         console.log("Created ID " + response.body.id + " using Gist service");
         return response.body.id;
       } else {
         return response;
       }
-    },
+    }
   });
 }
 
@@ -52,7 +56,7 @@ function makeGist(serviceOptions: any, body: any) {
 function resolveGist(serviceOptions: any, id: any) {
   const headers: any = {
     "User-Agent": serviceOptions.userAgent || "TerriaJS-Server",
-    Accept: "application/vnd.github.v3+json",
+    Accept: "application/vnd.github.v3+json"
   };
   if (serviceOptions.accessToken !== undefined) {
     headers["Authorization"] = "token " + serviceOptions.accessToken;
@@ -61,20 +65,22 @@ function resolveGist(serviceOptions: any, id: any) {
     url: gistAPI + "/" + id,
     headers: headers,
     json: true,
-    transform: function (body: any, response: any) {
+    transform: function(body: any, response: any) {
       if (response.statusCode >= 300) {
         return response;
       } else {
         return parseJson(body.files[Object.keys(body.files)[0]].content); // find the contents of the first file in the gist
       }
-    },
+    }
   });
 }
 /*
   Generate short ID by hashing body, converting to base62 then truncating.
  */
 function shortId(body: any, length: any) {
-  const hmac = require("crypto").createHmac("sha1", body).digest();
+  const hmac = require("crypto")
+    .createHmac("sha1", body)
+    .digest();
   const base62 = require("base-x")(
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   );
@@ -91,13 +97,13 @@ function S3(serviceOptions: any) {
     const aws = require("aws-sdk");
     aws.config.setPromisesDependency(require("when").Promise);
     aws.config.update({
-      region: serviceOptions.region,
+      region: serviceOptions.region
     });
     // if no credentials provided, we assume that they're being provided as environment variables or in a file
     if (serviceOptions.accessKeyId) {
       aws.config.update({
         accessKeyId: serviceOptions.accessKeyId,
-        secretAccessKey: serviceOptions.secretAccessKey,
+        secretAccessKey: serviceOptions.secretAccessKey
       });
     }
     _S3 = new aws.S3();
@@ -114,13 +120,13 @@ function saveS3(serviceOptions: any, body: any) {
   const params = {
     Bucket: serviceOptions.bucket,
     Key: idToObject(id),
-    Body: body,
+    Body: body
   };
 
   return S3(serviceOptions)
     .putObject(params)
     .promise()
-    .then(function (result: any) {
+    .then(function(result: any) {
       console.log(
         "Saved key " +
           id +
@@ -133,7 +139,7 @@ function saveS3(serviceOptions: any, body: any) {
       );
       return id;
     })
-    .catch(function (e: any) {
+    .catch(function(e: any) {
       console.error(e);
       return e;
     });
@@ -142,27 +148,79 @@ function saveS3(serviceOptions: any, body: any) {
 function resolveS3(serviceOptions: any, id: any) {
   const params = {
     Bucket: serviceOptions.bucket,
-    Key: idToObject(id),
+    Key: idToObject(id)
   };
   return S3(serviceOptions)
     .getObject(params)
     .promise()
-    .then(function (data: any) {
+    .then(function(data: any) {
       return parseJson(data.Body);
     })
-    .catch(function (e: any) {
+    .catch(function(e: any) {
       throw {
         response: e,
-        error: e.message,
+        error: e.message
       };
     });
 }
 
-function parseJson(catalogJson: any): CatalogResult {
-  // Some check if v7
-  // Convert
+function parseJson(body: string | any): string {
+  let catalogJson: { version: string; initSources: any[] } =
+    typeof body === "string" ? JSON.parse(body) : body;
+  console.log(catalogJson);
 
-  return catalogJson;
+  // If version 8 return
+  if (
+    "version" in catalogJson &&
+    typeof catalogJson.version === "string" &&
+    (catalogJson.version as string).startsWith("8")
+  ) {
+    return JSON.stringify(catalogJson);
+  }
+
+  console.log("OMG CONVERT");
+
+  const v8CatalogJson: { version: string; initSources: any[] } = {
+    version: "8.0.0",
+    initSources: []
+  };
+
+  const messages: any[] = [];
+
+  v8CatalogJson.initSources = catalogJson.initSources?.map(initSource => {
+    if (typeof initSource === "string") {
+      return initSource;
+    }
+
+    const v8InitSource: any = {};
+
+    // convert members
+    if ("sharedCatalogMembers" in initSource) {
+      v8InitSource.models = Object.entries(
+        initSource.sharedCatalogMembers
+      ).reduce<any>((convertedMembers, [id, member]) => {
+        console.log(`Converting member ${id}`);
+        const result = convertMember(member);
+        messages.push(...result.messages);
+        convertedMembers[id] = result.member;
+        return convertedMembers;
+      }, {});
+    }
+
+    [
+      "initialCamera",
+      "homeCamera",
+      "baseMapName",
+      "viewerMode",
+      "currentTime",
+      "showSplitter"
+    ].forEach(prop => (v8InitSource[prop] = initSource[prop]));
+  });
+
+  console.log(v8CatalogJson);
+  console.log(messages);
+
+  return JSON.stringify(v8CatalogJson);
 }
 
 export default function shareController(
@@ -170,6 +228,7 @@ export default function shareController(
   port: number,
   options: any
 ) {
+  console.log(options);
   if (!options.shareUrlPrefixes) {
     return;
   }
@@ -178,29 +237,29 @@ export default function shareController(
   router.use(
     bodyParser.text({
       type: "*/*",
-      limit: options.shareMaxRequestSize || "200kb",
+      limit: options.shareMaxRequestSize || "200kb"
     })
   );
 
   // Requested creation of a new short URL.
-  router.post("/", function (req: any, res: any, next: any) {
+  router.post("/", function(req: any, res: any, next: any) {
     if (
       options.newShareUrlPrefix === undefined ||
       !options.shareUrlPrefixes[options.newShareUrlPrefix]
     ) {
       return res.status(404).json({
         message:
-          "This server has not been configured to generate new share URLs.",
+          "This server has not been configured to generate new share URLs."
       });
     }
     const serviceOptions = options.shareUrlPrefixes[options.newShareUrlPrefix];
     const minter: { [key: string]: (options: any, id: any) => any } = {
       gist: makeGist,
-      s3: saveS3,
+      s3: saveS3
     };
 
     minter[serviceOptions.service.toLowerCase()](serviceOptions, req.body)
-      .then(function (id: any) {
+      .then(function(id: any) {
         id = options.newShareUrlPrefix + prefixSeparator + id;
         const resPath = req.baseUrl + "/" + id;
         // these properties won't behave correctly unless "trustProxy: true" is set in user's options file.
@@ -216,11 +275,11 @@ export default function shareController(
           .status(201)
           .json({ id: id, path: resPath, url: resUrl });
       })
-      .catch(rperrors.TransformError, function (reason: any) {
+      .catch(rperrors.TransformError, function(reason: any) {
         console.error(JSON.stringify(reason, null, 2));
         res.status(500).json({ message: reason.cause.message });
       })
-      .catch(function (reason: any) {
+      .catch(function(reason: any) {
         console.warn(JSON.stringify(reason, null, 2));
         res
           .status(500) // probably safest if we always return a consistent error code
@@ -229,7 +288,7 @@ export default function shareController(
   });
 
   // Resolve an existing ID. We break off the prefix and use it to work out which resolver to use.
-  router.get("/:id", function (req: any, res: any, next: any) {
+  router.get("/:id", function(req: any, res: any, next: any) {
     const prefix = req.params.id.match(splitPrefixRe)[2] || "";
     const id = req.params.id.match(splitPrefixRe)[3];
     let resolver: { [key: string]: (options: any, id: any) => any };
@@ -243,18 +302,18 @@ export default function shareController(
     } else {
       resolver = {
         gist: resolveGist,
-        s3: resolveS3,
+        s3: resolveS3
       };
     }
     resolver[serviceOptions.service.toLowerCase()](serviceOptions, id)
-      .then(function (content: any) {
+      .then(function(content: any) {
         res.send(content);
       })
-      .catch(rperrors.TransformError, function (reason: any) {
+      .catch(rperrors.TransformError, function(reason: any) {
         console.error(JSON.stringify(reason, null, 2));
         res.status(500).send(reason.cause.message);
       })
-      .catch(function (reason: any) {
+      .catch(function(reason: any) {
         console.warn(JSON.stringify(reason.response, null, 2));
         res
           .status(404) // probably safest if we always return 404 rather than whatever the upstream provider sets.
