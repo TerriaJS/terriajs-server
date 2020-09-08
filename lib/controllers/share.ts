@@ -1,7 +1,7 @@
 /* jshint node: true, esnext: true */
 "use strict";
 
-import { CatalogResult } from "catalog-converter";
+import { CatalogResult } from "../../node_modules/catalog-converter/src/convert";
 
 const bodyParser = require("body-parser");
 const requestp = require("request-promise");

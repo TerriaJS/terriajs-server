@@ -17,7 +17,7 @@
     ]
   },
   "scripts": {
-    "lint": "eslint 'lib/**/*.ts' 'spec/**/*.ts'",
+    "lint": "eslint 'lib/**/*.ts' 'lib/**/*.js'",
     "build": "tsc --module commonjs ",
     "build:watch": "tsc -w --incremental",
     "test:prod": "npm run lint && npm run test -- --no-cache",
