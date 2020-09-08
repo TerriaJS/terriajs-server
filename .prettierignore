@@ -1,2 +1,4 @@
 *.js
 *.md
+
+!spec/makeserver.spec.js

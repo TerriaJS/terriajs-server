@@ -1,16 +1,24 @@
 {
   "common": {
+    // Any usual values found in serverconfig.json
     "port": 3001,
   },
   "hosts": [
     {
+      // Main hostname (for e.g. rel=canonical tags / sitemap related usage)
       "vhost": "main.host.terria.io",
+
       "aliases": [
+        // Any other hostnames which should use this config
+
         "localhost",
         "alias.host.terria.io",
         "other.domain.example.com",
       ],
       "config": {
+        // Any values you want to override for common. Note objects are not
+        // deeply merged, so you'll want to override the entire object per
+        // config
         "registryConfigurationId": "map-config-terria"
       }
     },

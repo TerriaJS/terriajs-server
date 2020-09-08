@@ -32,11 +32,20 @@ Generally, you don't want to manually install TerriaJS-Server. It comes installe
 
 #### Configure
 
-Copy `serverconfig.json.example` to `serverconfig.json` and configure as needed. See comments inside that file. (Comments are allowed; see json5.org).
+Copy `serverconfig.json.example` to `serverconfig.json` and configure as needed.
+See comments inside that file. (Comments are allowed; see json5.org).
 
-If you want to proxy authenticated layers, do the same for `proxyauth.json.example`.
+If you want to proxy authenticated layers, do the same for
+`proxyauth.json.example`.
 
-TerriaJS-Server is run through PM2, a process manager which handles automatic restarting, logging and load balancing. The default configuration is for a development environment with a single process. To use multiple processes, modify the configuration in ecosystem.config.js.
+If you want to serve different config based on hostnames, do the same for
+`multiserverconfig.json.example`. Currently this is intended for things like
+share and feedback configuration.
+
+TerriaJS-Server is run through PM2, a process manager which handles automatic
+restarting, logging and load balancing. The default configuration is for a
+development environment with a single process. To use multiple processes, modify
+the configuration in ecosystem.config.js.
 
 #### Run
 
