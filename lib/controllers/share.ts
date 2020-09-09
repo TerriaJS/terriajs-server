@@ -180,42 +180,64 @@ function parseJson(body: string | any): string {
 
   console.log("OMG CONVERT");
 
-  const v8CatalogJson: { version: string; initSources: any[] } = {
-    version: "8.0.0",
-    initSources: []
-  };
-
   const messages: any[] = [];
 
-  v8CatalogJson.initSources = catalogJson.initSources?.map(initSource => {
-    if (typeof initSource === "string") {
-      return initSource;
-    }
+  // Crunch v7 initSources together + extract initializationUrls
+  const initializationUrls: string[] = [];
+  const v7InitSource = catalogJson.initSources.reduce<any>(
+    (sources, current) => {
+      if (typeof current === "string") {
+        initializationUrls.push(current);
+        return sources;
+      }
+      return Object.assign(sources, current);
+    },
+    {}
+  );
 
-    const v8InitSource: any = {};
+  const v8InitSource: any = { stratum: "user" };
 
-    // convert members
-    if ("sharedCatalogMembers" in initSource) {
-      v8InitSource.models = Object.entries(
-        initSource.sharedCatalogMembers
-      ).reduce<any>((convertedMembers, [id, member]) => {
-        console.log(`Converting member ${id}`);
-        const result = convertMember(member);
-        messages.push(...result.messages);
-        convertedMembers[id] = result.member;
-        return convertedMembers;
-      }, {});
-    }
+  const workbenchIds: string[] = [];
 
-    [
-      "initialCamera",
-      "homeCamera",
-      "baseMapName",
-      "viewerMode",
-      "currentTime",
-      "showSplitter"
-    ].forEach(prop => (v8InitSource[prop] = initSource[prop]));
-  });
+  // convert members
+  if ("sharedCatalogMembers" in v7InitSource) {
+    v8InitSource.models = Object.entries(
+      v7InitSource.sharedCatalogMembers
+    ).reduce<any>((convertedMembers, [id, v7Member]) => {
+      console.log(`Converting member ${id}`);
+      if ((v7Member as any).isEnabled) {
+        workbenchIds.push(id);
+      }
+      const result = convertMember(v7Member, { partial: true });
+      messages.push(...result.messages);
+      convertedMembers[id] = result.member;
+      return convertedMembers;
+    }, {});
+  } else {
+    v8InitSource.models = {};
+  }
+
+  // User added data
+  if ("catalog" in v7InitSource) {
+    v8InitSource.models["__User-Added_Data__"] = {};
+  }
+
+  v8InitSource.workbench = workbenchIds;
+
+  // Copy over common properties
+  [
+    "initialCamera",
+    "homeCamera",
+    "baseMapName",
+    "viewerMode",
+    "currentTime",
+    "showSplitter"
+  ].forEach(prop => (v8InitSource[prop] = v7InitSource[prop]));
+
+  const v8CatalogJson: { version: string; initSources: any[] } = {
+    version: "8.0.0",
+    initSources: [...initializationUrls, v8InitSource]
+  };
 
   console.log(v8CatalogJson);
   console.log(messages);
