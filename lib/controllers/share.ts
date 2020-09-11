@@ -1,11 +1,7 @@
 /* jshint node: true, esnext: true */
 "use strict";
 
-import {
-  CatalogResult,
-  convertCatalog,
-  convertMember
-} from "catalog-converter";
+import { convertShare } from "catalog-converter";
 
 const bodyParser = require("body-parser");
 const requestp = require("request-promise");
@@ -69,7 +65,7 @@ function resolveGist(serviceOptions: any, id: any) {
       if (response.statusCode >= 300) {
         return response;
       } else {
-        return parseJson(body.files[Object.keys(body.files)[0]].content); // find the contents of the first file in the gist
+        return convertShareJson(body.files[Object.keys(body.files)[0]].content); // find the contents of the first file in the gist
       }
     }
   });
@@ -154,7 +150,7 @@ function resolveS3(serviceOptions: any, id: any) {
     .getObject(params)
     .promise()
     .then(function(data: any) {
-      return parseJson(data.Body);
+      return convertShareJson(data.Body);
     })
     .catch(function(e: any) {
       throw {
@@ -164,85 +160,17 @@ function resolveS3(serviceOptions: any, id: any) {
     });
 }
 
-function parseJson(body: string | any): string {
+function convertShareJson(body: string | any): string {
   let catalogJson: { version: string; initSources: any[] } =
     typeof body === "string" ? JSON.parse(body) : body;
-  console.log(catalogJson);
 
-  // If version 8 return
-  if (
-    "version" in catalogJson &&
-    typeof catalogJson.version === "string" &&
-    (catalogJson.version as string).startsWith("8")
-  ) {
-    return JSON.stringify(catalogJson);
-  }
+  const result = convertShare(catalogJson);
 
-  console.log("OMG CONVERT");
-
-  const messages: any[] = [];
-
-  // Crunch v7 initSources together + extract initializationUrls
-  const initializationUrls: string[] = [];
-  const v7InitSource = catalogJson.initSources.reduce<any>(
-    (sources, current) => {
-      if (typeof current === "string") {
-        initializationUrls.push(current);
-        return sources;
-      }
-      return Object.assign(sources, current);
-    },
-    {}
-  );
-
-  const v8InitSource: any = { stratum: "user" };
-
-  const workbenchIds: string[] = [];
-
-  // convert members
-  if ("sharedCatalogMembers" in v7InitSource) {
-    v8InitSource.models = Object.entries(
-      v7InitSource.sharedCatalogMembers
-    ).reduce<any>((convertedMembers, [id, v7Member]) => {
-      console.log(`Converting member ${id}`);
-      if ((v7Member as any).isEnabled) {
-        workbenchIds.push(id);
-      }
-      const result = convertMember(v7Member, { partial: true });
-      messages.push(...result.messages);
-      convertedMembers[id] = result.member;
-      return convertedMembers;
-    }, {});
-  } else {
-    v8InitSource.models = {};
-  }
-
-  // User added data
-  if ("catalog" in v7InitSource) {
-    v8InitSource.models["__User-Added_Data__"] = {};
-  }
-
-  v8InitSource.workbench = workbenchIds;
-
-  // Copy over common properties
-  [
-    "initialCamera",
-    "homeCamera",
-    "baseMapName",
-    "viewerMode",
-    "currentTime",
-    "showSplitter"
-  ].forEach(prop => (v8InitSource[prop] = v7InitSource[prop]));
-
-  const v8CatalogJson: { version: string; initSources: any[] } = {
-    version: "8.0.0",
-    initSources: [...initializationUrls, v8InitSource]
-  };
-
-  console.log(v8CatalogJson);
-  console.log(messages);
-
-  return JSON.stringify(v8CatalogJson);
+  return JSON.stringify({
+    ...result.result,
+    messages: result.messages.length > 0 ? result.messages : undefined,
+    converted: result.messages.length > 0
+  });
 }
 
 export default function shareController(
@@ -250,7 +178,6 @@ export default function shareController(
   port: number,
   options: any
 ) {
-  console.log(options);
   if (!options.shareUrlPrefixes) {
     return;
   }
