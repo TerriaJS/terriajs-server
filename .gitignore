@@ -25,3 +25,4 @@ terriajs.pid
 
 /dist/
 packages/
+coverage
