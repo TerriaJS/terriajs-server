@@ -15,8 +15,7 @@
     "build": "tsc --module commonjs ",
     "build:watch": "tsc -w --incremental",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "test": "jest --coverage",
-    "test:watch": "jest --coverage --watch",
+    "test": "ts-node node_modules/.bin/jasmine",
     "start": "pm2 start ecosystem.config.js --update-env --",
     "stop": "pm2 stop ecosystem.config.js",
     "watch": "pm2 start ecosystem-watch.config.js --update-env --",
@@ -64,33 +63,14 @@
   },
   "devDependencies": {
     "@types/node": "^14.6.4",
-    "@types/jest": "^25.2.1",
+    "@types/jasmine": "^3.4.0",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
     "@typescript-eslint/parser": "^2.30.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
-    "jest": "^25.4.0",
-    "jest-config": "^25.4.0",
+    "jasmine": "^3.4.0",
     "supertest": "^4.0.0",
-    "ts-jest": "^25.4.0",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
-  },
-  "jest": {
-    "transform": {
-      "\\.(ts|js)$": "ts-jest"
-    },
-    "testEnvironment": "node",
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/spec/"
-    ],
-    "collectCoverageFrom": [
-      "lib/*.{js,ts}"
-    ]
   }
 }

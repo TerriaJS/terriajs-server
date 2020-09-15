@@ -3,8 +3,7 @@
 var express = require('express');
 var proxy = require('../lib/controllers/proxy');
 var request = require('supertest');
-var Stream = require('stream').Writable;
-const { URL, URLSearchParams } = require('url');
+import { URL } from 'url';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
@@ -419,7 +418,7 @@ describe('proxy', function() {
                 }))[methodName]('/example.com')
                     .expect(200)
                     .expect(function() {
-                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)
                         expect(hitUrl.searchParams.get('foo')).toBe('bar');
                     })
                     .end(assert(done));
@@ -439,7 +438,7 @@ describe('proxy', function() {
                 }))[methodName]('/example.com/something/else')
                     .expect(200)
                     .expect(function() {
-                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)
                         expect(hitUrl.searchParams.get('foo')).toBe('bar');
                     })
                     .end(assert(done));
@@ -459,7 +458,7 @@ describe('proxy', function() {
                 }))[methodName]('/example.com/nothing/else')
                     .expect(200)
                     .expect(function() {
-                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)
                         expect(hitUrl.searchParams.get('foo')).toBeNull();
                     })
                     .end(assert(done));
@@ -486,7 +485,7 @@ describe('proxy', function() {
                 }))[methodName]('/example.com/nothing/else')
                     .expect(200)
                     .expect(function() {
-                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)
                         expect(hitUrl.searchParams.get('foo')).toBeNull();
                         expect(hitUrl.searchParams.get('yep')).toBe('works');
                     })
@@ -508,7 +507,7 @@ describe('proxy', function() {
                 }))[methodName]('/example.com')
                     .expect(200)
                     .expect(function() {
-                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)
                         expect(hitUrl.search).toBe('?foo=bar&another=val');
                     })
                     .end(assert(done));
@@ -528,7 +527,7 @@ describe('proxy', function() {
                 }))[methodName]('/example.com?already=here')
                     .expect(200)
                     .expect(function() {
-                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)                        
+                        const hitUrl = new URL(fakeRequest.calls.argsFor(0)[0].url)
                         expect(hitUrl.search).toBe('?already=here&foo=bar');
                     })
                     .end(assert(done));
