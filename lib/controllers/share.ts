@@ -1,4 +1,3 @@
-/* jshint node: true, esnext: true */
 "use strict";
 
 import { convertShare } from "catalog-converter";
@@ -168,8 +167,8 @@ function convertShareJson(body: string | any): string {
 
   return JSON.stringify({
     ...result.result,
-    messages: result.messages.length > 0 ? result.messages : undefined,
-    converted: result.messages.length > 0
+    messages: result.messages,
+    converted: result.converted
   });
 }
 
