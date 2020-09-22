@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:jsx-control-statements/recommended"
-  ],
+  "extends": ["eslint:recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2016,
@@ -11,16 +8,14 @@
   "env": {
     "node": true,
     "commonjs": true,
-    "es6": true
+    "es6": true,
+    "jasmine": true
   },
-  "plugins": ["@typescript-eslint", "jsx-control-statements"],
+  "plugins": ["@typescript-eslint"],
   "globals": {
     "process": true
   },
   "rules": {
-    "jsx-control-statements/jsx-jcs-no-undef": 0,
-    "react/jsx-no-undef": 0,
-
     /*Possible Errors */
     "no-cond-assign": [1, "except-parens"],
     "no-console": 0,
