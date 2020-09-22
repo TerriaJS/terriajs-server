@@ -149,7 +149,7 @@ function resolveS3(serviceOptions: any, id: any) {
     .getObject(params)
     .promise()
     .then(function(data: any) {
-      return convertShareJson(data.Body);
+      return convertShareJson(data.Body.toString());
     })
     .catch(function(e: any) {
       throw {
