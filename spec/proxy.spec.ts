@@ -665,9 +665,9 @@ describe("proxy", function() {
   function requestFake(req: any) {
     const responseStatus = req.headers["x-give-response-status"] || 200;
     var request = {
-      on: function(event, cb) {
+      on: function(event: any, cb: any) {
         if (event === "response") {
-          var dataCb, endCb;
+          var dataCb: any, endCb: any;
 
           var response = {
             statusCode: responseStatus,
@@ -676,7 +676,7 @@ describe("proxy", function() {
               "Cache-Control": "no-cache",
               "Proxy-Connection": "delete me"
             },
-            on: function(event, cb) {
+            on: function(event: any, cb: any) {
               if (event === "data") {
                 dataCb = cb;
               } else if (event === "end") {
