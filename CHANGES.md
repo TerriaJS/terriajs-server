@@ -1,4 +1,6 @@
 ### Next version
+* Convert to typescript project
+* Add share-conversion via `catalog-converter
 * [The next feature]
 
 ### 3.3.1

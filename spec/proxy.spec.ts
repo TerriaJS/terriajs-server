@@ -1,5 +1,3 @@
-"use strict";
-
 var express = require("express");
 var proxy = require("../lib/controllers/proxy");
 var request = require("supertest");
@@ -61,7 +59,7 @@ describe("proxy", function() {
       request(buildApp(openProxyOptions))
         [methodName]("/example.com/")
         .expect(200)
-        .expect(function(err) {
+        .expect(function(err: any) {
           expect(fakeRequest.calls.argsFor(0)[0].url).toBe(
             "http://example.com/"
           );
@@ -657,7 +655,7 @@ describe("proxy", function() {
     options.request = fakeRequest;
     var app = express();
     app.use(proxy(options));
-    app.use(function(err, req, res, next) {
+    app.use(function(err: any, req: any, res: any, next: any) {
       console.error(err.stack);
       res.status(500).send("Something broke!");
     });
@@ -667,9 +665,9 @@ describe("proxy", function() {
   function requestFake(req: any) {
     const responseStatus = req.headers["x-give-response-status"] || 200;
     var request = {
-      on: function(event, cb) {
+      on: function(event: any, cb: any) {
         if (event === "response") {
-          var dataCb, endCb;
+          var dataCb: any, endCb: any;
 
           var response = {
             statusCode: responseStatus,
@@ -678,7 +676,7 @@ describe("proxy", function() {
               "Cache-Control": "no-cache",
               "Proxy-Connection": "delete me"
             },
-            on: function(event, cb) {
+            on: function(event: any, cb: any) {
               if (event === "data") {
                 dataCb = cb;
               } else if (event === "end") {

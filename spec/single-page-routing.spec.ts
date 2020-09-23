@@ -25,12 +25,13 @@ describe("single-page-routing", function() {
   };
 
   describe("using controller", function() {
-    const errorMatcher = error => {
+    const errorMatcher = (error: any) => {
       if (
         error.message.indexOf("`resolvePathRelativeToWwwroot` does not exist")
       ) {
         return true;
       }
+      return false;
     };
     describe("should throw", function() {
       it("with bad wwwroot", function() {
@@ -103,7 +104,7 @@ describe("single-page-routing", function() {
         .get("/actual-html-file.html")
         .expect(200)
         .expect("Content-Type", /html/)
-        .then(response => {
+        .then((response: any) => {
           expect(response.text).toBe(
             fs.readFileSync(
               appOptions.wwwroot + "/actual-html-file.html",
@@ -117,7 +118,7 @@ describe("single-page-routing", function() {
         .get("/actual-json.json")
         .expect(200)
         .expect("Content-Type", /json/)
-        .then(response => {
+        .then((response: any) => {
           expect(response.text).toBe(
             fs.readFileSync(appOptions.wwwroot + "/actual-json.json", "utf8")
           );
@@ -131,7 +132,7 @@ describe("single-page-routing", function() {
         .get("/blah")
         .expect(200)
         .expect("Content-Type", /html/)
-        .then(response => {
+        .then((response: any) => {
           expect(response.text).toBe(
             fs.readFileSync(
               appOptions.wwwroot +
@@ -146,7 +147,7 @@ describe("single-page-routing", function() {
         .get("/actual-html-file.html")
         .expect(200)
         .expect("Content-Type", /html/)
-        .then(response => {
+        .then((response: any) => {
           expect(response.text).toBe(
             fs.readFileSync(
               appOptions.wwwroot + "/actual-html-file.html",
@@ -160,7 +161,7 @@ describe("single-page-routing", function() {
         .get("/actual-json.json")
         .expect(200)
         .expect("Content-Type", /json/)
-        .then(response => {
+        .then((response: any) => {
           expect(response.text).toBe(
             fs.readFileSync(appOptions.wwwroot + "/actual-json.json", "utf8")
           );
