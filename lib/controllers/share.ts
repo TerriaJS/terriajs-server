@@ -182,14 +182,11 @@ export default function shareController(
   }
 
   const router = require("express").Router();
-  router.use((_: any, res: any, next: any) => {
-    next(
-      bodyParser.text({
-        type: "*/*",
-        // limit: options.shareMaxRequestSize || '200kb'
-        limit: res.locals.settingsForHost.shareMaxRequestSize || "200kb"
-      })
-    );
+  router.use((req: any, res: any, next: any) => {
+    bodyParser.text({
+      type: "*/*",
+      limit: res.locals.settingsForHost.shareMaxRequestSize || "200kb"
+    })(req, res, next);
   });
 
   // Requested creation of a new short URL.
