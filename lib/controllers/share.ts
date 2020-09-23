@@ -265,7 +265,7 @@ export default function shareController(
     }
     resolver[serviceOptions.service.toLowerCase()](serviceOptions, id)
       .then(function(content: any) {
-        res.send(content);
+        res.set("Content-Type", "application/json").send(content);
       })
       .catch(rperrors.TransformError, function(reason: any) {
         console.error(JSON.stringify(reason, null, 2));
