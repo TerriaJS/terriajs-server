@@ -1,6 +1,6 @@
 {
   "name": "terriajs-server",
-  "version": "3.3.1-alpha.0",
+  "version": "3.3.1-alpha.1",
   "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, ogr2ogr conversion service, and express static server.",
   "engineStrict": true,
   "engines": {
@@ -20,6 +20,7 @@
     "stop": "pm2 stop ecosystem.config.js",
     "watch": "pm2 start ecosystem-watch.config.js --update-env --",
     "restart": "pm2 restart ecosystem.config.js --update-env --",
+    "postinstall": "npm run build",
     "postpublish": "bash -c \"git tag -a ${npm_package_version} -m \"${npm_package_version}\" && git push origin ${npm_package_version}\""
   },
   "bin": {
@@ -43,7 +44,7 @@
     "base-x": "^3.0.5",
     "basic-auth": "^2.0.1",
     "body-parser": "^1.15.0",
-    "catalog-converter": "^0.0.2",
+    "catalog-converter": "^0.0.2-alpha.0",
     "compression": "^1.6.0",
     "cors": "^2.7.1",
     "express": "^4.8.0",
