@@ -13,5 +13,5 @@
     "skipLibCheck": true
     // "types": ["node"]
   },
-  "include": ["lib"]
+  "include": ["./lib"]
 }
