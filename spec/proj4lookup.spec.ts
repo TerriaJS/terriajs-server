@@ -1,4 +1,4 @@
-const request = require("supertest");
+const supertest = require("supertest");
 const makeserver = require("../lib/makeserver");
 
 let server: any;
@@ -11,14 +11,14 @@ describe("proj4lookup", function() {
 
   describe("on get", function() {
     it("should return a definition for EPSG:4326", function(done) {
-      request(server)
+      supertest(server)
         .get("/api/v1/proj4def/EPSG:4326")
         .expect(200, "+proj=longlat +datum=WGS84 +no_defs")
         .end(assert(done));
     });
 
     it("should 404 unknown projection", function(done) {
-      request(server)
+      supertest(server)
         .get("/api/v1/proj4def/EPSG:Notarealthing")
         .expect(404, done);
     });

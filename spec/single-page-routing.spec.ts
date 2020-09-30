@@ -1,7 +1,7 @@
 var fs = require("fs");
 var makeServer = require("../lib/makeserver");
 var singlePageRouting = require("../lib/controllers/single-page-routing");
-var request = require("supertest");
+var supertest = require("supertest");
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
@@ -92,13 +92,13 @@ describe("single-page-routing", function() {
 
   describe("on get with routing off,", function() {
     it("should 404 blah route", function(done) {
-      request(buildApp(routingOffOptions))
+      supertest(buildApp(routingOffOptions))
         .get("/blah")
         .expect(404)
         .end(assert(done));
     });
     it("should resolve an actual html file", function() {
-      request(buildApp(routingOffOptions))
+      supertest(buildApp(routingOffOptions))
         .get("/actual-html-file.html")
         .expect(200)
         .expect("Content-Type", /html/)
@@ -112,7 +112,7 @@ describe("single-page-routing", function() {
         });
     });
     it("should resolve an actual json file", function() {
-      request(buildApp(routingOffOptions))
+      supertest(buildApp(routingOffOptions))
         .get("/actual-json.json")
         .expect(200)
         .expect("Content-Type", /json/)
@@ -126,7 +126,7 @@ describe("single-page-routing", function() {
 
   describe("on get with routing on,", function() {
     it("should resolve unmatched route with the optioned path", function() {
-      request(buildApp(routingOnOptions))
+      supertest(buildApp(routingOnOptions))
         .get("/blah")
         .expect(200)
         .expect("Content-Type", /html/)
@@ -141,7 +141,7 @@ describe("single-page-routing", function() {
         });
     });
     it("should resolve an actual html file", function() {
-      request(buildApp(routingOffOptions))
+      supertest(buildApp(routingOffOptions))
         .get("/actual-html-file.html")
         .expect(200)
         .expect("Content-Type", /html/)
@@ -155,7 +155,7 @@ describe("single-page-routing", function() {
         });
     });
     it("should resolve an actual json file", function() {
-      request(buildApp(routingOffOptions))
+      supertest(buildApp(routingOffOptions))
         .get("/actual-json.json")
         .expect(200)
         .expect("Content-Type", /json/)
@@ -169,13 +169,13 @@ describe("single-page-routing", function() {
 
   describe("on post,", function() {
     it("should error out with routing off", function(done) {
-      request(buildApp(routingOffOptions))
+      supertest(buildApp(routingOffOptions))
         .post("/mochiRoute")
         .expect(404)
         .end(assert(done));
     });
     it("should error out with routing on", function(done) {
-      request(buildApp(routingOnOptions))
+      supertest(buildApp(routingOnOptions))
         .post("/mochiRoute")
         .expect(404)
         .end(assert(done));
