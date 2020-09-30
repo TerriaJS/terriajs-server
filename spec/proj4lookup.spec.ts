@@ -1,9 +1,7 @@
-var express = require("express");
-var proj4lookup = require("../lib/controllers/proj4lookup");
-var request = require("supertest");
-var makeserver = require("../lib/makeserver");
+const request = require("supertest");
+const makeserver = require("../lib/makeserver");
 
-var server: any;
+let server: any;
 
 describe("proj4lookup", function() {
   beforeEach(function() {

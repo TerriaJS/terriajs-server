@@ -1,10 +1,7 @@
-"use strict";
-
+import bodyParser from "body-parser";
 import { convertShare } from "catalog-converter";
-
-const bodyParser = require("body-parser");
-const requestp = require("request-promise");
-const rperrors = require("request-promise/errors");
+import requestp from "request-promise";
+import rperrors from "request-promise/errors";
 
 const gistAPI = "https://api.github.com/gists";
 

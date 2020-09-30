@@ -1,8 +1,8 @@
-var fs = require("fs");
+import { statSync } from "fs";
 
 export default function exists(pathName: string) {
   try {
-    fs.statSync(pathName);
+    statSync(pathName);
     return true;
   } catch (e) {
     return false;

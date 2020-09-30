@@ -1,5 +1,3 @@
-"use strict";
-
 var fs = require("fs");
 var makeServer = require("../lib/makeserver");
 var singlePageRouting = require("../lib/controllers/single-page-routing");
