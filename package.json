@@ -44,7 +44,7 @@
     "base-x": "^3.0.5",
     "basic-auth": "^2.0.1",
     "body-parser": "^1.15.0",
-    "catalog-converter": "^0.0.2-alpha.0",
+    "catalog-converter": "0.0.2-alpha.2",
     "compression": "^1.6.0",
     "cors": "^2.7.1",
     "express": "^4.8.0",
