@@ -1,3 +1,4 @@
+// TODO: If these are const we get `Cannot redeclare block-scoped variable 'supertest'` across all spec files
 var express = require("express");
 var proxy = require("../lib/controllers/proxy");
 var request = require("supertest");

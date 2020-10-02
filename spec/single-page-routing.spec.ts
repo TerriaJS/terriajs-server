@@ -1,3 +1,4 @@
+// TODO: If these are const we get `Cannot redeclare block-scoped variable 'supertest'` across all spec files
 var fs = require("fs");
 var makeServer = require("../lib/makeserver");
 var singlePageRouting = require("../lib/controllers/single-page-routing");

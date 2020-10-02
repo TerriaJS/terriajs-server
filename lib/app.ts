@@ -1,3 +1,4 @@
+// TODO: make import statements when tsified
 const options = require("./options");
 const makeserver = require("./makeserver");
 
