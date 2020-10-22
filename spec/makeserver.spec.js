@@ -26,6 +26,19 @@ const multiTenantCases = [
     hostname: "alias.another.host.terria.io",
     expectedRegistryConfigurationId: "map-config-another",
     expectedNewShareUrlPrefix: "anotherPrefix"
+  },
+  {
+    name: "should include proxy list from base defined config",
+    isMultiConfig: true,
+    hostname: "main.host.terria.io",
+    expectedAllowProxyFor: ["base.allowed.domain"]
+  },
+  {
+    name: "should include proxy list from multi tentant config",
+    isMultiConfig: true,
+    hostname: "alias.another.host.terria.io",
+    notExpectedAllowProxyFor: ["base.allowed.domain"],
+    expectedAllowProxyFor: ["an.allowed.domain"]
   }
 ];
 const singleTenantCases = [
@@ -55,12 +68,26 @@ describe("makeserver", function() {
         .expect("Content-Type", /application\/json/)
         .then(response => {
           const json = JSON.parse(response.text);
-          expect(json.registryConfigurationId).toEqual(
-            testCase.expectedRegistryConfigurationId
-          );
-          expect(json.newShareUrlPrefix).toEqual(
-            testCase.expectedNewShareUrlPrefix
-          );
+          if (testCase.expectedRegistryConfigurationId) {
+            expect(json.registryConfigurationId).toEqual(
+              testCase.expectedRegistryConfigurationId
+            );
+          }
+          if (testCase.expectedNewShareUrlPrefix) {
+            expect(json.newShareUrlPrefix).toEqual(
+              testCase.expectedNewShareUrlPrefix
+            );
+          }
+          if (testCase.expectedAllowProxyFor) {
+            testCase.expectedAllowProxyFor.forEach(item => {
+              expect(json.allowProxyFor).toContain(item);
+            });
+          }
+          if (testCase.notExpectedAllowProxyFor) {
+            testCase.notExpectedAllowProxyFor.forEach(item => {
+              expect(json.allowProxyFor).not.toContain(item);
+            });
+          }
         });
     };
     describe("in multi config", function() {
@@ -85,7 +112,8 @@ describe("makeserver", function() {
     const multiConfig = {
       common: {
         registryConfigurationId: "map-config-common",
-        newShareUrlPrefix: "commonPrefix"
+        newShareUrlPrefix: "commonPrefix",
+        allowProxyFor: ["base.allowed.domain"]
       },
       hosts: [
         {
@@ -105,7 +133,8 @@ describe("makeserver", function() {
           aliases: ["alias.another.host.terria.io"],
           config: {
             registryConfigurationId: "map-config-another",
-            newShareUrlPrefix: "anotherPrefix"
+            newShareUrlPrefix: "anotherPrefix",
+            allowProxyFor: ["an.allowed.domain"]
           }
         }
       ]
