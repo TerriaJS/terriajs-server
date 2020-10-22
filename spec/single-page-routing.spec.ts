@@ -142,8 +142,29 @@ describe("single-page-routing", function() {
           );
         });
     });
+    describe("with an actual html file on main vhost", function() {
+      it("should resolve without robots tag on main vhost", function() {
+        request(buildApp(routingOnOptions, { isMultiConfig: true }))
+          .get("/some-spa-route")
+          .set("host", "main.host.terria.io")
+          .expect(200)
+          .expect("Content-Type", /html/)
+          .then((response: any) => {
+            expect(response.text.includes("robots")).toBeFalse();
+          });
+      });
+      it("should resolve a non matched file to index.html", function() {
+        request(buildApp(routingOnOptions, { isMultiConfig: true }))
+          .get("/some-spa-route")
+          .expect(200)
+          .expect("Content-Type", /html/)
+          .then((response: any) => {
+            expect(response.text.includes("robots")).toBeTrue();
+          });
+      });
+    });
     it("should resolve an actual html file", function() {
-      request(buildApp(routingOffOptions))
+      request(buildApp(routingOnOptions))
         .get("/actual-html-file.html")
         .expect(200)
         .expect("Content-Type", /html/)
@@ -157,7 +178,7 @@ describe("single-page-routing", function() {
         });
     });
     it("should resolve an actual json file", function() {
-      request(buildApp(routingOffOptions))
+      request(buildApp(routingOnOptions))
         .get("/actual-json.json")
         .expect(200)
         .expect("Content-Type", /json/)
@@ -184,7 +205,26 @@ describe("single-page-routing", function() {
     });
   });
 
-  function buildApp(spaOptions: any) {
+  function buildApp(spaOptions: any, overrides = { isMultiConfig: false }) {
+    const { isMultiConfig } = overrides;
+    const multiConfig = {
+      common: {
+        registryConfigurationId: "map-config-common",
+        newShareUrlPrefix: "commonPrefix",
+        allowProxyFor: ["base.allowed.domain"]
+      },
+      hosts: [
+        {
+          vhost: "main.host.terria.io",
+          aliases: [
+            "localhost",
+            "alias.host.terria.io",
+            "other.domain.example.com"
+          ],
+          config: {}
+        }
+      ]
+    };
     var options = require("../lib/options").init(true);
     const serverOptions = {
       ...appOptions,
@@ -194,7 +234,9 @@ describe("single-page-routing", function() {
         }
       }
     };
-    const mergedOptions = Object.assign(options, serverOptions);
+    const mergedOptions = Object.assign(options, serverOptions, {
+      multiConfig: isMultiConfig ? multiConfig : {}
+    });
     var app = makeServer(mergedOptions);
     app.use(function(err: any, req: any, res: any, next: any) {
       console.error(err.stack);

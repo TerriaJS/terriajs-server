@@ -2,6 +2,7 @@
 * Convert to typescript project
 * Add share-conversion via `catalog-converter
 * Add basic multi-tenant config behaviour
+* Ensure robots metatag doesn't inadvertently noindex a main vhost host
 * [The next feature]
 
 ### 3.3.1

@@ -1,6 +1,6 @@
 {
   "spec_dir": "spec",
-  "spec_files": ["**/*[sS]pec.(t|j)s"],
+  "spec_files": ["**/*[sS]pec.[tj]s"],
   "helpers": ["helpers/**/*.ts"],
   "stopSpecOnExpectationFailure": false,
   "random": false
