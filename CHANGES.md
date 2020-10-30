@@ -1,6 +1,7 @@
-### Next version
+### Next version (semver major)
 * Convert to typescript project
-* Add share-conversion via `catalog-converter
+* BREAKING CHANGE: Add share-conversion via `catalog-converter`.
+    * All share data will be updated to TerriaJS version 8 compatible share data on request. There is no way to request the original share data.
 * [The next feature]
 
 ### 3.3.1
