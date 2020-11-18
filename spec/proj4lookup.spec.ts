@@ -1,9 +1,8 @@
-var express = require("express");
-var proj4lookup = require("../lib/controllers/proj4lookup");
+// TODO: If these are const we get `Cannot redeclare block-scoped variable 'supertest'` across this file and single-page-routing.spec
 var request = require("supertest");
 var makeserver = require("../lib/makeserver");
 
-var server: any;
+let server: any;
 
 describe("proj4lookup", function() {
   beforeEach(function() {
