@@ -13,7 +13,7 @@ const args = argpos > -1 ? process.argv.slice(argpos + 1) : [];
 module.exports = {
   apps : [{
     name: path.basename(__dirname),
-    script: 'dist/app.js',
+    script: 'lib/app.js',
 
     // passed to app, so any valid arguments in options.js are allowed.
     args: args.join(' '),
