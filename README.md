@@ -4,6 +4,22 @@
 
 [![Build Status](https://travis-ci.org/TerriaJS/terriajs-server.svg?branch=master)](https://travis-ci.org/TerriaJS/terriajs-server)
 
+--------------------
+
+**We are currently working on a brand new version of Terria &mdash; verson 8!**
+
+We will soon be posting docs outlining this new version: 
+
+- how it differs from the current version 
+- how it will impact users (including guides and tools to help you upgrade)
+- release roadmap (including which features are supported or in development)
+
+Stay tuned!
+
+If you are using Terria version 8 alpha &mdash; please use the [_next_ branch of TerriaJS-Server (versioned as terriajs-server:4.0.0-alpha.x)](https://github.com/TerriaJS/terriajs-server/tree/next)
+
+--------------------
+
 This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
 
 * `/api/v1/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
