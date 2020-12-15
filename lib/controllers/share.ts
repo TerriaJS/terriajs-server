@@ -1,5 +1,4 @@
 import bodyParser from "body-parser";
-import { convertShare } from "catalog-converter";
 import requestp from "request-promise";
 import rperrors from "request-promise/errors";
 
@@ -61,7 +60,7 @@ function resolveGist(serviceOptions: any, id: any) {
       if (response.statusCode >= 300) {
         return response;
       } else {
-        return convertShareJson(body.files[Object.keys(body.files)[0]].content); // find the contents of the first file in the gist
+        return body.files[Object.keys(body.files)[0]].content; // find the contents of the first file in the gist
       }
     }
   });
@@ -146,7 +145,7 @@ function resolveS3(serviceOptions: any, id: any) {
     .getObject(params)
     .promise()
     .then(function(data: any) {
-      return convertShareJson(data.Body.toString());
+      return data.Body.toString();
     })
     .catch(function(e: any) {
       throw {
@@ -154,19 +153,6 @@ function resolveS3(serviceOptions: any, id: any) {
         error: e.message
       };
     });
-}
-
-function convertShareJson(body: string | any): string {
-  let catalogJson: { version: string; initSources: any[] } =
-    typeof body === "string" ? JSON.parse(body) : body;
-
-  const result = convertShare(catalogJson);
-
-  return JSON.stringify({
-    ...result.result,
-    messages: result.messages,
-    converted: result.converted
-  });
 }
 
 export default function shareController(
