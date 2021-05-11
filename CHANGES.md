@@ -1,6 +1,9 @@
 ### Next version
 * [The next feature]
 
+### 3.3.2
+* Fixed a bug with the proxy route and certain redirect responses.
+
 ### 3.3.1
 * Improved support with `resolvePathRelativeToWwwroot` triggering `serveWwwRoot`
 
