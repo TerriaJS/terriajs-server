@@ -1,4 +1,5 @@
 ### Next version
+* Authorisation token for feedback to be placed in header as per https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
 * [The next feature]
 
 ### 3.3.2
