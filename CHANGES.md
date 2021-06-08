@@ -1,6 +1,7 @@
 ### Next version
+
+### 3.3.3
 * Authorisation token for feedback to be placed in header as per https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
-* [The next feature]
 
 ### 3.3.2
 * Fixed a bug with the proxy route and certain redirect responses.
