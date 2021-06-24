@@ -16,8 +16,6 @@ We will soon be posting docs outlining this new version:
 
 Stay tuned!
 
-If you are using Terria version 8 alpha &mdash; please use the [_next_ branch of TerriaJS-Server (versioned as terriajs-server:4.0.0-alpha.x)](https://github.com/TerriaJS/terriajs-server/tree/next)
-
 --------------------
 
 This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
