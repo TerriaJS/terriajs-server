@@ -1,12 +1,19 @@
 ### Next version
 
+### 3.3.4
+
+* Add GDA2020 proj4 definition
+
 ### 3.3.3
+
 * Authorisation token for feedback to be placed in header as per https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
 
 ### 3.3.2
+
 * Fixed a bug with the proxy route and certain redirect responses.
 
 ### 3.3.1
+
 * Improved support with `resolvePathRelativeToWwwroot` triggering `serveWwwRoot`
 
 ### 3.3.0
@@ -142,7 +149,7 @@
 * The `feedback` service now includes the `User-Agent` header sent by the user's browser.
 * Added support for requiring HTTP basic authentication on all requests by supplying something like the following in the server configuration file:
 
-```
+```json
 {
     "basicAuthentication": {
         "username": "myusername",

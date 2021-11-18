@@ -6,15 +6,11 @@
 
 --------------------
 
-**We are currently working on a brand new version of Terria &mdash; verson 8!**
+**We have just released a brand new version of Terria &mdash; verson 8!**
 
-We will soon be posting docs outlining this new version: 
+We've put together a list of things we've removed from version 8 and some steps to help you migrate to the new version in our [migration guide](https://docs.terria.io/guide/contributing/migration-guide/)
 
-- how it differs from the current version 
-- how it will impact users (including guides and tools to help you upgrade)
-- release roadmap (including which features are supported or in development)
-
-Stay tuned!
+**Not ready to move to version 8 yet? You can find terriajs version 7 here:** https://github.com/TerriaJS/terriajs/tree/terriajs7
 
 --------------------
 
