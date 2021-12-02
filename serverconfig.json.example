@@ -13,6 +13,12 @@
         "csiro.au"
     ],
 
+    singlePageRouting: {
+      resolvePathRelativeToWwwroot: "/index.html",
+      // Whether to route unmatched routes to /index.html and let the frontend resolve the route
+      resolveUnmatchedPathsWithIndexHtml: false
+    },
+
     // If this setting is true, the allowProxyFor list is ignored, and all requests are accepted.
     proxyAllDomains: false,
 
@@ -117,7 +123,7 @@
     // which means that the actual allowed rate will be higher when multiple terriajs-server processes
     // are used. The first two wait times after `freeRetries` are `minWait`. Successive wait times are
     // the sum of the two previous wait times, up to `maxWait`.
-    // The defaults are as shown here. 
+    // The defaults are as shown here.
     rateLimit: {
         // The number of retries the user gets before they need to start waiting.
         freeRetries: 2,
@@ -168,6 +174,9 @@
     // Which service (of those defined above) should be used when new URLs are requested.
     newShareUrlPrefix: "g",
 
+    // The largest size, in bytes, of share JSON which can be received - can also be string, it defaults to '200kb'
+    shareMaxRequestSize: "200kb",
+
     // The domain at which you're running the server. Mostly used for describing the available endpoints. Defaults to "localhost"
     hostName: 'example.com',
 
@@ -193,5 +202,20 @@
     // The default is `["localhost"]`.
     httpAllowedHosts: [
         "localhost"
-    ]
+    ],
+
+    // An array of options which you to inform which additional parameters are appended to the url querystring.
+    // By default no additional parameters are appended.
+    // A regex pattern is used to test whether parameters should be attached. Set to '.' to match everything
+    // Eg a request to somedomain.com/secured becomes somedomain.com/secured?apikey=123
+    "appendParamToQueryString": {
+        "somedomain.com": [
+            {
+                "regexPattern": "secured",
+                "params": {
+                    "apikey": "123"
+                }
+            }
+        ]
+    }
 }
