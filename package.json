@@ -1,6 +1,6 @@
 {
   "name": "terriajs-server",
-  "version": "3.3.4",
+  "version": "3.3.4-new-routing",
   "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, ogr2ogr conversion service, and express static server.",
   "engineStrict": true,
   "engines": {
@@ -44,12 +44,12 @@
     "json5": "^2.1.0",
     "morgan": "^1.7.0",
     "pm2": "^3.2.2",
-    "terriajs-ogr2ogr": "^1.0.0",
     "proj4": "^2.3.12",
     "proj4js-defs": "0.0.1",
     "range_check": "^1.4.0",
     "request": "^2.67.0",
     "request-promise": "^4.0.1",
+    "terriajs-ogr2ogr": "^1.0.0",
     "when": "^3.7.7",
     "yargs": "^13.2.4"
   },
