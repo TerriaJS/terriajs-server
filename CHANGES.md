@@ -1,5 +1,10 @@
 ### Next version
 
+### 4.0.0
+
+* Remove conversion service (no longer used in TerriaJS 8+).
+* Remove pm2. Use containers and kubernetes to run terriajs-server concurrently and run terriajs-server on startup.
+
 ### 3.3.4
 
 * Add GDA2020 proj4 definition
