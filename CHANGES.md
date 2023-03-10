@@ -1,6 +1,6 @@
 ### Next version
 
-### 4.0.0
+### 4.0.0-alpha.1
 
 * Remove conversion service (no longer used in TerriaJS 8+).
 * Remove pm2. Use containers and kubernetes to run terriajs-server concurrently and run terriajs-server on startup.

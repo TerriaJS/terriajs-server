@@ -1,6 +1,6 @@
 {
   "name": "terriajs-server",
-  "version": "4.0.0",
+  "version": "4.0.0-alpha.1",
   "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, and express static server.",
   "engineStrict": true,
   "engines": {
