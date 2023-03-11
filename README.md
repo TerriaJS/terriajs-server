@@ -45,8 +45,6 @@ Copy `serverconfig.json.example` to `serverconfig.json` and configure as needed.
 
 If you want to proxy authenticated layers, do the same for `proxyauth.json.example`.
 
-TerriaJS-Server is run through PM2, a process manager which handles automatic restarting, logging and load balancing. The default configuration is for a development environment with a single process. To use multiple processes, modify the configuration in ecosystem.config.js.
-
 #### Run
 
 1. `npm start -- [options] [path/to/wwwroot]`
@@ -55,6 +53,8 @@ TerriaJS-Server is run through PM2, a process manager which handles automatic re
 terriajs-server.js [options] [path/to/wwwroot]
 
 Options:
+  --help, -h     Show this help.                                       [boolean]
+  --version      Show version number                                   [boolean]
   --port         Port to listen on.                [default: 3001]      [number]
   --public       Run a public server that listens on all interfaces.
                                                        [boolean] [default: true]
@@ -63,7 +63,6 @@ Options:
   --proxy-auth   File containing auth information for proxied domains. See
                  proxyauth.json.example
   --verbose      Produce more output and logging.     [boolean] [default: false]
-  --help, -h     Show this help.                                       [boolean]
 ```
 
 For example, to run with port 3009:
