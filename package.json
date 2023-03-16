@@ -10,7 +10,6 @@
   "scripts": {
     "test": "jasmine",
     "start": "node lib/app.js",
-    "stop": "cat terriajs.pid | xargs kill",
     "postpublish": "bash -c \"git tag -a ${npm_package_version} -m \"${npm_package_version}\" && git push origin ${npm_package_version}\""
   },
   "bin": {
