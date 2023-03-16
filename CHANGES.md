@@ -1,9 +1,12 @@
 ### Next version
 
-### 4.0.0-alpha.1
+### 4.0.0
 
-* Remove conversion service (no longer used in TerriaJS 8+).
-* Remove pm2. Use containers and kubernetes to run terriajs-server concurrently and run terriajs-server on startup.
+* Removed conversion service (no longer used in TerriaJS 8+).
+* Removed pm2. Use containers and kubernetes to run terriajs-server concurrently and run terriajs-server on startup.
+    * `yarn/npm start` now runs terriajs-server in the foreground.
+    * Removed `yarn/npm stop`.
+    * If you wish you could continue to use pm2 to run terriajs-server (configuration no longer included in this repo, follow [pm2 quickstart guide](https://pm2.keymetrics.io/docs/usage/quick-start/)).
 
 ### 3.3.4
 
