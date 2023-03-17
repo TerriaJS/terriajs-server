@@ -21,9 +21,6 @@
     // The largest size, in bytes, of data that the proxy will send in a POST request
     proxyPostSizeLimit: 102400,
 
-    // The largest size, in bytes, of files we will convert using OGR2OGR. Defaults to 1000000
-    maxConversionSize: 1000000,
-
     // List of directories where init (catalog) files will be sought, before defaulting to wwwroot/init. This helps with managing catalog files
     // separately from the main codebase.
     initPaths: [ "../randominits" ],

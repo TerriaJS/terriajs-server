@@ -1,5 +1,13 @@
 ### Next version
 
+### 4.0.0
+
+* Removed conversion service (no longer used in TerriaJS 8+).
+* Removed pm2. Use containers and kubernetes to run terriajs-server concurrently and run terriajs-server on startup.
+    * See https://github.com/TerriaJS/terriajs/discussions/6731 (includes details on how to continue running terriajs-server with).
+    * `yarn/npm start` now runs terriajs-server in the foreground.
+    * Removed `yarn/npm stop`.
+
 ### 3.3.4
 
 * Add GDA2020 proj4 definition
