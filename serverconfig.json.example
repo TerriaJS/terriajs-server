@@ -88,7 +88,7 @@
     // And creates a GitHub issue based on the feedback.
     feedback: {
         userAgent: "TerriaBot (TerriaJS Feedback)",
-        issuesUrl: "https://api.github.com/repos/TerriaJS/NationalMap-Feedback/issues",
+        issuesUrl: "https://api.github.com/repos/TerriaJS/saas-feedback/issues",
         accessToken: "provide your GitHub access token here",
         // Add additional suported feedback parameters if required on a custom feedback form.
         // name gives the key that the parameter uses and descriptiveLabel is used as the title for the parameter in the GitHub issue description.
