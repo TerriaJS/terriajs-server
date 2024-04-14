@@ -6,6 +6,9 @@
   "engines": {
     "node": ">=12.0.0"
   },
+  "resolutions": {
+    "underscore": "^1.12.1"
+  },
   "main": "lib/app.js",
   "scripts": {
     "test": "jasmine",
