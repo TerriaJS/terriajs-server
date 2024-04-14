@@ -45,7 +45,7 @@
     "proj4": "^2.3.12",
     "proj4js-defs": "0.0.1",
     "range_check": "^1.4.0",
-    "request": "^2.67.0",
+    "request": "^2.88.2",
     "request-promise": "^4.0.1",
     "yargs": "^13.2.4"
   },
