@@ -1,5 +1,9 @@
 ### Next version
 
+### 4.0.1
+
+* Use more descriptive title for Github issues generated from User Feedback.
+
 ### 4.0.0
 
 * Removed conversion service (no longer used in TerriaJS 8+).
