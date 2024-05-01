@@ -604,7 +604,9 @@ describe('proxy', function() {
                 }
 
                 return request;
-            }
+            },
+
+            abort: () => {/* called by proxy.js on connection close */}
         };
 
         return request;
