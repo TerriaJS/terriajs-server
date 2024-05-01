@@ -567,7 +567,7 @@ describe('proxy', function() {
     }
 
     function requestFake(req) {
-        const responseStatus = req.headers['x-give-response-status'] || 200;
+        const responseStatus = parseInt(req.headers['x-give-response-status']) || 200;
         var request = {
             on: function(event, cb) {
                 if (event === 'response') {
