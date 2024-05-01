@@ -31,7 +31,7 @@ describe('proxy', function() {
                 .send('boaty mcboatface')
                 .expect(200)
                 .expect(function() {
-                    expect(fakeRequest.calls.argsFor(0)[0].body).toEqual(new Buffer('boaty mcboatface'));
+                    expect(fakeRequest.calls.argsFor(0)[0].body).toEqual(Buffer.from('boaty mcboatface'));
                 })
                 .end(assert(done));
         });
