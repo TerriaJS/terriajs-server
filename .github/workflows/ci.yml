@@ -1,10 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push, pull_request]
 
 # When a PR is updated, cancel the jobs from the previous version. Merges
 # do not define head_ref, so use run_id to never cancel those jobs.
