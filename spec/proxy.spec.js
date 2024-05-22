@@ -31,7 +31,7 @@ describe('proxy', function() {
                 .send('boaty mcboatface')
                 .expect(200)
                 .expect(function() {
-                    expect(fakeRequest.calls.argsFor(0)[0].body).toEqual(new Buffer('boaty mcboatface'));
+                    expect(fakeRequest.calls.argsFor(0)[0].body).toEqual(Buffer.from('boaty mcboatface'));
                 })
                 .end(assert(done));
         });
@@ -567,7 +567,7 @@ describe('proxy', function() {
     }
 
     function requestFake(req) {
-        const responseStatus = req.headers['x-give-response-status'] || 200;
+        const responseStatus = parseInt(req.headers['x-give-response-status']) || 200;
         var request = {
             on: function(event, cb) {
                 if (event === 'response') {
