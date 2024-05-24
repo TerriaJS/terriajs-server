@@ -228,7 +228,7 @@ describe('proxy', function() {
                 request(buildApp(openProxyOptions))
                       [methodName]('/_2h/example.com')
                       .set('Cache-Control', 'no-cache')
-                      .set('x-give-response-status', '500')
+                      .set('x-give-response-status', 500)
                       .expect(500)
                       .expect('cache-control', 'no-cache')
                       .end(assert(done));
