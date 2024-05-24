@@ -73,6 +73,9 @@ To run the server in the foreground, you can do this:
 
 `node . [arguments as above]`
 
+NB: You may need to change the `issuesUrl` in serverconfig.json if the issues repo has been moved.
+You may need to comment out the `https` block in serverconfig.json to prevent the application looking for keys if you are just testing locally and not transferring sensitive data.
+
 #### Tests
 
 1. Run `npm test`
