@@ -1,5 +1,7 @@
 ### Next version
 
+* Exposed the `shareMaxRequestSize` value and the 413 status code to the client for a more meaningful error handling when the story causes shareData to exceed the limit.
+
 ### 4.0.1
 
 * Fixed proxied upstream POST request being aborted when the stream associated with the downstream request is closed on Node v16+. This will now again correctly be triggered only when the socket is closed early.
