@@ -80,7 +80,6 @@ describe('share endpoint (integration, real controller)', function() {
                 .expect('Content-Type', /text|plain/)
                 .expect(res => {
                     expect(
-                        res.text.includes('request entity too large') ||
                         res.text.includes('Payload Too Large')
                     ).toBeTrue();
                 })
