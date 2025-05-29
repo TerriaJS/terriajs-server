@@ -1,6 +1,7 @@
 ### Next version
 
 * Require Node 20.
+* Replace express-brute with rate-limiter-flexible (fixes GHSA-984p-xq9m-4rjw).
 
 ### 4.0.1
 
