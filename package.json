@@ -47,7 +47,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "jasmine": "^4.6.0",
+    "jasmine": "^5.7.1",
     "supertest": "^7.0.0"
   }
 }
