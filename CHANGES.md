@@ -1,6 +1,7 @@
 ### Next version
 
 * Exposed the `shareMaxRequestSize` value and the 413 status code to the client for a more meaningful error handling when the story causes shareData to exceed the limit.
+* Require Node 20.
 
 ### 4.0.1
 
