@@ -81,7 +81,7 @@ describe("server rate limiting", function () {
 
       for (let attempt = 0; attempt < 10; attempt++) {
         const { res } = await makeRequest(app, "/pingauth");
-        if (attempt <= rateLimit.freeRetries) {
+        if (attempt < rateLimit.freeRetries) {
           if (res.status !== 401) {
             throw new Error(
               `Expected only HTTP 401 error before free retries finish`
