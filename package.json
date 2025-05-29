@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "jasmine": "^4.6.0",
+    "nock": "^14.0.4",
     "supertest": "^7.0.0"
   }
 }
