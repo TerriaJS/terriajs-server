@@ -1,11 +1,12 @@
-var request = require('supertest');
-var makeserver = require('../lib/makeserver');
+import request from 'supertest';
+import makeserver from '../lib/makeserver.js';
+import { default as opts } from '../lib/options.js';
 
 var server;
 
 describe('proj4lookup', function() {
     beforeEach(function() {
-        var options = require('../lib/options').init(true);
+        var options = opts.init(true);
         server = makeserver(options);
     });
 

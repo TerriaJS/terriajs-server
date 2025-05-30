@@ -1,8 +1,7 @@
 "use strict";
 
-const makeserver = require("../lib/makeserver");
-const express = require("express");
-const request = require("supertest");
+import makeserver from "../lib/makeserver.js";
+import request from "supertest";
 
 /**
  * Specs for rate limiting when basic auth is enabled
