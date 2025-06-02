@@ -1,7 +1,10 @@
 ### Next version
 
-* Require Node 20.
+### 4.0.2 - 2025-06-03
+
+* Requires Node 20.
 * Replace express-brute with rate-limiter-flexible (fixes GHSA-984p-xq9m-4rjw).
+* Upgraded bunch of dependencies: body-parser, express, supertest, base-x, proj4 etc.
 
 ### 4.0.1
 
