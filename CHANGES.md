@@ -1,7 +1,13 @@
 ### Next version
 
-* Exposed the `shareMaxRequestSize` value and the 413 status code to the client for a more meaningful error handling when the story causes shareData to exceed the limit.
-* Require Node 20.
+* Exposed and the 413 status code for the `/share` endpoint to the client for a more meaningful error handling when the story causes shareData to exceed the limit.
+* Exposed the `shareMaxRequestSize` string value and `shareMaxRequestSizeBytes` numeric value in the `/serverconfig` endpoint. 
+
+### 4.0.2 - 2025-06-03
+
+* Requires Node 20.
+* Replace express-brute with rate-limiter-flexible (fixes GHSA-984p-xq9m-4rjw).
+* Upgraded bunch of dependencies: body-parser, express, supertest, base-x, proj4 etc.
 
 ### 4.0.1
 
