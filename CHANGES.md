@@ -1,5 +1,7 @@
 ### Next version
 
+* Restored the previous behaviour changed after yargs upgrade. Fixed #194.
+
 ### 4.0.2 - 2025-06-03
 
 * Requires Node 20.
