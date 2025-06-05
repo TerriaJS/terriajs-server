@@ -1,5 +1,8 @@
 ### Next version
 
+* Exposed and the 413 status code for the `/share` endpoint to the client for a more meaningful error handling when the story causes shareData to exceed the limit.
+* Exposed the `shareMaxRequestSize` string value and `shareMaxRequestSizeBytes` numeric value in the `/serverconfig` endpoint. 
+
 ### 4.0.2 - 2025-06-03
 
 * Requires Node 20.
