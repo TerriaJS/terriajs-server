@@ -107,11 +107,16 @@ describe('proxy', function() {
                 request(buildApp(openProxyOptions))
                     [methodName]('/example.com')
                     .set('Proxy-Connection', 'delete me!')
+                    .set('Cookie', 'delete me!')
+                    .set('Authorization', 'delete me!')                                
                     .set('unfilteredheader', 'don\'t delete me!')
                     .expect(200)
                     .expect(function() {
-                        expect(fakeRequest.calls.argsFor(0)[0].headers['Proxy-Connection']).toBeUndefined();
-                        expect(fakeRequest.calls.argsFor(0)[0].headers['unfilteredheader']).toBe('don\'t delete me!');
+                        const headers = fakeRequest.calls.argsFor(0)[0].headers;
+                        expect(headers['Proxy-Connection']).toBeUndefined();
+                        expect(headers['Cookie']).toBeUndefined();
+                        expect(headers['Authorization']).toBeUndefined();                        
+                        expect(headers['unfilteredheader']).toBe('don\'t delete me!');
                     })
                     .end(assert(done));
             });
