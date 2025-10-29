@@ -2,12 +2,20 @@
 
 const makeServer = require("../lib/makeserver");
 const request = require("supertest");
-const nock = require("nock");
-const path = require("path");
+const { http, HttpResponse, passthrough } = require("msw");
+const { setupServer } = require("msw/node");
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
+const localRequestHandler = http.all("*", ({ request }) => {
+  if (request.url.includes("127.0.0.1")) {
+    return passthrough();
+  }
+});
+
 describe("share endpoint (integration, real controller)", function () {
+  const server = setupServer(localRequestHandler);
+
   const appOptions = {
     wwwroot: "./spec/mockwwwroot",
     hostName: "localhost",
@@ -32,21 +40,27 @@ describe("share endpoint (integration, real controller)", function () {
     return makeServer(mergedOptions);
   }
 
-  beforeEach(() => {
-    nock.cleanAll();
+  beforeAll(() => {
+    server.listen({ onUnhandledRequest: "bypass" });
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
   });
 
   afterAll(() => {
-    nock.restore();
+    server.close();
   });
 
   describe("POST /share", function () {
     it("should return 201 and correct response for valid payload", function (done) {
       // Mock GitHub Gist API
       const fakeGistId = "123456";
-      nock("https://api.github.com").post("/gists").reply(201, {
-        id: fakeGistId
-      });
+      server.use(
+        http.post("https://api.github.com/gists", () => {
+          return HttpResponse.json({ id: fakeGistId }, { status: 201 });
+        })
+      );
 
       const payload = { test: "me" };
 
