@@ -10,6 +10,7 @@
   "scripts": {
     "test": "jasmine",
     "start": "node lib/app.js",
+    "format": "prettier --write .",
     "postpublish": "bash -c \"git tag -a ${npm_package_version} -m \"${npm_package_version}\" && git push origin ${npm_package_version}\""
   },
   "bin": {
@@ -50,6 +51,7 @@
   "devDependencies": {
     "jasmine": "^5.12.0",
     "nock": "^14.0.4",
+    "prettier": "^3.6.2",
     "supertest": "^7.0.0"
   }
 }
