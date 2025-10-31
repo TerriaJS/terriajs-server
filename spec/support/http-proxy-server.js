@@ -1,22 +1,27 @@
-import express from "express";
-import httpProxy from "http-proxy";
-import http from "node:http";
-import net from "node:net";
-import url from "node:url";
+const express = require("express");
+const httpProxy = require("http-proxy");
+const http = require("node:http");
+const net = require("node:net");
+const url = require("node:url");
 
-export const createServer = (port, connectCallback) => {
+const createProxyServer = (port, connectCallback) => {
   const app = express();
   const proxy = httpProxy.createProxyServer({});
 
   // Handle regular HTTP proxying
   app.use((req, res) => {
+    const targetUrl = req.url;
+    // Call the callback to track that proxy was used
+    if (connectCallback && targetUrl.startsWith("http://")) {
+      connectCallback();
+    }
+
     proxy.web(req, res, { target: `http://${req.headers.host}` }, (err) => {
       console.error("Proxy error:", err);
       res.status(502).send("Bad Gateway");
     });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const server = http.createServer(app);
 
   server.on("connect", (req, clientSocket, head) => {
@@ -45,4 +50,8 @@ export const createServer = (port, connectCallback) => {
       server.close();
     }
   };
+};
+
+module.exports = {
+  createProxyServer
 };
