@@ -14,7 +14,8 @@ export default defineConfig([
       globals: { ...globals.node, ...globals.jasmine }
     },
     rules: {
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "no-shadow": "error"
     }
   },
   {

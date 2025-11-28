@@ -26,13 +26,19 @@ const createProxyServer = (port, connectCallback) => {
 
   server.on("connect", (req, clientSocket, head) => {
     connectCallback();
-    const { hostname, port } = new url.URL(`https://${req.url}`);
-    const serverSocket = net.connect(parseInt(port) || 443, hostname, () => {
-      clientSocket.write("HTTP/1.1 200 Connection Established\r\n\r\n");
-      serverSocket.write(head);
-      serverSocket.pipe(clientSocket);
-      clientSocket.pipe(serverSocket);
-    });
+    const { hostname: targetHostname, port: targetPort } = new url.URL(
+      `https://${req.url}`
+    );
+    const serverSocket = net.connect(
+      parseInt(targetPort) || 443,
+      targetHostname,
+      () => {
+        clientSocket.write("HTTP/1.1 200 Connection Established\r\n\r\n");
+        serverSocket.write(head);
+        serverSocket.pipe(clientSocket);
+        clientSocket.pipe(serverSocket);
+      }
+    );
 
     serverSocket.on("error", (err) => {
       console.error("HTTPS CONNECT error:", err);
