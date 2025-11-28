@@ -25,73 +25,66 @@ describe("Proxy (e2e)", () => {
     doCommonTest("get");
   });
 
-  // describe("/ (POST)", () => {
-  //   doCommonTest("post");
+  describe("/ (POST)", () => {
+    doCommonTest("post");
 
-  //   // describe("POST body handling", () => {
-  //   //   let server;
-  //   //   let app;
+    describe("POST body handling", () => {
+      let testServer;
+      let app;
 
-  //   //   beforeAll(async () => {
-  //   //     server = setupServer(
-  //   //       ...[
-  //   //         localRequestHandler,
-  //   //         http.post(
-  //   //           "https://example.com/post-body-test",
-  //   //           async ({ request }) => {
-  //   //             const requestBody = await request.json();
-  //   //             if (requestBody && requestBody.message === "hello proxy") {
-  //   //               return HttpResponse.json({
-  //   //                 success: true,
-  //   //                 receivedBody: requestBody
-  //   //               });
-  //   //             }
-  //   //             return HttpResponse.json(
-  //   //               { success: false, error: "Incorrect body received" },
-  //   //               { status: 400 }
-  //   //             );
-  //   //           }
-  //   //         )
-  //   //       ]
-  //   //     );
+      beforeAll(async () => {
+        testServer = await createTestServer(TEST_SERVER_PORT);
 
-  //   //     ({ app } = await buildApp({
-  //   //       proxyAllDomains: true, // Allow proxying to example.com
-  //   //       postSizeLimit: 1024 * 1024, // Set a specific limit for the size test
-  //   //       blacklistedAddresses: ["202.168.1.1"] // Keep existing relevant config
-  //   //     })); // Build the app with this config
+        ({ app } = await buildApp({
+          proxyAllDomains: true, // Allow proxying to example.com
+          postSizeLimit: 1024 * 1024, // Set a specific limit for the size test
+          blacklistedAddresses: ["202.168.1.1"] // Keep existing relevant config
+        })); // Build the app with this config
+      });
 
-  //   //     server.listen({
-  //   //       onUnhandledRequest: "error"
-  //   //     });
-  //   //   });
+      afterAll(async () => {
+        await testServer.close();
+      });
 
-  //   //   afterAll(async () => {
-  //   //     server.close();
-  //   //   });
+      beforeEach(async () => {
+        testServer.clearRoutes();
 
-  //   //   it("should correctly proxy the POST request body", async () => {
-  //   //     const url = "https://example.com/post-body-test";
-  //   //     const postBody = { message: "hello proxy" };
+        testServer.addRoute("post", "/post-body-test", async (req, res) => {
+          if (req.body && req.body.message === "hello proxy") {
+            res.json({
+              success: true,
+              receivedBody: req.body
+            });
+            return;
+          }
+          res
+            .status(400)
+            .json({ success: false, error: "Incorrect body received" });
+        });
+      });
 
-  //   //     await supertestReq(app)
-  //   //       .post(`/proxy/${url}`)
-  //   //       .send(postBody)
-  //   //       .expect(200, { success: true, receivedBody: postBody });
-  //   //   });
+      it("should correctly proxy the POST request body", async () => {
+        const url = `http://localhost:${TEST_SERVER_PORT}/post-body-test`;
+        const postBody = { message: "hello proxy" };
 
-  //   //   it("should return 413 if POST body is larger than postSizeLimit (e.g., 1MB)", async () => {
-  //   //     const url = "https://example.com/post-body-test"; // Target URL doesn't strictly matter as NestJS should reject first
-  //   //     // Create a body larger than 1MB. A char is 1 byte, 1MB = 1024 * 1024 bytes.
-  //   //     const largePostBody = { message: "a".repeat(1024 * 1024 + 1) }; // Slightly over 1MB
+        await supertestReq(app)
+          .post(`/proxy/${url}`)
+          .send(postBody)
+          .expect(200, { success: true, receivedBody: postBody });
+      });
 
-  //   //     await supertestReq(app)
-  //   //       .post(`/proxy/${url}`)
-  //   //       .send(largePostBody)
-  //   //       .expect(413); // Payload Too Large
-  //   //   });
-  //   // });
-  // });
+      it("should return 413 if POST body is larger than postSizeLimit (e.g., 1MB)", async () => {
+        const url = "https://example.com/post-body-test"; // Target URL doesn't strictly matter as NestJS should reject first
+        // Create a body larger than 1MB. A char is 1 byte, 1MB = 1024 * 1024 bytes.
+        const largePostBody = { message: "a".repeat(1024 * 1024 + 1) }; // Slightly over 1MB
+
+        await supertestReq(app)
+          .post(`/proxy/${url}`)
+          .send(largePostBody)
+          .expect(413); // Payload Too Large
+      });
+    });
+  });
 });
 
 function doCommonTest(methodName) {
@@ -1174,7 +1167,7 @@ function doCommonTest(methodName) {
       });
 
       // Set up final destination
-      testServer.addRoute(methodName, "/final-destination", (req, res) => {
+      testServer.addRoute("get", "/final-destination", (req, res) => {
         res.status(200).json({ data: "redirected successfully" });
       });
 
