@@ -1231,20 +1231,20 @@ inherits@2.0.4, inherits@^2.0.3:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-ip6@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/ip6/-/ip6-0.0.4.tgz#44c5a9db79e39d405201b4d78d13b3870e48db31"
-  integrity sha512-0FJ0rKtTQYCp92ru/hNzNpmy2sa8nINqbuyiiVOI75+ltMtAly9dtEparm+xh//kndXL/s6FOdWzSYvUDiBpbg==
-
-ipaddr.js@1.2:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.2.0.tgz#8aba49c9192799585bdd643e0ccb50e8ae777ba4"
-  integrity sha512-ku//LD7ie/m9UVGCm9KweBIIHP4mB0maNGvav6Hz778fQCNLQF7iZ+H/UuHuqmjJCHCpA5hw8hOeRKxZl8IlXw==
+ip6@^0.2.11:
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/ip6/-/ip6-0.2.11.tgz#b7cf71864ef16c7418c29f7b1f2f5db892a189ec"
+  integrity sha512-OmTP7FyIp+ZoNvZ7Xr97bWrCgypa3BeuYuRFNTOPT8Y11cxMW1pW1VC70kHZP1onSHHMotADcjdg5QyECiIMUw==
 
 ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
+
+ipaddr.js@^2.2.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-2.3.0.tgz#71dce70e1398122208996d1c22f2ba46a24b1abc"
+  integrity sha512-Zv/pA+ciVFbCSBBjGfaKUya/CcGmUHzTydLMaTwrUUEM2DIEO3iZvueGxmacvmN50fGpGVKeTXpb2LcYQxeVdg==
 
 is-arguments@^1.0.4:
   version "1.2.0"
@@ -1792,13 +1792,13 @@ range-parser@~1.2.1:
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
-range_check@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/range_check/-/range_check-1.4.0.tgz#cd87c7ac62c40ba9df69b8703c604f60c3748635"
-  integrity sha512-UhRtGxKoAm7NQqAPj3P6JVUlgs3hehoV+pA593il2FiHYZUK49/535laoi3Rvz7lP04XLCAdgbL4TprpVZZ/IQ==
+range_check@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/range_check/-/range_check-4.1.0.tgz#6fb2688b5edee18d7be3b737191489acb4261084"
+  integrity sha512-qyWcVNa9GVtyK0lKcQ49lFuV2QTRL5XlagrdH2U5UWDhTUnCnrPrjqph0stBdAE3h4hs1gZSxtpJEksn1rSeNA==
   dependencies:
-    ip6 "0.0.4"
-    ipaddr.js "1.2"
+    ip6 "^0.2.11"
+    ipaddr.js "^2.2.0"
 
 rate-limiter-flexible@^7.1.1:
   version "7.1.1"
