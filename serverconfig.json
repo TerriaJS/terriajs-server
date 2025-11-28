@@ -1,7 +1,7 @@
 {
   "port": 3001,
 
-  "allowProxyFor": ["nicta.com.au", "gov.au", "csiro.au", "example.com"],
+  "allowProxyFor": ["nicta.com.au", "gov.au", "csiro.au", "xample.com"],
 
   "singlePageRouting": {
     "resolvePathRelativeToWwwroot": "/index.html",
