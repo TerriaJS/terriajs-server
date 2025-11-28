@@ -604,7 +604,7 @@ function doCommonTest(methodName) {
         .expect(200, { data: "properly set header and auth" });
     });
 
-    xit("should retry without auth header if auth fails (Proxy Auth -> No Auth success)", async () => {
+    it("should retry without auth header if auth fails (Proxy Auth -> No Auth success)", async () => {
       let attemptCount = 0;
       testServer.addRoute(methodName, "/auth-retry1", (req, res) => {
         attemptCount++;
@@ -639,7 +639,7 @@ function doCommonTest(methodName) {
         .expect(200, { data: "success without auth" });
     });
 
-    xit("should retry with proxy auth when fails with user supplied auth (User Auth -> Proxy Auth -> No Auth all fail)", async () => {
+    it("should retry with proxy auth when fails with user supplied auth (User Auth -> Proxy Auth -> No Auth all fail)", async () => {
       let attemptCount = 0;
       testServer.addRoute(methodName, "/auth", (req, res) => {
         attemptCount++;
@@ -685,7 +685,7 @@ function doCommonTest(methodName) {
         });
     });
 
-    xit("User Auth (fails) -> Proxy Auth (succeeds)", async () => {
+    it("User Auth (fails) -> Proxy Auth (succeeds)", async () => {
       let attemptCount = 0;
       testServer.addRoute(methodName, "/auth-path", (req, res) => {
         attemptCount++;
@@ -719,7 +719,7 @@ function doCommonTest(methodName) {
         .expect(200, { data: "success with proxy auth" });
     });
 
-    xit("User Auth (fails) -> No Proxy Auth defined -> No Auth (succeeds)", async () => {
+    it("User Auth (fails) -> No Proxy Auth defined -> No Auth (succeeds)", async () => {
       let attemptCount = 0;
       testServer.addRoute(methodName, "/auth-path2", (req, res) => {
         attemptCount++;
@@ -751,7 +751,7 @@ function doCommonTest(methodName) {
         .expect(200, { data: "success with no auth retry" });
     });
 
-    xit("Proxy Auth (fails) -> No Auth (fails)", async () => {
+    it("Proxy Auth (fails) -> No Auth (fails)", async () => {
       let attemptCount = 0;
       testServer.addRoute(methodName, "/auth-path3", (req, res) => {
         attemptCount++;
@@ -789,7 +789,7 @@ function doCommonTest(methodName) {
         .expect(403, { statusCode: 403, message: "No Auth Also Failed" });
     });
 
-    xit("No User Auth, No Proxy Auth defined -> First No Auth attempt (fails) -> Final 403 (no retry)", async () => {
+    it("No User Auth, No Proxy Auth defined -> First No Auth attempt (fails) -> Final 403 (no retry)", async () => {
       testServer.addRoute(methodName, "/auth-path4", (req, res) => {
         // No auth header expected, request should fail
         if (!req.headers.authorization) {
