@@ -604,6 +604,31 @@ function doCommonTest(methodName) {
         .expect(200, { data: "properly set header and auth" });
     });
 
+    it("should set other headers for that domain even when authorization is not defined", async () => {
+      testServer.addRoute(methodName, "/auth", (req, res) => {
+        if (req.headers["x-test-header"] !== "testvalue") {
+          return res.status(500).json({ error: "Missing custom header" });
+        }
+        res.status(200).json({ data: "properly set header and auth" });
+      });
+
+      const { app } = await buildApp(
+        {
+          proxyAllDomains: true,
+          blacklistedAddresses: ["202.168.1.1"]
+        },
+        {
+          [`localhost:${TEST_SERVER_PORT}`]: {
+            headers: [{ name: "X-Test-Header", value: "testvalue" }]
+          }
+        }
+      );
+
+      await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/auth`)
+        .expect(200, { data: "properly set header and auth" });
+    });
+
     it("should retry without auth header if auth fails (Proxy Auth -> No Auth success)", async () => {
       let attemptCount = 0;
       testServer.addRoute(methodName, "/auth-retry1", (req, res) => {
