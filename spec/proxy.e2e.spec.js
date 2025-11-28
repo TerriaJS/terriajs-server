@@ -836,6 +836,71 @@ function doCommonTest(methodName) {
     });
   });
 
+  describe("timeout configuration", function () {
+    let testServer;
+
+    beforeAll(async () => {
+      testServer = await createTestServer(TEST_SERVER_PORT);
+    });
+
+    afterAll(async () => {
+      await testServer.close();
+    });
+
+    afterEach(async () => {
+      testServer.clearRoutes();
+    });
+
+    it("should timeout when headers take too long (headersTimeout)", async () => {
+      testServer.addRoute("get", "/slow-headers", async (req, res) => {
+        // Delay before sending headers (longer than timeout)
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        res.status(200).json({ data: "too late" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"],
+        proxyHeadersTimeout: 500 // 500ms timeout
+      });
+
+      await supertestReq(app)
+        .get(`/proxy/localhost:${TEST_SERVER_PORT}/slow-headers`)
+        .expect(504)
+        .expect(/Gateway timeout.*Headers not received/);
+    });
+
+    it("should timeout when connection takes too long (connectTimeout)", async () => {
+      // Use a non-routable IP that will hang (connection timeout)
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: [], // Don't blacklist this IP
+        proxyConnectTimeout: 500 // 500ms timeout
+      });
+
+      await supertestReq(app)
+        .get(`/proxy/192.0.2.1:9999/test`) // RFC 5737 TEST-NET-1 (non-routable)
+        .expect(504)
+        .expect(/Gateway timeout.*Could not connect/);
+    });
+
+    it("should use default timeouts when not specified", async () => {
+      testServer.addRoute("get", "/normal", (req, res) => {
+        res.status(200).json({ data: "success" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"]
+        // No timeout options - should use defaults
+      });
+
+      await supertestReq(app)
+        .get(`/proxy/localhost:${TEST_SERVER_PORT}/normal`)
+        .expect(200, { data: "success" });
+    });
+  });
+
   describe("append query params", function () {
     let testServer;
     let testServer2;
