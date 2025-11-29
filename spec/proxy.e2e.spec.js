@@ -159,11 +159,6 @@ function doCommonTest(methodName) {
       await supertestReq(app)[methodName]("/proxy/").expect(400);
     });
 
-    // fit("should return 400 if invalid url is specified", async () => {
-    //   // TODO: change to 400
-    //   await supertestReq(app)[methodName]("/proxy/test").expect(400);
-    // });
-
     it("should stream back the body and headers of the request made", async () => {
       testServer.addRoute(methodName, "/", (req, res) => {
         res.set("fakeheader", "fakevalue");
