@@ -341,6 +341,34 @@ describe("proxy", function () {
           .end(assert(done));
       });
 
+      it('should proxy to a subdomain if tld is on the list', function (done) {
+        request(
+          buildApp({
+            proxyableDomains: ["example.com"]
+          })
+        )
+          [methodName]("/subdomain.example.com/blah")
+          .expect(function () {
+            expect(fakeRequest.calls.argsFor(0)[0].url).toBe(
+              "http://subdomain.example.com/blah"
+            );
+            expect(fakeRequest.calls.argsFor(0)[0].method).toBe(verb);
+          })
+          .expect(200)
+          .end(assert(done));
+      })
+
+      it('should block a domain if end matches but is not a subdomain', function (done) {
+        request(
+          buildApp({
+            proxyableDomains: ["example.com"]
+          })
+        )
+          [methodName]("/notexample.com/blah")
+          .expect(403)
+          .end(assert(done));
+      });
+
       it("should not block a domain on the list if proxyAllDomains is true", function (done) {
         request(
           buildApp({
