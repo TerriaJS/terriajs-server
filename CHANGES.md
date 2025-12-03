@@ -1,7 +1,15 @@
-### Next version
+### 4.0.3 - 2025-12-04
+
+* #### Security Fixes
+  * Fixed a security bug in `/proxy` endpoint that allowed requests to a
+    variation of domains in the `allowProxyFor` list. If `example.com` is in
+    `allowProxyFor` setting, this allowed requests to a domain with a different
+    prefix, like `badexample.com` to pass through. [#212](
+    https://github.com/TerriaJS/terriajs-server/pull/212)
 
 * Exposed and the 413 status code for the `/share` endpoint to the client for a more meaningful error handling when the story causes shareData to exceed the limit.
 * Exposed the `shareMaxRequestSize` string value and `shareMaxRequestSizeBytes` numeric value in the `/serverconfig` endpoint. 
+
 
 ### 4.0.2 - 2025-06-03
 
