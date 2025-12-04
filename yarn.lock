@@ -1153,9 +1153,9 @@ prettier@^3.6.2:
   integrity sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==
 
 proj4@^2.3.12:
-  version "2.19.10"
-  resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.19.10.tgz#ca2a51627d4dfa20f68f3babed3380f8ef626262"
-  integrity sha512-uL6/C6kA8+ncJAEDmUeV8PmNJcTlRLDZZa4/87CzRpb8My4p+Ame4LhC4G3H/77z2icVqcu3nNL9h5buSdnY+g==
+  version "2.20.2"
+  resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.20.2.tgz#33d3202865f65cad2dd4cfd1d8d3cdb814580a1c"
+  integrity sha512-ipfBRfQly0HhHTO7hnC1GfaX8bvroO7VV4KH889ehmADSE8C/qzp2j+Jj6783S9Tj6c2qX/hhYm7oH0kgXzBAA==
   dependencies:
     mgrs "1.0.0"
     wkt-parser "^1.5.1"
