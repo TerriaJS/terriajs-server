@@ -1239,10 +1239,10 @@ range_check@^1.4.0:
     ip6 "0.0.4"
     ipaddr.js "1.2"
 
-rate-limiter-flexible@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-7.1.1.tgz#539cbb9948b5d097c561731cc7ed2623742daeff"
-  integrity sha512-lsYRcqRSJrKBNt6pMzBJTiCJP5KnwsGWdObMZxd19JFUJRntM+yuHs4/2bs6NZweSLgpsDcykvzyQaumoslWQg==
+rate-limiter-flexible@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-9.0.0.tgz#5693d5b340bf24fbe3849f0859718ad65fde6732"
+  integrity sha512-Dz+NKRx+V9WVLY6QJv2soo/eN+cYL/+/1XggE/tgnGuA+D/Q1em0hWVp6AZd8lfhzZ6+2wrk7TEwYN+x9AsHeg==
 
 raw-body@2.5.2:
   version "2.5.2"
