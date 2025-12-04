@@ -33,7 +33,7 @@
     "aws-sdk": "^2.1336.0",
     "base-x": "^5.0.1",
     "basic-auth": "^2.0.1",
-    "body-parser": "^1.20.3",
+    "body-parser": "^2.2.1",
     "bytes": "^3.1.2",
     "compression": "^1.6.0",
     "cors": "^2.7.1",
