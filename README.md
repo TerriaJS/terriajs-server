@@ -6,15 +6,7 @@
 
 --------------------
 
-**We have just released a brand new version of Terria &mdash; verson 8!**
-
-We've put together a list of things we've removed from version 8 and some steps to help you migrate to the new version in our [migration guide](https://docs.terria.io/guide/contributing/migration-guide/)
-
-**Not ready to move to version 8 yet? You can find terriajs version 7 here:** https://github.com/TerriaJS/terriajs/tree/terriajs7
-
---------------------
-
-This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site (such as [National Map](http://nationalmap.gov.au)) with a few additional useful services:
+This is a basic NodeJS Express server that serves up a (not included) static [TerriaJS](https://github.com/TerriaJS/TerriaJS)-based site with a few additional useful services:
 
 * `/api/v1/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
 * `/api/v1/proj4def`: a proj4 coordinate reference system lookup service.
