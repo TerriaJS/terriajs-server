@@ -1,7 +1,7 @@
 "use strict";
 
 const makeServer = require("../lib/makeserver");
-const request = require("supertest");
+const supertestReq = require("supertest");
 const { http, HttpResponse, passthrough } = require("msw");
 const { setupServer } = require("msw/node");
 
@@ -84,7 +84,7 @@ describe("esri-token-auth endpoint", function () {
         )
       );
 
-      await request(buildApp())
+      await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({ url: testServerUrl })
         .expect(200)
@@ -96,7 +96,7 @@ describe("esri-token-auth endpoint", function () {
     });
 
     it("should return 400 when no URL is specified", async function () {
-      await request(buildApp())
+      await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({})
         .expect(400)
@@ -106,7 +106,7 @@ describe("esri-token-auth endpoint", function () {
     });
 
     it("should return 400 when URL is empty string", async function () {
-      await request(buildApp())
+      await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({ url: "" })
         .expect(400)
@@ -116,7 +116,7 @@ describe("esri-token-auth endpoint", function () {
     });
 
     it("should return 400 when invalid URL is specified", async function () {
-      await request(buildApp())
+      await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({ url: 5 })
         .expect(400)
@@ -126,7 +126,7 @@ describe("esri-token-auth endpoint", function () {
     });
 
     it("should return 400 when URL is not configured", async function () {
-      await request(buildApp())
+      await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({
           url: "https://unconfigured.arcgis.com/arcgis/rest/services"
@@ -147,7 +147,7 @@ describe("esri-token-auth endpoint", function () {
         })
       );
 
-      await request(buildApp())
+      await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({ url: testServerUrl })
         .expect(502)
@@ -165,7 +165,7 @@ describe("esri-token-auth endpoint", function () {
         })
       );
 
-      await request(buildApp())
+      await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({ url: testServerUrl })
         .expect(500)
@@ -188,7 +188,7 @@ describe("esri-token-auth endpoint", function () {
       const mergedOptions = Object.assign({}, options, optionsWithoutEsri);
       const app = makeServer(mergedOptions);
 
-      await request(app)
+      await supertestReq(app)
         .post("/esri-token-auth")
         .send({ url: testServerUrl })
         .expect(404); // Endpoint should not exist
