@@ -470,6 +470,28 @@ function doCommonTest(methodName) {
         .expect(403);
     });
 
+    it("should proxy to a subdomain if tld is on the list", async () => {
+      const { app } = await buildApp({
+        allowProxyFor: [`example.com`],
+        blacklistedAddresses: ["202.168.1.1"]
+      });
+
+      const response = await supertestReq(app)[methodName](
+        `/proxy/subdomain.example.com/blah`
+      );
+      expect(response.status).not.toBe(403);
+    });
+
+    it("should block a domain if end matches but is not a subdomain", async () => {
+      const { app } = await buildApp({
+        allowProxyFor: [`example.com`],
+        blacklistedAddresses: ["202.168.1.1"]
+      });
+      await supertestReq(app)
+        [methodName]("/proxy/notexample.com/blah")
+        .expect(403);
+    });
+
     it("should not block a domain not on the list if proxyAllDomains is true", async () => {
       testServer2.addRoute(methodName, "/", (req, res) => {
         res.set("fakeheader", "fakevalue");
