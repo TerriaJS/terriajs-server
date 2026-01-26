@@ -9,6 +9,7 @@
   "main": "lib/app.js",
   "scripts": {
     "test": "jasmine",
+    "lint": "eslint .",
     "dev": "node --watch-path serverconfig.json --watch lib/app.js ",
     "start": "node lib/app.js",
     "format": "prettier --write .",
