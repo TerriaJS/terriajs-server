@@ -39,7 +39,7 @@ async function createTestServer(port) {
 
   return new Promise((resolve) => {
     server.listen(port, () => {
-      console.log(`Test server running on http://localhost:${port}`);
+      // console.log(`Test server running on http://localhost:${port}`);
       resolve({
         addRoute,
         clearRoutes,
