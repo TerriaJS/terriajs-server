@@ -1218,6 +1218,98 @@ function doCommonTest(methodName) {
         "Host is not in list of allowed hosts: 202.168.1.1"
       );
     });
+
+    it("should follow redirect to non-blacklisted host:port", async () => {
+      // Set up redirect endpoint that redirects to blacklisted IP
+      testServer.addRoute(methodName, "/redirect-to-blacklist", (req, res) => {
+        res.redirect(
+          302,
+          `http://localhost:${TEST_SERVER_PORT}/final-destination`
+        );
+      });
+      // Set up final destination
+      testServer.addRoute("get", "/final-destination", (req, res) => {
+        res.status(200).json({ data: "redirected successfully" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: [`localhost:${TEST_SERVER_PORT}`]
+      });
+
+      const response = await supertestReq(app)
+        [
+          methodName
+        ](`/proxy/localhost:${TEST_SERVER_PORT}/redirect-to-blacklist`)
+        .expect(403);
+      expect(response.text).toContain(
+        "Host is not in list of allowed hosts: localhost"
+      );
+    });
+
+    it("should follow redirect to non-blacklisted host:port", async () => {
+      const testServer2 = await createTestServer(TEST_SERVER_2_PORT);
+
+      try {
+        // Set up redirect endpoint that redirects to blacklisted IP
+        testServer.addRoute(methodName, "/redirect-port", (req, res) => {
+          res.redirect(
+            302,
+            `http://localhost:${TEST_SERVER_2_PORT}/destination`
+          );
+        });
+        testServer2.addRoute("get", "/destination", (req, res) => {
+          res.status(200).json({ data: "cross-port redirect success" });
+        });
+
+        const { app } = await buildApp({
+          proxyAllDomains: true,
+          blacklistedAddresses: ["localhost:3001"]
+        });
+
+        await supertestReq(app)
+          [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/redirect-port`)
+          .expect(200, { data: "cross-port redirect success" });
+      } finally {
+        await testServer2.close();
+      }
+    });
+
+    it("should block redirect to blacklisted host:port combination", async () => {
+      const testServer2 = await createTestServer(TEST_SERVER_2_PORT);
+
+      try {
+        testServer.addRoute(
+          methodName,
+          "/redirect-blacklisted-port",
+          (req, res) => {
+            res.redirect(
+              302,
+              `http://localhost:${TEST_SERVER_2_PORT}/malicious`
+            );
+          }
+        );
+
+        testServer2.addRoute("get", "/malicious", (req, res) => {
+          res.status(200).json({ data: "should not reach here" });
+        });
+
+        const { app } = await buildApp({
+          proxyAllDomains: true,
+          blacklistedAddresses: [`localhost:${TEST_SERVER_2_PORT}`]
+        });
+
+        const response = await supertestReq(app)
+          [
+            methodName
+          ](`/proxy/localhost:${TEST_SERVER_PORT}/redirect-blacklisted-port`)
+          .expect(403);
+
+        expect(response.text).toMatch(/not allowed|not in list/i);
+      } finally {
+        await testServer2.close();
+      }
+    });
   });
 
   describe("should block socket connection on blacklisted host", () => {
