@@ -25,7 +25,11 @@ describe("executeWithRetry", () => {
     });
 
     expect(result.statusCode).toBe(200);
-    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith({
+      headers: {
+        authorization: "Bearer token"
+      }
+    });
   });
 
   it("should retry with next strategy on 401, and return on first success response", async () => {
@@ -55,6 +59,13 @@ describe("executeWithRetry", () => {
 
     expect(result.statusCode).toBe(200);
     expect(mockFetch).toHaveBeenCalledTimes(2);
+    expect(mockFetch.calls.argsFor(0)).toEqual([
+      { headers: { authorization: "Bearer wrong" } }
+    ]);
+    expect(mockFetch.calls.argsFor(1)).toEqual([
+      { headers: { authorization: "Bearer correct" } }
+    ]);
+    expect(mockFetch).not.toHaveBeenCalledWith([{ headers: {} }]);
   });
 
   it("should retry with next strategy on 401, and wait for first success response", async () => {
@@ -87,7 +98,14 @@ describe("executeWithRetry", () => {
     });
 
     expect(result.statusCode).toBe(200);
-    expect(mockFetch).toHaveBeenCalledTimes(3);
+
+    expect(mockFetch.calls.argsFor(0)).toEqual([
+      { headers: { authorization: "Bearer wrong" } }
+    ]);
+    expect(mockFetch.calls.argsFor(1)).toEqual([
+      { headers: { authorization: "Bearer also-wrong" } }
+    ]);
+    expect(mockFetch.calls.argsFor(2)).toEqual([{ headers: {} }]);
   });
 
   it("should stop retrying after last strategy", async () => {
@@ -113,6 +131,14 @@ describe("executeWithRetry", () => {
     } catch (err) {
       expect(err.statusCode).toBe(403);
       expect(mockFetch).toHaveBeenCalledTimes(3);
+      expect(mockFetch.calls.argsFor(0)).toEqual([
+        { headers: { authorization: "Bearer wrong" } }
+      ]);
+      expect(mockFetch.calls.argsFor(1)).toEqual([
+        { headers: { authorization: "Bearer also-wrong" } }
+      ]);
+      expect(mockFetch.calls.argsFor(2)).toEqual([{ headers: {} }]);
+      return;
     }
   });
 
