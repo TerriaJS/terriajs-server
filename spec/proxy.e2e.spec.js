@@ -1334,6 +1334,36 @@ function doCommonTest(methodName) {
         [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/step1`)
         .expect(200, { data: "reached final destination", hops: 3 });
     });
+
+    it("should reject redirect chain exceeding MAX_REDIRECTS (5)", async () => {
+      // Setup 7-hop redirect chain (exceeds MAX_REDIRECTS=5)
+      // r1 -> r2 -> r3 -> r4 -> r5 -> r6 -> r7
+      testServer.addRoute(methodName, "/r1", (req, res) =>
+        res.redirect(302, `/r2`)
+      );
+      testServer.addRoute("get", "/r2", (req, res) => res.redirect(302, `/r3`));
+      testServer.addRoute("get", "/r3", (req, res) => res.redirect(302, `/r4`));
+      testServer.addRoute("get", "/r4", (req, res) => res.redirect(302, `/r5`));
+      testServer.addRoute("get", "/r5", (req, res) => res.redirect(302, `/r6`));
+      testServer.addRoute("get", "/r6", (req, res) => res.redirect(302, `/r7`));
+      testServer.addRoute("get", "/r7", (req, res) => {
+        res.status(200).json({ data: "should not reach here" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: []
+      });
+
+      const response = await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/r1`)
+        .expect(502);
+
+      expect(response.text).toBe(
+        "Too many redirects (maximum 5 allowed) ERR_TOO_MANY_REDIRECTS"
+      );
+      expect(response.text).toContain("ERR_TOO_MANY_REDIRECTS");
+    });
   });
 
   describe("should block socket connection on blacklisted host", () => {
