@@ -1310,6 +1310,30 @@ function doCommonTest(methodName) {
         await testServer2.close();
       }
     });
+
+    it("should follow multiple redirect chain (3 redirects)", async () => {
+      // Setup 3-hop redirect chain
+      testServer.addRoute(methodName, "/step1", (req, res) => {
+        res.redirect(302, `/step2`);
+      });
+
+      testServer.addRoute("get", "/step2", (req, res) => {
+        res.redirect(302, `/step3`);
+      });
+
+      testServer.addRoute("get", "/step3", (req, res) => {
+        res.status(200).json({ data: "reached final destination", hops: 3 });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"]
+      });
+
+      await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/step1`)
+        .expect(200, { data: "reached final destination", hops: 3 });
+    });
   });
 
   describe("should block socket connection on blacklisted host", () => {
