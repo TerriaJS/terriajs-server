@@ -1,8 +1,7 @@
 "use strict";
 
 const makeserver = require("../lib/makeserver");
-const express = require("express");
-const request = require("supertest");
+const supertestReq = require("supertest");
 
 /**
  * Specs for rate limiting when basic auth is enabled
@@ -10,7 +9,7 @@ const request = require("supertest");
 describe("server rate limiting", function () {
   function makeRequest(app, url, auth) {
     return new Promise((resolve, reject) => {
-      const req = request(app).get(url);
+      const req = supertestReq(app).get(url);
       if (auth) {
         req.auth(auth.username, auth.password);
       }

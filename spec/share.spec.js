@@ -1,7 +1,7 @@
 "use strict";
 
 const makeServer = require("../lib/makeserver");
-const request = require("supertest");
+const supertestReq = require("supertest");
 const { http, HttpResponse, passthrough } = require("msw");
 const { setupServer } = require("msw/node");
 
@@ -64,7 +64,7 @@ describe("share endpoint (integration, real controller)", function () {
 
       const payload = { test: "me" };
 
-      request(buildApp())
+      supertestReq(buildApp())
         .post("/share")
         .send(payload)
         .expect(201)
@@ -84,7 +84,7 @@ describe("share endpoint (integration, real controller)", function () {
 
     it("should return 413 when payload exceeds shareMaxRequestSize", function (done) {
       const largePayload = "a".repeat(250000); // 250KB
-      request(buildApp())
+      supertestReq(buildApp())
         .post("/share")
         .set("Content-Type", "application/json")
         .send(`{"data":"${largePayload}"}`)

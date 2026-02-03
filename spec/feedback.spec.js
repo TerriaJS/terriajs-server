@@ -1,6 +1,6 @@
 "use strict";
 
-const request = require("supertest");
+const supertestReq = require("supertest");
 const { http, HttpResponse, passthrough } = require("msw");
 const { setupServer } = require("msw/node");
 const makeServer = require("../lib/makeserver");
@@ -64,6 +64,9 @@ describe("feedback", function () {
       labels: ["feedback", "bug"]
     };
 
-    await request(buildApp()).post("/feedback").send(feedbackData).expect(200);
+    await supertestReq(buildApp())
+      .post("/feedback")
+      .send(feedbackData)
+      .expect(200);
   });
 });
