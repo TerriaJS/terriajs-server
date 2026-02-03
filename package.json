@@ -46,7 +46,6 @@
     "proj4js-defs": "0.0.1",
     "range_check": "^4.1.0",
     "rate-limiter-flexible": "^7.1.1",
-    "request": "^2.88.2",
     "undici": "^7.16.0",
     "yargs": "^18.0.0"
   },
