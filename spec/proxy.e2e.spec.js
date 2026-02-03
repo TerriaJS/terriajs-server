@@ -1247,7 +1247,7 @@ function doCommonTest(methodName) {
       );
     });
 
-    it("should follow redirect to non-blacklisted host:port", async () => {
+    it("should follow redirect to non-blacklisted host:port - cross-port", async () => {
       const testServer2 = await createTestServer(TEST_SERVER_2_PORT);
 
       try {
