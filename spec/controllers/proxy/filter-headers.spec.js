@@ -3,28 +3,37 @@ const {
 } = require("../../../lib/controllers/proxy/filter-headers");
 
 describe("proxy filterHeaders", () => {
-  const headers = {
-    "Proxy-Connection": "delete me!",
-    unfilteredheader: "don't delete me!"
-  };
   it("properly filters", () => {
+    const headers = {
+      "Proxy-Connection": "delete me!",
+      unfilteredheader: "don't delete me!"
+    };
+
     const filteredHeaders = filterHeaders(headers);
     expect(filteredHeaders["Proxy-Connection"]).toBeUndefined();
     expect(filteredHeaders.unfilteredheader).toBe(headers.unfilteredheader);
   });
 
-  xit("properly filters when socket defined", () => {
+  it("properly filters when socket defined", () => {
+    const headers = {
+      "Proxy-Connection": "delete me!",
+      unfilteredheader: "don't delete me!"
+    };
     const socket = { remoteAddress: "test" };
     const filteredHeaders = filterHeaders(headers, socket);
     expect(filteredHeaders["x-forwarded-for"]).toBe(socket.remoteAddress);
   });
 
-  xit("properly combines x-forwarded-for header with socket remote address", () => {
+  it("properly combines x-forwarded-for header with socket remote address", () => {
     const socket = { remoteAddress: "test" };
-    headers["x-forwarded-for"] = "x-forwarded-for";
-    const filteredHeaders = filterHeaders(headers, socket);
+    const headersWithForwarded = {
+      "Proxy-Connection": "delete me!",
+      unfilteredheader: "don't delete me!",
+      "x-forwarded-for": "192.168.1.1"
+    };
+    const filteredHeaders = filterHeaders(headersWithForwarded, socket);
     expect(filteredHeaders["x-forwarded-for"]).toBe(
-      `${headers["x-forwarded-for"]}, ${socket.remoteAddress}`
+      `${headersWithForwarded["x-forwarded-for"]}, ${socket.remoteAddress}`
     );
   });
 });
