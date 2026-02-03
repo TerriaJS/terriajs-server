@@ -1366,6 +1366,96 @@ function doCommonTest(methodName) {
     });
   });
 
+  describe("clearAuthHeaders option", () => {
+    let testServer;
+
+    beforeAll(async () => {
+      testServer = await createTestServer(TEST_SERVER_PORT);
+    });
+
+    afterAll(async () => {
+      await testServer.close();
+    });
+
+    afterEach(async () => {
+      testServer.clearRoutes();
+    });
+
+    it("should remove Authorization header when clearAuthHeaders is true", async () => {
+      testServer.addRoute(methodName, "/check-auth", (req, res) => {
+        if (req.headers.authorization) {
+          return res
+            .status(500)
+            .json({ error: "Authorization header should have been removed" });
+        }
+        res.status(200).json({ data: "no auth header received" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"],
+        clearAuthHeaders: true
+      });
+
+      await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/check-auth`)
+        .set("Authorization", "Bearer should-be-stripped")
+        .expect(200, { data: "no auth header received" });
+    });
+
+    it("should keep Authorization header when clearAuthHeaders is false", async () => {
+      testServer.addRoute(methodName, "/check-auth", (req, res) => {
+        if (req.headers.authorization === "Bearer keep-me") {
+          return res.status(200).json({ data: "auth header preserved" });
+        }
+        res
+          .status(500)
+          .json({ error: "Authorization header missing or incorrect" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"],
+        clearAuthHeaders: false
+      });
+
+      await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/check-auth`)
+        .set("Authorization", "Bearer keep-me")
+        .expect(200, { data: "auth header preserved" });
+    });
+
+    it("should remove Authorization header by default when basicAuthentication is configured", async () => {
+      testServer.addRoute(methodName, "/check-auth", (req, res) => {
+        if (req.headers.authorization) {
+          return res.status(500).json({
+            error: "Authorization header should have been removed",
+            received: req.headers.authorization
+          });
+        }
+        res.status(200).json({ data: "auth header was cleared" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"],
+        basicAuthentication: {
+          username: "admin",
+          password: "secret"
+        }
+      });
+
+      // Provide valid Basic auth to pass server's auth middleware
+      // The header should be stripped before being forwarded to upstream
+      const basicAuth = Buffer.from("admin:secret").toString("base64");
+
+      await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/check-auth`)
+        .set("Authorization", `Basic ${basicAuth}`)
+        .expect(200, { data: "auth header was cleared" });
+    });
+  });
+
   describe("should block socket connection on blacklisted host", () => {
     it("should block connection to restricted ip address", async () => {
       const { app } = await buildApp({
