@@ -8,7 +8,8 @@
   },
   "type": "module",
   "exports": {
-    "default": "./lib/app.js"
+    "./terriajs-server.js": "./terriajs-server.js",
+    ".": "./lib/app.js"
   },
   "scripts": {
     "test": "jasmine",
