@@ -1,6 +1,6 @@
-const {
+import {
   filterHeaders
-} = require("../../../lib/controllers/proxy/filter-headers");
+} from '../../../lib/controllers/proxy/filter-headers.js';
 
 describe("proxy filterHeaders", () => {
   it("properly filters", () => {

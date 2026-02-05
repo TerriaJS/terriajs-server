@@ -1,8 +1,6 @@
-"use strict";
-
-const {
+import {
   makeHostnameMatcher
-} = require("../../../lib/controllers/proxy/proxy-allowed-host");
+} from '../../../lib/controllers/proxy/proxy-allowed-host.js';
 
 describe("proxyAllowedHost", () => {
   describe("blacklisted addresses", () => {

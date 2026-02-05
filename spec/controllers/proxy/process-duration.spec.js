@@ -1,7 +1,7 @@
-const {
+import {
   processDuration
-} = require("../../../lib/controllers/proxy/process-duration");
-const { DURATION_UNITS } = require("../../../lib/controllers/proxy/constants");
+} from '../../../lib/controllers/proxy/process-duration.js';
+import { DURATION_UNITS } from '../../../lib/controllers/proxy/constants.js';
 
 describe("processDuration", () => {
   it("should parse valid duration with seconds", () => {

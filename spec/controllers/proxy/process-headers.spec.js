@@ -1,6 +1,6 @@
-const {
+import {
   processHeaders
-} = require("../../../lib/controllers/proxy/process-headers");
+} from '../../../lib/controllers/proxy/process-headers.js';
 
 describe("proxy processHeaders", () => {
   it("properly set headers", () => {
