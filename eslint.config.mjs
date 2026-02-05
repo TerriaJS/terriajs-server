@@ -20,7 +20,7 @@ export default defineConfig([
   },
   {
     files: ["**/*.js"],
-    languageOptions: { ecmaVersion: 2022, sourceType: "commonjs" }
+    languageOptions: { ecmaVersion: "latest", sourceType: "module" }
   },
   {
     files: ["**/*.json"],
