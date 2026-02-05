@@ -1,6 +1,4 @@
-import {
-  buildRequestHeaders
-} from '../../../lib/controllers/proxy/build-request-headers.js';
+import { buildRequestHeaders } from "../../../lib/controllers/proxy/build-request-headers.js";
 
 describe("buildRequestHeaders", () => {
   it('should remove authorization for "none" strategy', () => {

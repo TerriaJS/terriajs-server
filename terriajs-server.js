@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import './lib/app.js';
+import "./lib/app.js";

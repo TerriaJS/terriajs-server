@@ -1,5 +1,5 @@
-import express from 'express';
-import http from 'http';
+import express from "express";
+import http from "http";
 
 /**
  * Creates a simple HTTP server for testing proxy functionality

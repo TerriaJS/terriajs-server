@@ -1,6 +1,4 @@
-import {
-  makeHostnameMatcher
-} from '../../../lib/controllers/proxy/proxy-allowed-host.js';
+import { makeHostnameMatcher } from "../../../lib/controllers/proxy/proxy-allowed-host.js";
 
 describe("proxyAllowedHost", () => {
   describe("blacklisted addresses", () => {
