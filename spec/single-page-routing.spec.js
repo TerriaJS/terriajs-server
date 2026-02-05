@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "node:fs";
 import supertestReq from "supertest";
 import singlePageRouting from "../lib/controllers/single-page-routing.js";
 import makeServer from "../lib/makeserver.js";
