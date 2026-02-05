@@ -1,5 +1,3 @@
-"use strict";
-
 import makeserver from "../lib/makeserver.js";
 import supertestReq from "supertest";
 

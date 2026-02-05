@@ -1,5 +1,3 @@
-"use strict";
-
 import makeServer from "../lib/makeserver.js";
 import supertestReq from "supertest";
 import { http, HttpResponse, passthrough } from "msw";

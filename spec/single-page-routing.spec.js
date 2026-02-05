@@ -1,5 +1,3 @@
-"use strict";
-
 import fs from "fs";
 import supertestReq from "supertest";
 import singlePageRouting from "../lib/controllers/single-page-routing.js";

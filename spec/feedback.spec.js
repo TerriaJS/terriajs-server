@@ -1,5 +1,3 @@
-"use strict";
-
 import supertestReq from "supertest";
 import { http, HttpResponse, passthrough } from "msw";
 import { setupServer } from "msw/node";
