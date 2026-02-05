@@ -61,6 +61,6 @@
     "jasmine": "^6.0.0",
     "msw": "^2.11.6",
     "prettier": "^3.6.2",
-    "supertest": "^7.0.0"
+    "supertest": "^7.2.2"
   }
 }
