@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/TerriaJS/TerriaJS-Server",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.983.0",
     "aws-sdk": "^2.1336.0",
     "base-x": "^5.0.1",
     "basic-auth": "^2.0.1",
@@ -56,6 +57,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@eslint/json": "^1.0.0",
+    "@testcontainers/localstack": "^11.11.0",
     "@types/express": "^5.0.6",
     "@types/node": "^25.2.0",
     "eslint": "^9.39.2",
@@ -66,6 +68,7 @@
     "jasmine": "^6.0.0",
     "msw": "^2.12.8",
     "prettier": "^3.8.1",
-    "supertest": "^7.2.2"
+    "supertest": "^7.2.2",
+    "testcontainers": "^11.11.0"
   }
 }
