@@ -1643,10 +1643,10 @@ range_check@^4.1.0:
     ip6 "^0.2.11"
     ipaddr.js "^2.2.0"
 
-rate-limiter-flexible@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-7.1.1.tgz#539cbb9948b5d097c561731cc7ed2623742daeff"
-  integrity sha512-lsYRcqRSJrKBNt6pMzBJTiCJP5KnwsGWdObMZxd19JFUJRntM+yuHs4/2bs6NZweSLgpsDcykvzyQaumoslWQg==
+rate-limiter-flexible@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-9.1.0.tgz#0cfdb903b8e5d3b508a8b0550e4fea1021eab0ac"
+  integrity sha512-0jjTtKWlF4UnMLr64chsKfyQsRlT3lc6KXK2B+N8wPkw2+QMbYN6ft4jNnZuHfllKpk3R5Vr4g7EM+Ms8H1aBw==
 
 raw-body@^3.0.1:
   version "3.0.2"
