@@ -19,7 +19,6 @@ export default defineConfig([
       "no-unused-vars": "off",
       "no-shadow": "error",
       "n/file-extension-in-import": ["error", "always"],
-      "n/exports-style": ["error", "module.exports"],
       "n/prefer-global/url": ["error"],
       "n/prefer-node-protocol": ["error"]
     }
@@ -30,6 +29,5 @@ export default defineConfig([
     language: "json/json5",
     extends: ["json/recommended"]
   },
-  // nodePlugin.configs["flat/recommended-script"],
   eslintConfigPrettier
 ]);
