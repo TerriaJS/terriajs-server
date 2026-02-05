@@ -2,7 +2,7 @@ import supertestReq from "supertest";
 import makeserver from "../lib/makeserver.js";
 import options from "../lib/options.js";
 
-var server;
+let server;
 
 describe("proj4lookup", function () {
   beforeEach(function () {
