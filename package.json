@@ -6,7 +6,10 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "main": "lib/app.js",
+  "type": "module",
+  "exports": {
+    "default": "./lib/app.js"
+  },
   "scripts": {
     "test": "jasmine",
     "lint": "eslint .",

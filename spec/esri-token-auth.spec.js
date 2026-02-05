@@ -1,9 +1,10 @@
 "use strict";
 
-const makeServer = require("../lib/makeserver");
-const supertestReq = require("supertest");
-const { http, HttpResponse, passthrough } = require("msw");
-const { setupServer } = require("msw/node");
+import makeServer from "../lib/makeserver.js";
+import supertestReq from "supertest";
+import { http, HttpResponse, passthrough } from "msw";
+import { setupServer } from "msw/node";
+import options from "../lib/options.js";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
@@ -36,8 +37,8 @@ describe("esri-token-auth endpoint", function () {
   };
 
   function buildApp() {
-    const options = require("../lib/options").init(true);
-    const mergedOptions = Object.assign({}, options, appOptions);
+    const opts = options.init(true);
+    const mergedOptions = Object.assign({}, opts, appOptions);
     return makeServer(mergedOptions);
   }
 
@@ -184,8 +185,8 @@ describe("esri-token-auth endpoint", function () {
         settings: {}
       };
 
-      const options = require("../lib/options").init(true);
-      const mergedOptions = Object.assign({}, options, optionsWithoutEsri);
+      const opts = options.init(true);
+      const mergedOptions = Object.assign({}, opts, optionsWithoutEsri);
       const app = makeServer(mergedOptions);
 
       await supertestReq(app)

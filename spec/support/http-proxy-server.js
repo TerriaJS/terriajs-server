@@ -1,8 +1,8 @@
-const express = require("express");
-const httpProxy = require("http-proxy");
-const http = require("node:http");
-const net = require("node:net");
-const url = require("node:url");
+import express from 'express';
+import httpProxy from 'http-proxy';
+import http from 'node:http';
+import net from 'node:net';
+import url from 'node:url';
 
 const createProxyServer = (port, connectCallback) => {
   const app = express();
@@ -58,6 +58,6 @@ const createProxyServer = (port, connectCallback) => {
   };
 };
 
-module.exports = {
+export {
   createProxyServer
 };

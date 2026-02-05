@@ -1,9 +1,9 @@
 "use strict";
 
-const supertestReq = require("supertest");
-const { http, HttpResponse, passthrough } = require("msw");
-const { setupServer } = require("msw/node");
-const makeServer = require("../lib/makeserver");
+import supertestReq from "supertest";
+import { http, HttpResponse, passthrough } from "msw";
+import { setupServer } from "msw/node";
+import makeServer from "../lib/makeserver.js";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
