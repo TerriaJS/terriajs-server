@@ -1,8 +1,8 @@
-var supertestReq = require("supertest");
+import supertestReq from "supertest";
 
-var makeServer = require("../lib/makeserver.js");
-var { createTestServer } = require("./support/test-http-server.js");
-var { createProxyServer } = require("./support/http-proxy-server.js");
+import makeServer from "../lib/makeserver.js";
+import { createTestServer } from "./support/test-http-server.js";
+import { createProxyServer } from "./support/http-proxy-server.js";
 
 // Test server ports
 const TEST_SERVER_PORT = 9876;

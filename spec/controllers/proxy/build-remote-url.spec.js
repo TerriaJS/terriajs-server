@@ -1,6 +1,4 @@
-const {
-  buildRemoteUrl
-} = require("../../../lib/controllers/proxy/build-remote-url");
+import { buildRemoteUrl } from "../../../lib/controllers/proxy/build-remote-url.js";
 
 describe("buildRemoteUrl", () => {
   it("should build URL with query params from request", () => {

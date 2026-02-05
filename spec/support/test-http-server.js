@@ -1,5 +1,5 @@
-const express = require("express");
-const http = require("http");
+import express from "express";
+import http from "node:http";
 
 /**
  * Creates a simple HTTP server for testing proxy functionality
@@ -54,4 +54,4 @@ async function createTestServer(port) {
   });
 }
 
-module.exports = { createTestServer };
+export { createTestServer };

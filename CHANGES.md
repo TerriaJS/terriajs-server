@@ -1,3 +1,14 @@
+## Changelog
+
+### Next Release - Unreleased
+
+* Migrated to pure ES Modules (ESM). CommonJS `require()` no longer supported.
+* Minimum Node.js version increased to 22.0.0.
+* Removed support for Node.js 20
+* Migrated from deprecated Node.js `url` module to WHATWG URL API.
+* Updated all variable declarations from `var` to `let`/`const`.
+* Added `node:` protocol for all Node.js built-in module imports.
+
 ### 4.0.3 - 2025-12-04
 
 * #### Security Fixes

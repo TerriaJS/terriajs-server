@@ -23,6 +23,10 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 
 Generally, you don't want to manually install TerriaJS-Server. It comes installed with TerriaMap (see below).
 
+### Requirements                                                                                                                                      
+                                                                                                                                                        
+  - Node.js 22.0.0 or higher
+
 ### Stand-alone installation (without serving TerriaMap)
 
 #### Install
