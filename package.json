@@ -54,7 +54,7 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.0.0",
     "@testcontainers/localstack": "^11.11.0",
     "@types/express": "^5.0.6",
