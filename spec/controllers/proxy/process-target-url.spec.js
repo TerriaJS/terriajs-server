@@ -1,6 +1,4 @@
-const {
-  processTargetUrl
-} = require("../../../lib/controllers/proxy/process-target-url");
+import { processTargetUrl } from "../../../lib/controllers/proxy/process-target-url.js";
 
 describe("processTargetUrl", () => {
   it("should correctly process and return the target URL", () => {

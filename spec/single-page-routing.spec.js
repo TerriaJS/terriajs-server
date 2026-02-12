@@ -1,25 +1,24 @@
-"use strict";
-
-var fs = require("fs");
-var makeServer = require("../lib/makeserver");
-var singlePageRouting = require("../lib/controllers/single-page-routing");
-var supertestReq = require("supertest");
+import fs from "node:fs";
+import supertestReq from "supertest";
+import singlePageRouting from "../lib/controllers/single-page-routing.js";
+import makeServer from "../lib/makeserver.js";
+import options from "../lib/options.js";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 describe("single-page-routing", function () {
-  var appOptions = {
+  const appOptions = {
     wwwroot: "./spec/mockwwwroot"
   };
-  var badAppOptions = {
+  const badAppOptions = {
     wwwroot: "./spec/nonexistentwwwroot"
   };
 
-  var routingOffOptions = {
+  const routingOffOptions = {
     resolveUnmatchedPathsWithIndexHtml: false
   };
 
-  var routingOnOptions = {
+  const routingOnOptions = {
     resolvePathRelativeToWwwroot: "/index.html",
     resolveUnmatchedPathsWithIndexHtml: true
   };
@@ -184,7 +183,7 @@ describe("single-page-routing", function () {
   });
 
   function buildApp(spaOptions) {
-    var options = require("../lib/options").init(true);
+    const opts = options.init(true);
     const serverOptions = {
       ...appOptions,
       settings: {
@@ -193,8 +192,8 @@ describe("single-page-routing", function () {
         }
       }
     };
-    const mergedOptions = Object.assign(options, serverOptions);
-    var app = makeServer(mergedOptions);
+    const mergedOptions = Object.assign(opts, serverOptions);
+    const app = makeServer(mergedOptions);
     app.use(function (err, req, res, next) {
       console.error(err.stack);
       res.status(500).send("Something broke!");

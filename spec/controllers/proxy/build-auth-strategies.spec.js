@@ -1,6 +1,4 @@
-const {
-  buildAuthStrategies
-} = require("../../../lib/controllers/proxy/build-auth-strategies");
+import { buildAuthStrategies } from "../../../lib/controllers/proxy/build-auth-strategies.js";
 
 describe("buildAuthStrategies", () => {
   it('should return only "none" when no auth is configured', () => {

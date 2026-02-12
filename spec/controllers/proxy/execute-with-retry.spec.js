@@ -1,6 +1,4 @@
-const {
-  executeWithRetry
-} = require("../../../lib/controllers/proxy/execute-with-retry");
+import { executeWithRetry } from "../../../lib/controllers/proxy/execute-with-retry.js";
 
 describe("executeWithRetry", () => {
   it("should succeed on first attempt with matching auth", async () => {

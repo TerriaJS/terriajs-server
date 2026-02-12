@@ -3,24 +3,25 @@ import globals from "globals";
 import json from "@eslint/json";
 import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
+import nodePlugin from "eslint-plugin-n";
 
 export default defineConfig([
   {
-    files: ["**/*.{js,mjs,cjs}"],
+    files: ["**/*.{js,mjs}"],
     plugins: { js },
-    extends: ["js/recommended"],
+    extends: ["js/recommended", nodePlugin.configs["flat/recommended-script"]],
     languageOptions: {
-      ecmaVersion: 2022,
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: { ...globals.node, ...globals.jasmine }
     },
     rules: {
       "no-unused-vars": "off",
-      "no-shadow": "error"
+      "no-shadow": "error",
+      "n/file-extension-in-import": ["error", "always"],
+      "n/prefer-global/url": ["error"],
+      "n/prefer-node-protocol": ["error"]
     }
-  },
-  {
-    files: ["**/*.js"],
-    languageOptions: { ecmaVersion: 2022, sourceType: "commonjs" }
   },
   {
     files: ["**/*.json"],
