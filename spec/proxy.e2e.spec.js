@@ -347,9 +347,9 @@ function doCommonTest(methodName) {
   });
 
   describe("with an upstream proxy", () => {
-    let PROXY_PORT = 25000;
+    const PROXY_PORT = 25000;
 
-    let connectSpy = jasmine.createSpy("connectSpy");
+    const connectSpy = jasmine.createSpy("connectSpy");
     let upstreamProxyServer;
 
     beforeAll(() => {

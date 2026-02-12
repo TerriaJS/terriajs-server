@@ -18,6 +18,7 @@ export default defineConfig([
     rules: {
       "no-unused-vars": "off",
       "no-shadow": "error",
+      "prefer-const": "error",
       "n/file-extension-in-import": ["error", "always"],
       "n/prefer-global/url": ["error"],
       "n/prefer-node-protocol": ["error"]
