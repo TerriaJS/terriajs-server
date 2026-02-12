@@ -58,8 +58,9 @@ describe("Share Module (e2e) - S3", () => {
     expect(createBucketResponse.$metadata.httpStatusCode).toEqual(200);
   }, 120000);
 
-  it("should save share via s3 provider", async () => {
-    const response = await supertestReq(buildApp())
+  it("should save and resolve share via s3 provider", async () => {
+    const app = buildApp();
+    const response = await supertestReq(app)
       .post("/share")
       .send({ data: "test content" })
       .expect(201);
@@ -69,13 +70,11 @@ describe("Share Module (e2e) - S3", () => {
         id: "s3-aqJr26G16vOvgbBGgrfzSYLIcy"
       })
     );
-  }, 60000);
 
-  it("should resolve share via s3 provider", async () => {
-    await supertestReq(buildApp())
+    await supertestReq(app)
       .get("/share/s3-aqJr26G16vOvgbBGgrfzSYLIcy")
       .expect(200, Buffer.from(JSON.stringify({ data: "test content" })));
-  }, 60000);
+  });
 
   afterAll(async () => {
     await localstackContainer.stop();
