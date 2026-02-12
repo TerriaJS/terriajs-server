@@ -1,6 +1,5 @@
 import { CreateBucketCommand, S3Client } from "@aws-sdk/client-s3";
 import { LocalstackContainer } from "@testcontainers/localstack";
-import { setTimeout } from "node:timers/promises";
 import supertestReq from "supertest";
 
 import makeServer from "../lib/makeserver.js";
@@ -42,8 +41,6 @@ describe("Share Module (e2e) - S3", () => {
     ).start();
 
     const endpoint = localstackContainer.getConnectionUri();
-
-    await setTimeout(5000);
 
     const client = new S3Client({
       endpoint: endpoint,
