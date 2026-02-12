@@ -8,6 +8,7 @@
 * Migrated from deprecated Node.js `url` module to WHATWG URL API.
 * Updated all variable declarations from `var` to `let`/`const`.
 * Added `node:` protocol for all Node.js built-in module imports.
+* Remove deprecated /proxyableDomains endpoint.
 
 ### 4.0.3 - 2025-12-04
 
