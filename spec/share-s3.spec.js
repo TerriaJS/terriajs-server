@@ -76,6 +76,10 @@ describe("Share Module (e2e) - S3", () => {
       .expect(200, Buffer.from(JSON.stringify({ data: "test content" })));
   });
 
+  it("should return 404 for non-existent share", async () => {
+    await supertestReq(buildApp()).get("/share/s3-nonexistentid").expect(404);
+  });
+
   afterAll(async () => {
     await localstackContainer.stop();
   });
