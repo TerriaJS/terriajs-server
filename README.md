@@ -10,7 +10,6 @@ This is a basic NodeJS Express server that serves up a (not included) static [Te
 
 * `/api/v1/proxy`: a proxy service which applies CORS headers for data providers that lack them. Add URLs to config.json to enable them.
 * `/api/v1/proj4def`: a proj4 coordinate reference system lookup service.
-* `/api/v1/proxyabledomains`: return a JSON of domains the server is willing to proxy for
 * `/api/v1/ping`: returns 200 OK.
 * `/api/v1/share/X-Y` (GET): uses prefix X to resolve key Y against some configured JSON storage provider (Gist and AWS S3 implemented)
 * `/api/v1/share` (POST): stores a piece of JSON with a configured storage provider (Gist implemented)
