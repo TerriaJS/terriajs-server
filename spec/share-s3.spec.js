@@ -77,6 +77,36 @@ describe("Share Module (e2e) - S3", () => {
       .expect(200, Buffer.from(JSON.stringify({ data: "test content" })));
   });
 
+  it('returns correct url in response when "newShareUrlPrefix" is empty string', async () => {
+    const app = buildApp({
+      shareUrlPrefixes: {
+        "": {
+          service: "s3",
+          region: "us-east-1",
+          bucket: "sample-bucket",
+          endpoint: localstackContainer.getConnectionUri(),
+          accessKeyId: "test",
+          secretAccessKey: "test",
+          keyLength: 54,
+          forcePathStyle: true
+        }
+      },
+      newShareUrlPrefix: ""
+    });
+
+    const response = await supertestReq(app)
+      .post("/share")
+      .send({ data: "test content empty" })
+      .expect(201);
+
+    expect(response.body.url).toBeDefined();
+    expect(response.body.url).toContain("/share/hBp74ADLrPU6flu0qu07Kyi1FM0");
+
+    await supertestReq(app)
+      .get("/share/hBp74ADLrPU6flu0qu07Kyi1FM0")
+      .expect(200, Buffer.from(JSON.stringify({ data: "test content empty" })));
+  });
+
   it("should return 404 for non-existent share", async () => {
     await supertestReq(buildApp()).get("/share/s3-nonexistentid").expect(404);
   });
