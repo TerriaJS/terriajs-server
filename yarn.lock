@@ -3112,6 +3112,11 @@ process@^0.11.10:
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
+proj4-cli-defs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/proj4-cli-defs/-/proj4-cli-defs-2.0.8.tgz#b51a51e818172ae1dbbbb23a316bc192b484d3a7"
+  integrity sha512-V9Y2mUjKsi7BMaBCPidgud3BbSfb0kyooJ561CAioflbtJCmdsQY5kqwI3bOKCDQ+AXDQu/xO9fvYco1UFkNlA==
+
 proj4@^2.20.2:
   version "2.20.2"
   resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.20.2.tgz#33d3202865f65cad2dd4cfd1d8d3cdb814580a1c"
@@ -3119,18 +3124,6 @@ proj4@^2.20.2:
   dependencies:
     mgrs "1.0.0"
     wkt-parser "^1.5.1"
-
-proj4js-defs@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/proj4js-defs/-/proj4js-defs-0.0.1.tgz#419ac692b9933f3749610553be4f044803124f21"
-  integrity sha512-OsnZrbLmpJ9vsdPyAa4VJLuc4iMzH5vzN3gOCO/Uvcg/ycDFk/V3//6P4kkHSJH5opJZCJqQV1mfOrZlwmnRGw==
-  dependencies:
-    proj4js "~0.3.0"
-
-proj4js@~0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/proj4js/-/proj4js-0.3.0.tgz#b5f3b19be2cc34b3902bb808d9c73585f11b1c0d"
-  integrity sha512-IBIeByHmBdNovXuUzngSc5dh2R+vtzRwwzqRFVM0FoCgHLVBP2ypMXOL6mXPaxzT5j3qSuUubD9+irdoMuPRtg==
 
 proper-lockfile@^4.1.2:
   version "4.1.2"

@@ -18,9 +18,16 @@ describe("proj4lookup", function () {
         .end(assert(done));
     });
 
-    it("should 404 unknown projection", function (done) {
+    it("should 400 for non-numeric EPSG code", function (done) {
       supertestReq(server)
         .get("/api/v1/proj4def/EPSG:Notarealthing")
+        .expect(400)
+        .end(assert(done));
+    });
+
+    it("should 404 for unknown projection", function (done) {
+      supertestReq(server)
+        .get("/api/v1/proj4def/EPSG:99999")
         .expect(404)
         .end(assert(done));
     });
