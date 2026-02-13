@@ -8,6 +8,7 @@
 * Migrated from deprecated Node.js `url` module to WHATWG URL API.
 * Updated all variable declarations from `var` to `let`/`const`.
 * Added `node:` protocol for all Node.js built-in module imports.
+* Replace proj4js-defs with up-to-date proj4 definitions from proj4cli-defs package.
 
 ### 4.0.3 - 2025-12-04
 
