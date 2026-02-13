@@ -46,7 +46,7 @@
     "express": "^5.2.1",
     "json5": "^2.2.3",
     "morgan": "^1.10.1",
-    "proj4-cli-defs": "^2.0.8",
+    "proj4-cli-defs": "^2.1.0",
     "range_check": "^4.1.0",
     "rate-limiter-flexible": "^9.1.1",
     "undici": "^7.21.0",

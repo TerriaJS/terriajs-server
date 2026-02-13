@@ -3107,10 +3107,10 @@ process@^0.11.10:
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
-proj4-cli-defs@^2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/proj4-cli-defs/-/proj4-cli-defs-2.0.8.tgz#b51a51e818172ae1dbbbb23a316bc192b484d3a7"
-  integrity sha512-V9Y2mUjKsi7BMaBCPidgud3BbSfb0kyooJ561CAioflbtJCmdsQY5kqwI3bOKCDQ+AXDQu/xO9fvYco1UFkNlA==
+proj4-cli-defs@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/proj4-cli-defs/-/proj4-cli-defs-2.1.0.tgz#35d2fd813b9f11c27569a35154e1faee967e15ed"
+  integrity sha512-lt2uyKdgojdrYOGwR73sSzId/firZO5tbakLG8flnZj5qptYCJUboXl9QZsYC9mB8HSb7CoII0EhLaezREznlA==
 
 proper-lockfile@^4.1.2:
   version "4.1.2"
