@@ -1,0 +1,112 @@
+name: npm-publish
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    permissions:
+      contents: write # to create and push a tag
+      actions: read
+      id-token: write
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Detect version change
+        id: detect
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PREVIOUS_VERSION=$(git show HEAD~1:package.json | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin','utf8')).version")
+
+          if [ "$CURRENT_VERSION" = "$PREVIOUS_VERSION" ]; then
+            echo "No version change detected"
+            echo "version-changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Version change from $PREVIOUS_VERSION to $CURRENT_VERSION detected"
+          echo "version-changed=true" >> "$GITHUB_OUTPUT"
+          echo "current-version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+          echo "previous-version=$PREVIOUS_VERSION" >> "$GITHUB_OUTPUT"
+
+          # Determine npm dist-tag from prerelease identifier
+          NPM_TAG="latest"
+          if echo "$CURRENT_VERSION" | grep -q '-'; then
+            NPM_TAG=$(echo "$CURRENT_VERSION" | sed -E 's/.*-(alpha|beta|rc|next|canary).*/\1/')
+            if [ "$NPM_TAG" = "$CURRENT_VERSION" ]; then
+              echo "::error::Unrecognized prerelease identifier in version $CURRENT_VERSION. Allowed: alpha, beta, rc, next, canary"
+              exit 1
+            fi
+          fi
+          echo "npm-tag=$NPM_TAG" >> "$GITHUB_OUTPUT"
+          echo "Publishing with npm tag: $NPM_TAG"
+
+      - name: Tag the new version
+        if: steps.detect.outputs.version-changed == 'true'
+        run: |
+          git config user.name "Terria Bot via GitHub Actions"
+          git config user.email "TerriaBot@users.noreply.github.com"
+          git tag -a "${{ steps.detect.outputs.current-version }}" -m "${{ steps.detect.outputs.current-version }}"
+          git push origin "${{ steps.detect.outputs.current-version }}"
+
+      - name: Set up Node.js for NPM
+        if: steps.detect.outputs.version-changed == 'true'
+        uses: actions/setup-node@v6
+        with:
+          registry-url: "https://registry.npmjs.org"
+          node-version-file: ".nvmrc"
+          cache: "yarn"
+
+      - name: Install dependencies
+        if: steps.detect.outputs.version-changed == 'true'
+        run: yarn install --frozen-lockfile
+
+      - name: Lint terriajs-server
+        if: steps.detect.outputs.version-changed == 'true'
+        run: npm run lint
+
+      - name: Run tests for terriajs-server
+        if: steps.detect.outputs.version-changed == 'true'
+        run: npm run test
+
+      - name: Publish package to NPM
+        if: steps.detect.outputs.version-changed == 'true'
+        run: npm publish --tag ${{ steps.detect.outputs.npm-tag }}
+
+      # These slack success and failure message actions can be combined but it means there'll be no notification on a failed
+      #  action-detect-and-tag-new-version. It also allows for a bit better message customisation
+      - name: Send success notification on Slack
+        if: steps.detect.outputs.version-changed == 'true'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,commit,action,ref
+          author_name: ${{ github.workflow }}
+          mention: here
+          if_mention: always
+          text: ":white_check_mark: Published v${{ steps.detect.outputs.current-version }} to https://www.npmjs.com/package/terriajs-server"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+
+      - name: Send failure or cancellation notification on Slack
+        if: failure() || cancelled() # Pick up events even if the job fails or is canceled.
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,commit,action,ref
+          author_name: ${{ github.workflow }}
+          mention: here
+          if_mention: always
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
