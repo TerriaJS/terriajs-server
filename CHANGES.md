@@ -9,6 +9,7 @@
 * Updated all variable declarations from `var` to `let`/`const`.
 * Added `node:` protocol for all Node.js built-in module imports.
 * Replace proj4js-defs with up-to-date proj4 definitions from proj4cli-defs package.
+* Fixed: Empty `newShareUrlPrefix` now correctly results in share URLs without a prefix, instead of broken URL starting with `-`.
 
 ### 4.0.3 - 2025-12-04
 
