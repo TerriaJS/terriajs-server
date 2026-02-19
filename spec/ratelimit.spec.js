@@ -4,7 +4,7 @@ import supertestReq from "supertest";
 /**
  * Specs for rate limiting when basic auth is enabled
  */
-describe("server rate limiting", function () {
+describe("server rate limiting", () => {
   function makeRequest(app, url, auth) {
     return new Promise((resolve) => {
       const req = supertestReq(app).get(url);
@@ -15,8 +15,8 @@ describe("server rate limiting", function () {
     });
   }
 
-  describe("with basic auth NOT configured", function () {
-    it("does not rate limit requests", async function () {
+  describe("with basic auth NOT configured", () => {
+    it("does not rate limit requests", async () => {
       const app = makeserver({ pingauth: true, settings: {} });
 
       for (let attempt = 0; attempt < 10; attempt++) {
@@ -28,8 +28,8 @@ describe("server rate limiting", function () {
     });
   });
 
-  describe("with basic auth configured", function () {
-    it("does not rate limit requests when auth succeeds", async function () {
+  describe("with basic auth configured", () => {
+    it("does not rate limit requests when auth succeeds", async () => {
       const rateLimit = {
         freeRetries: 4,
         minWait: 2000,
@@ -58,7 +58,7 @@ describe("server rate limiting", function () {
       }
     });
 
-    it("rate limit requests when auth fails", async function () {
+    it("rate limit requests when auth fails", async () => {
       const rateLimit = {
         freeRetries: 4,
         minWait: 2000,
@@ -94,7 +94,7 @@ describe("server rate limiting", function () {
       }
     });
 
-    it("uses default rate limit config when no custom config provided", async function () {
+    it("uses default rate limit config when no custom config provided", async () => {
       const app = makeserver({
         pingauth: true,
         settings: {
@@ -124,7 +124,7 @@ describe("server rate limiting", function () {
       }
     });
 
-    it("allows successful auth after failed attempts within free retries", async function () {
+    it("allows successful auth after failed attempts within free retries", async () => {
       const rateLimit = {
         freeRetries: 4,
         minWait: 2000,
@@ -175,7 +175,7 @@ describe("server rate limiting", function () {
       }
     });
 
-    it("returns 429 with retry-after header when rate limited", async function () {
+    it("returns 429 with retry-after header when rate limited", async () => {
       const rateLimit = {
         freeRetries: 2,
         minWait: 200,
@@ -208,7 +208,7 @@ describe("server rate limiting", function () {
       }
     });
 
-    it("blocks requests even with valid credentials after rate limit is hit", async function () {
+    it("blocks requests even with valid credentials after rate limit is hit", async () => {
       const rateLimit = {
         freeRetries: 2,
         minWait: 2000,

@@ -6,7 +6,7 @@ import options from "../lib/options.js";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
-describe("single-page-routing", function () {
+describe("single-page-routing", () => {
   const appOptions = {
     wwwroot: "./spec/mockwwwroot"
   };
@@ -23,7 +23,7 @@ describe("single-page-routing", function () {
     resolveUnmatchedPathsWithIndexHtml: true
   };
 
-  describe("using controller", function () {
+  describe("using controller", () => {
     const errorMatcher = (error) => {
       if (
         error.message.indexOf("`resolvePathRelativeToWwwroot` does not exist")
@@ -31,8 +31,8 @@ describe("single-page-routing", function () {
         return true;
       }
     };
-    describe("should throw", function () {
-      it("with bad wwwroot", function () {
+    describe("should throw", () => {
+      it("with bad wwwroot", () => {
         expect(() => {
           const serverOptions = {
             ...badAppOptions,
@@ -45,7 +45,7 @@ describe("single-page-routing", function () {
           singlePageRouting(serverOptions, routingOnOptions);
         }).toThrow();
       });
-      it("with good wwwroot, specifying invalid path", function () {
+      it("with good wwwroot, specifying invalid path", () => {
         expect(() => {
           const serverOptions = {
             ...badAppOptions,
@@ -60,8 +60,8 @@ describe("single-page-routing", function () {
         }).toThrowMatching(errorMatcher);
       });
     });
-    describe("should not throw", function () {
-      it("with good wwwroot and routing off", function () {
+    describe("should not throw", () => {
+      it("with good wwwroot and routing off", () => {
         expect(() => {
           const serverOptions = {
             ...appOptions,
@@ -74,7 +74,7 @@ describe("single-page-routing", function () {
           singlePageRouting(serverOptions, routingOffOptions);
         }).not.toThrow();
       });
-      it("with good wwwroot", function () {
+      it("with good wwwroot", () => {
         expect(() => {
           const serverOptions = {
             ...appOptions,
@@ -90,95 +90,75 @@ describe("single-page-routing", function () {
     });
   });
 
-  describe("on get with routing off,", function () {
-    it("should 404 blah route", function (done) {
-      supertestReq(buildApp(routingOffOptions))
-        .get("/blah")
-        .expect(404)
-        .end(assert(done));
+  describe("on get with routing off,", () => {
+    it("should 404 blah route", async () => {
+      await supertestReq(buildApp(routingOffOptions)).get("/blah").expect(404);
     });
-    it("should resolve an actual html file", function () {
-      supertestReq(buildApp(routingOffOptions))
+    it("should resolve an actual html file", async () => {
+      const response = await supertestReq(buildApp(routingOffOptions))
         .get("/actual-html-file.html")
         .expect(200)
-        .expect("Content-Type", /html/)
-        .then((response) => {
-          expect(response.text).toBe(
-            fs.readFileSync(
-              appOptions.wwwroot + "/actual-html-file.html",
-              "utf8"
-            )
-          );
-        });
+        .expect("Content-Type", /html/);
+
+      expect(response.text).toBe(
+        fs.readFileSync(`${appOptions.wwwroot}/actual-html-file.html`, "utf8")
+      );
     });
-    it("should resolve an actual json file", function () {
-      supertestReq(buildApp(routingOffOptions))
+    it("should resolve an actual json file", async () => {
+      const response = await supertestReq(buildApp(routingOffOptions))
         .get("/actual-json.json")
         .expect(200)
-        .expect("Content-Type", /json/)
-        .then((response) => {
-          expect(response.text).toBe(
-            fs.readFileSync(appOptions.wwwroot + "/actual-json.json", "utf8")
-          );
-        });
+        .expect("Content-Type", /json/);
+
+      expect(response.text).toBe(
+        fs.readFileSync(`${appOptions.wwwroot}/actual-json.json`, "utf8")
+      );
     });
   });
 
-  describe("on get with routing on,", function () {
-    it("should resolve unmatched route with the optioned path", function () {
-      supertestReq(buildApp(routingOnOptions))
+  describe("on get with routing on,", () => {
+    it("should resolve unmatched route with the optioned path", async () => {
+      const response = await supertestReq(buildApp(routingOnOptions))
         .get("/blah")
         .expect(200)
-        .expect("Content-Type", /html/)
-        .then((response) => {
-          expect(response.text).toBe(
-            fs.readFileSync(
-              appOptions.wwwroot +
-                routingOnOptions.resolvePathRelativeToWwwroot,
-              "utf8"
-            )
-          );
-        });
+        .expect("Content-Type", /html/);
+      expect(response.text).toBe(
+        fs.readFileSync(
+          appOptions.wwwroot + routingOnOptions.resolvePathRelativeToWwwroot,
+          "utf8"
+        )
+      );
     });
-    it("should resolve an actual html file", function () {
-      supertestReq(buildApp(routingOnOptions))
+    it("should resolve an actual html file", async () => {
+      const response = await supertestReq(buildApp(routingOnOptions))
         .get("/actual-html-file.html")
         .expect(200)
-        .expect("Content-Type", /html/)
-        .then((response) => {
-          expect(response.text).toBe(
-            fs.readFileSync(
-              appOptions.wwwroot + "/actual-html-file.html",
-              "utf8"
-            )
-          );
-        });
+        .expect("Content-Type", /html/);
+      expect(response.text).toBe(
+        fs.readFileSync(`${appOptions.wwwroot}/actual-html-file.html`, "utf8")
+      );
     });
-    it("should resolve an actual json file", function () {
-      supertestReq(buildApp(routingOnOptions))
+    it("should resolve an actual json file", async () => {
+      const response = await supertestReq(buildApp(routingOnOptions))
         .get("/actual-json.json")
         .expect(200)
-        .expect("Content-Type", /json/)
-        .then((response) => {
-          expect(response.text).toBe(
-            fs.readFileSync(appOptions.wwwroot + "/actual-json.json", "utf8")
-          );
-        });
+        .expect("Content-Type", /json/);
+      expect(response.text).toBe(
+        fs.readFileSync(`${appOptions.wwwroot}/actual-json.json`, "utf8")
+      );
     });
   });
 
-  describe("on post,", function () {
-    it("should error out with routing off", function (done) {
-      supertestReq(buildApp(routingOffOptions))
+  describe("on post,", () => {
+    it("should error out with routing off", async () => {
+      await supertestReq(buildApp(routingOffOptions))
         .post("/mochiRoute")
-        .expect(404)
-        .end(assert(done));
+        .expect(404);
     });
-    it("should error out with routing on", function (done) {
-      supertestReq(buildApp(routingOnOptions))
+    it("should error out with routing on", async () => {
+      await supertestReq(buildApp(routingOnOptions))
         .post("/mochiRoute")
-        .expect(404)
-        .end(assert(done));
+        .expect(404);
     });
   });
 
@@ -194,19 +174,10 @@ describe("single-page-routing", function () {
     };
     const mergedOptions = Object.assign(opts, serverOptions);
     const app = makeServer(mergedOptions);
-    app.use(function (err, _req, res) {
+    app.use((err, _req, res) => {
       console.error(err.stack);
       res.status(500).send("Something broke!");
     });
     return app;
-  }
-
-  function assert(done) {
-    return function (err) {
-      if (err) {
-        fail(err);
-      }
-      done();
-    };
   }
 });

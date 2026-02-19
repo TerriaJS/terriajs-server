@@ -4,36 +4,27 @@ import options from "../lib/options.js";
 
 let server;
 
-describe("proj4lookup", function () {
-  beforeEach(function () {
+describe("proj4lookup", () => {
+  beforeEach(() => {
     const opts = options.init(true);
     server = makeserver(opts);
   });
 
-  describe("on get", function () {
-    it("should return a definition for EPSG:4326", function (done) {
-      supertestReq(server)
+  describe("on get", () => {
+    it("should return a definition for EPSG:4326", async () => {
+      await supertestReq(server)
         .get("/api/v1/proj4def/EPSG:4326")
-        .expect(200, "+proj=longlat +datum=WGS84 +no_defs")
-        .end(assert(done));
+        .expect(200, "+proj=longlat +datum=WGS84 +no_defs");
     });
 
-    it("should 400 for non-numeric EPSG code", function (done) {
-      supertestReq(server)
+    it("should 400 for non-numeric EPSG code", async () => {
+      await supertestReq(server)
         .get("/api/v1/proj4def/EPSG:Notarealthing")
-        .expect(400)
-        .end(assert(done));
+        .expect(400);
     });
 
-    it("should 404 for unknown projection", function (done) {
-      supertestReq(server)
-        .get("/api/v1/proj4def/EPSG:99999")
-        .expect(404)
-        .end(assert(done));
+    it("should 404 for unknown projection", async () => {
+      await supertestReq(server).get("/api/v1/proj4def/EPSG:99999").expect(404);
     });
   });
-
-  function assert(done) {
-    return (err) => (err ? done.fail(err) : done());
-  }
 });
