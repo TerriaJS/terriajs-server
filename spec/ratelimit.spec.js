@@ -6,7 +6,7 @@ import supertestReq from "supertest";
  */
 describe("server rate limiting", function () {
   function makeRequest(app, url, auth) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const req = supertestReq(app).get(url);
       if (auth) {
         req.auth(auth.username, auth.password);

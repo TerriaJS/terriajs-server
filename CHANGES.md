@@ -11,6 +11,7 @@
 * Replace proj4js-defs with up-to-date proj4 definitions from proj4cli-defs package.
 * Fixed: Empty `newShareUrlPrefix` now correctly results in share URLs without a prefix, instead of broken URL starting with `-`.
 * Remove deprecated /proxyableDomains endpoint.
+* Report unused variables and fix errors.
 
 ### 4.0.3 - 2025-12-04
 
