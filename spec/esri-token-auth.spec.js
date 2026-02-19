@@ -12,7 +12,7 @@ const localRequestHandler = http.all("*", ({ request }) => {
   }
 });
 
-describe("esri-token-auth endpoint", function () {
+describe("esri-token-auth endpoint", () => {
   const server = setupServer(localRequestHandler);
   const testTokenUrl = "https://test.arcgis.com/sharing/rest/generateToken";
   const testServerUrl = "https://test.arcgis.com/arcgis/rest/services";
@@ -52,8 +52,8 @@ describe("esri-token-auth endpoint", function () {
     server.close();
   });
 
-  describe("POST /esri-token-auth", function () {
-    it("should return 200 and token for valid request", async function () {
+  describe("POST /esri-token-auth", () => {
+    it("should return 200 and token for valid request", async () => {
       const mockToken = "mock_token_12345";
       const mockExpires = Date.now() + 3600000;
 
@@ -94,7 +94,7 @@ describe("esri-token-auth endpoint", function () {
         });
     });
 
-    it("should return 400 when no URL is specified", async function () {
+    it("should return 400 when no URL is specified", async () => {
       await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({})
@@ -104,7 +104,7 @@ describe("esri-token-auth endpoint", function () {
         });
     });
 
-    it("should return 400 when URL is empty string", async function () {
+    it("should return 400 when URL is empty string", async () => {
       await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({ url: "" })
@@ -114,7 +114,7 @@ describe("esri-token-auth endpoint", function () {
         });
     });
 
-    it("should return 400 when invalid URL is specified", async function () {
+    it("should return 400 when invalid URL is specified", async () => {
       await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({ url: 5 })
@@ -124,7 +124,7 @@ describe("esri-token-auth endpoint", function () {
         });
     });
 
-    it("should return 400 when URL is not configured", async function () {
+    it("should return 400 when URL is not configured", async () => {
       await supertestReq(buildApp())
         .post("/esri-token-auth")
         .send({
@@ -136,7 +136,7 @@ describe("esri-token-auth endpoint", function () {
         });
     });
 
-    it("should return 502 when token server returns non-200 status", async function () {
+    it("should return 502 when token server returns non-200 status", async () => {
       server.use(
         http.post("https://test.arcgis.com/sharing/rest/generateToken", () => {
           return HttpResponse.json(
@@ -155,7 +155,7 @@ describe("esri-token-auth endpoint", function () {
         });
     });
 
-    it("should return 500 when token server returns invalid JSON", async function () {
+    it("should return 500 when token server returns invalid JSON", async () => {
       server.use(
         http.post("https://test.arcgis.com/sharing/rest/generateToken", () => {
           return new HttpResponse("Not valid JSON", {
@@ -174,8 +174,8 @@ describe("esri-token-auth endpoint", function () {
     });
   });
 
-  describe("when esri-token-auth is not configured", function () {
-    it("should not register the endpoint", async function () {
+  describe("when esri-token-auth is not configured", () => {
+    it("should not register the endpoint", async () => {
       const optionsWithoutEsri = {
         wwwroot: "./spec/mockwwwroot",
         hostName: "localhost",
