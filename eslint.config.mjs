@@ -16,7 +16,14 @@ export default defineConfig([
       globals: { ...globals.node, ...globals.jasmine }
     },
     rules: {
-      "no-unused-vars": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          args: "all",
+          argsIgnorePattern: "^_",
+          ignoreRestSiblings: true
+        }
+      ],
       "no-shadow": "error",
       "prefer-const": "error",
       "n/file-extension-in-import": ["error", "always"],

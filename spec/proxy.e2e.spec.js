@@ -123,7 +123,7 @@ function doCommonTest(methodName) {
 
     it("should proxy through to the path that is given", async () => {
       // Set up route on test server
-      testServer.addRoute(methodName, "/", (req, res) => {
+      testServer.addRoute(methodName, "/", (_req, res) => {
         res.json({ data: "response success" });
       });
 
@@ -133,7 +133,7 @@ function doCommonTest(methodName) {
     });
 
     it("should add protocol if it isn't provided", async () => {
-      testServer.addRoute(methodName, "/response", (req, res) => {
+      testServer.addRoute(methodName, "/response", (_req, res) => {
         res.json({ data: "response success" });
       });
 
@@ -144,7 +144,7 @@ function doCommonTest(methodName) {
     });
 
     it("should proxy to just domain", async () => {
-      testServer.addRoute(methodName, "/", (req, res) => {
+      testServer.addRoute(methodName, "/", (_req, res) => {
         res.json({ data: "response success root" });
       });
 
@@ -160,7 +160,7 @@ function doCommonTest(methodName) {
     });
 
     it("should stream back the body and headers of the request made", async () => {
-      testServer.addRoute(methodName, "/", (req, res) => {
+      testServer.addRoute(methodName, "/", (_req, res) => {
         res.set("fakeheader", "fakevalue");
         res.set("Cache-Control", "no-cache");
         res.set("Connection", "delete me");
@@ -177,7 +177,7 @@ function doCommonTest(methodName) {
 
     describe("should change headers", () => {
       it("to overwrite cache-control header to two weeks if no max age is specified in req", async () => {
-        testServer.addRoute(methodName, "/", (req, res) => {
+        testServer.addRoute(methodName, "/", (_req, res) => {
           res.set("fakeheader", "fakevalue");
           res.set("Cache-Control", "no-cache");
           res.set("Connection", "delete me");
@@ -221,7 +221,7 @@ function doCommonTest(methodName) {
       });
 
       it("to filter out disallowed ones that come back from the response", async () => {
-        testServer.addRoute(methodName, "/", (req, res) => {
+        testServer.addRoute(methodName, "/", (_req, res) => {
           res.set("fakeheader", "fakevalue");
           res.set("Cache-Control", "no-cache");
           res.set("Connection1", "delete me");
@@ -238,7 +238,7 @@ function doCommonTest(methodName) {
       });
 
       it("should not set max age on error response", async () => {
-        testServer.addRoute(methodName, "/error", (req, res) => {
+        testServer.addRoute(methodName, "/error", (_req, res) => {
           res.set("fakeheader", "fakevalue");
           res.set("Cache-Control", "no-cache");
           res.set("Connection", "delete me");
@@ -279,7 +279,7 @@ function doCommonTest(methodName) {
 
       describe("should properly interpret max age", () => {
         beforeEach(() => {
-          testServer.addRoute(methodName, "/", (req, res) => {
+          testServer.addRoute(methodName, "/", (_req, res) => {
             res.set("fakeheader", "fakevalue");
             res.set("Cache-Control", "no-cache");
             res.set("Connection", "delete me");
@@ -441,7 +441,7 @@ function doCommonTest(methodName) {
     });
 
     it("should proxy a domain on that list", async () => {
-      testServer.addRoute(methodName, "/response", (req, res) => {
+      testServer.addRoute(methodName, "/response", (_req, res) => {
         res.set("fakeheader", "fakevalue");
         res.set("Cache-Control", "no-cache");
         res.set("Connection", "delete me");
@@ -493,7 +493,7 @@ function doCommonTest(methodName) {
     });
 
     it("should not block a domain not on the list if proxyAllDomains is true", async () => {
-      testServer2.addRoute(methodName, "/", (req, res) => {
+      testServer2.addRoute(methodName, "/", (_req, res) => {
         res.set("fakeheader", "fakevalue");
         res.set("Cache-Control", "no-cache");
         res.set("Connection", "delete me");
@@ -862,7 +862,7 @@ function doCommonTest(methodName) {
     });
 
     it("should timeout when headers take too long (headersTimeout)", async () => {
-      testServer.addRoute("get", "/slow-headers", async (req, res) => {
+      testServer.addRoute("get", "/slow-headers", async (_req, res) => {
         // Delay before sending headers (longer than timeout)
         await new Promise((resolve) => setTimeout(resolve, 2000));
         res.status(200).json({ data: "too late" });
@@ -895,7 +895,7 @@ function doCommonTest(methodName) {
     });
 
     it("should use default timeouts when not specified", async () => {
-      testServer.addRoute("get", "/normal", (req, res) => {
+      testServer.addRoute("get", "/normal", (_req, res) => {
         res.status(200).json({ data: "success" });
       });
 
@@ -1179,12 +1179,12 @@ function doCommonTest(methodName) {
 
     it("should follow redirect", async () => {
       // Set up redirect endpoint
-      testServer.addRoute(methodName, "/redirect", (req, res) => {
+      testServer.addRoute(methodName, "/redirect", (_req, res) => {
         res.redirect(302, `/final-destination`);
       });
 
       // Set up final destination
-      testServer.addRoute("get", "/final-destination", (req, res) => {
+      testServer.addRoute("get", "/final-destination", (_req, res) => {
         res.status(200).json({ data: "redirected successfully" });
       });
 
@@ -1200,7 +1200,7 @@ function doCommonTest(methodName) {
 
     it("should block redirect to blacklisted host", async () => {
       // Set up redirect endpoint that redirects to blacklisted IP
-      testServer.addRoute(methodName, "/redirect-to-blacklist", (req, res) => {
+      testServer.addRoute(methodName, "/redirect-to-blacklist", (_req, res) => {
         res.redirect(302, `http://202.168.1.1/malicious`);
       });
 
@@ -1221,14 +1221,14 @@ function doCommonTest(methodName) {
 
     it("should follow redirect to non-blacklisted host:port", async () => {
       // Set up redirect endpoint that redirects to blacklisted IP
-      testServer.addRoute(methodName, "/redirect-to-blacklist", (req, res) => {
+      testServer.addRoute(methodName, "/redirect-to-blacklist", (_req, res) => {
         res.redirect(
           302,
           `http://localhost:${TEST_SERVER_PORT}/final-destination`
         );
       });
       // Set up final destination
-      testServer.addRoute("get", "/final-destination", (req, res) => {
+      testServer.addRoute("get", "/final-destination", (_req, res) => {
         res.status(200).json({ data: "redirected successfully" });
       });
 
@@ -1252,13 +1252,13 @@ function doCommonTest(methodName) {
 
       try {
         // Set up redirect endpoint that redirects to blacklisted IP
-        testServer.addRoute(methodName, "/redirect-port", (req, res) => {
+        testServer.addRoute(methodName, "/redirect-port", (_req, res) => {
           res.redirect(
             302,
             `http://localhost:${TEST_SERVER_2_PORT}/destination`
           );
         });
-        testServer2.addRoute("get", "/destination", (req, res) => {
+        testServer2.addRoute("get", "/destination", (_req, res) => {
           res.status(200).json({ data: "cross-port redirect success" });
         });
 
@@ -1282,7 +1282,7 @@ function doCommonTest(methodName) {
         testServer.addRoute(
           methodName,
           "/redirect-blacklisted-port",
-          (req, res) => {
+          (_req, res) => {
             res.redirect(
               302,
               `http://localhost:${TEST_SERVER_2_PORT}/malicious`
@@ -1290,7 +1290,7 @@ function doCommonTest(methodName) {
           }
         );
 
-        testServer2.addRoute("get", "/malicious", (req, res) => {
+        testServer2.addRoute("get", "/malicious", (_req, res) => {
           res.status(200).json({ data: "should not reach here" });
         });
 
@@ -1313,15 +1313,15 @@ function doCommonTest(methodName) {
 
     it("should follow multiple redirect chain (3 redirects)", async () => {
       // Setup 3-hop redirect chain
-      testServer.addRoute(methodName, "/step1", (req, res) => {
+      testServer.addRoute(methodName, "/step1", (_req, res) => {
         res.redirect(302, `/step2`);
       });
 
-      testServer.addRoute("get", "/step2", (req, res) => {
+      testServer.addRoute("get", "/step2", (_req, res) => {
         res.redirect(302, `/step3`);
       });
 
-      testServer.addRoute("get", "/step3", (req, res) => {
+      testServer.addRoute("get", "/step3", (_req, res) => {
         res.status(200).json({ data: "reached final destination", hops: 3 });
       });
 
@@ -1338,15 +1338,25 @@ function doCommonTest(methodName) {
     it("should reject redirect chain exceeding MAX_REDIRECTS (5)", async () => {
       // Setup 7-hop redirect chain (exceeds MAX_REDIRECTS=5)
       // r1 -> r2 -> r3 -> r4 -> r5 -> r6 -> r7
-      testServer.addRoute(methodName, "/r1", (req, res) =>
+      testServer.addRoute(methodName, "/r1", (_req, res) =>
         res.redirect(302, `/r2`)
       );
-      testServer.addRoute("get", "/r2", (req, res) => res.redirect(302, `/r3`));
-      testServer.addRoute("get", "/r3", (req, res) => res.redirect(302, `/r4`));
-      testServer.addRoute("get", "/r4", (req, res) => res.redirect(302, `/r5`));
-      testServer.addRoute("get", "/r5", (req, res) => res.redirect(302, `/r6`));
-      testServer.addRoute("get", "/r6", (req, res) => res.redirect(302, `/r7`));
-      testServer.addRoute("get", "/r7", (req, res) => {
+      testServer.addRoute("get", "/r2", (_req, res) =>
+        res.redirect(302, `/r3`)
+      );
+      testServer.addRoute("get", "/r3", (_req, res) =>
+        res.redirect(302, `/r4`)
+      );
+      testServer.addRoute("get", "/r4", (_req, res) =>
+        res.redirect(302, `/r5`)
+      );
+      testServer.addRoute("get", "/r5", (_req, res) =>
+        res.redirect(302, `/r6`)
+      );
+      testServer.addRoute("get", "/r6", (_req, res) =>
+        res.redirect(302, `/r7`)
+      );
+      testServer.addRoute("get", "/r7", (_req, res) => {
         res.status(200).json({ data: "should not reach here" });
       });
 

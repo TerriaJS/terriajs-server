@@ -194,7 +194,7 @@ describe("single-page-routing", function () {
     };
     const mergedOptions = Object.assign(opts, serverOptions);
     const app = makeServer(mergedOptions);
-    app.use(function (err, req, res, next) {
+    app.use(function (err, _req, res) {
       console.error(err.stack);
       res.status(500).send("Something broke!");
     });
