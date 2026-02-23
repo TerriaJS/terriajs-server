@@ -421,7 +421,7 @@ function doCommonTest(methodName) {
     });
   });
 
-  describe("when specifying an allowed list of domains to proxy", function () {
+  describe("when specifying an allowed list of domains to proxy", () => {
     let testServer;
     let testServer2;
 
@@ -513,7 +513,7 @@ function doCommonTest(methodName) {
     });
   });
 
-  describe("when domain has basic authentication specified", function () {
+  describe("when domain has basic authentication specified", () => {
     let testServer;
     let testServer2;
 
@@ -846,7 +846,7 @@ function doCommonTest(methodName) {
     });
   });
 
-  describe("timeout configuration", function () {
+  describe("timeout configuration", () => {
     let testServer;
 
     beforeAll(async () => {
@@ -911,7 +911,7 @@ function doCommonTest(methodName) {
     });
   });
 
-  describe("append query params", function () {
+  describe("append query params", () => {
     let testServer;
     let testServer2;
 

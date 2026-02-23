@@ -11,7 +11,7 @@ const localRequestHandler = http.all("*", ({ request }) => {
   }
 });
 
-describe("feedback", function () {
+describe("feedback", () => {
   const server = setupServer(localRequestHandler);
 
   function buildApp() {

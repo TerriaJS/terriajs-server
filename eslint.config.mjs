@@ -25,7 +25,15 @@ export default defineConfig([
         }
       ],
       "no-shadow": "error",
+      "no-inner-declarations": "error",
+      eqeqeq: ["error", "always"],
+      curly: ["error", "all"],
+      "no-var": "error",
       "prefer-const": "error",
+      "prefer-template": "error",
+      "prefer-arrow-callback": "error",
+      "no-duplicate-imports": "error",
+
       "n/file-extension-in-import": ["error", "always"],
       "n/prefer-global/url": ["error"],
       "n/prefer-node-protocol": ["error"]

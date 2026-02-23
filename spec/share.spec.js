@@ -12,7 +12,7 @@ const localRequestHandler = http.all("*", ({ request }) => {
   }
 });
 
-describe("share endpoint (integration, real controller)", function () {
+describe("share endpoint (integration, real controller)", () => {
   const server = setupServer(localRequestHandler);
 
   const appOptions = {
@@ -51,8 +51,8 @@ describe("share endpoint (integration, real controller)", function () {
     server.close();
   });
 
-  describe("POST /share", function () {
-    it("should return 201 and correct response for valid payload", function (done) {
+  describe("POST /share", () => {
+    it("should return 201 and correct response for valid payload", async () => {
       // Mock GitHub Gist API
       const fakeGistId = "123456";
       server.use(
@@ -63,7 +63,7 @@ describe("share endpoint (integration, real controller)", function () {
 
       const payload = { test: "me" };
 
-      supertestReq(buildApp())
+      await supertestReq(buildApp())
         .post("/share")
         .send(payload)
         .expect(201)
@@ -74,16 +74,12 @@ describe("share endpoint (integration, real controller)", function () {
           expect(res.body.id).toBe(`g-${fakeGistId}`);
           expect(res.body.path).toBe(expectedPath);
           expect(actualUrl.endsWith(expectedPath)).toBeTrue();
-        })
-        .end(function (err) {
-          if (err) return done.fail(err);
-          done();
         });
     });
 
-    it("should return 413 when payload exceeds shareMaxRequestSize", function (done) {
+    it("should return 413 when payload exceeds shareMaxRequestSize", async () => {
       const largePayload = "a".repeat(250000); // 250KB
-      supertestReq(buildApp())
+      await supertestReq(buildApp())
         .post("/share")
         .set("Content-Type", "application/json")
         .send(`{"data":"${largePayload}"}`)
@@ -91,10 +87,6 @@ describe("share endpoint (integration, real controller)", function () {
         .expect("Content-Type", /text|plain/)
         .expect((res) => {
           expect(res.text.includes("Payload Too Large")).toBeTrue();
-        })
-        .end(function (err) {
-          if (err) return done.fail(err);
-          done();
         });
     });
   });
