@@ -1,6 +1,6 @@
 {
   "name": "terriajs-server",
-  "version": "5.0.0-alpha.0",
+  "version": "5.0.0-alpha.1",
   "description": "NodeJS server for TerriaJS, consisting of a CORS proxy, proj4 CRS lookup service, and express static server.",
   "engineStrict": true,
   "engines": {
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/TerriaJS/TerriaJS-Server",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.989.0",
+    "@aws-sdk/client-s3": "^3.995.0",
     "base-x": "^5.0.1",
     "basic-auth": "^2.0.1",
     "body-parser": "^2.2.2",
@@ -48,24 +48,24 @@
     "proj4-cli-defs": "^2.1.0",
     "range_check": "^4.1.0",
     "rate-limiter-flexible": "^9.1.1",
-    "undici": "^7.21.0",
+    "undici": "^7.22.0",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.0.1",
-    "@testcontainers/localstack": "^11.11.0",
+    "@testcontainers/localstack": "^11.12.0",
     "@types/express": "^5.0.6",
-    "@types/node": "^25.2.3",
-    "eslint": "^10.0.0",
+    "@types/node": "^25.3.0",
+    "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-n": "^17.23.2",
+    "eslint-plugin-n": "^17.24.0",
     "globals": "^17.3.0",
     "http-proxy": "^1.18.1",
-    "jasmine": "^6.0.0",
+    "jasmine": "^6.1.0",
     "msw": "^2.12.10",
     "prettier": "^3.8.1",
     "supertest": "^7.2.2",
-    "testcontainers": "^11.11.0"
+    "testcontainers": "^11.12.0"
   }
 }
