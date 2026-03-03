@@ -60,7 +60,7 @@
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-n": "^17.24.0",
-    "globals": "^17.3.0",
+    "globals": "^17.4.0",
     "http-proxy": "^1.18.1",
     "jasmine": "^6.1.0",
     "msw": "^2.12.10",
