@@ -48,7 +48,7 @@
     "proj4-cli-defs": "^2.1.0",
     "range_check": "^4.1.0",
     "rate-limiter-flexible": "^9.1.1",
-    "undici": "^7.22.0",
+    "undici": "^7.24.0",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
