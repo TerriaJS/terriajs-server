@@ -1346,12 +1346,12 @@
   dependencies:
     tslib "^2.6.2"
 
-"@testcontainers/localstack@^11.12.0":
-  version "11.12.0"
-  resolved "https://registry.yarnpkg.com/@testcontainers/localstack/-/localstack-11.12.0.tgz#046797a339c8644e865bd3093918e5ceaba1b1d8"
-  integrity sha512-pqpJD61t6ipLOJbT2fHXvByDczfewEwkR03/KordJSPoUANjUUVHiEviKq6ZgOJWk2WUvrU7UsHde0EazKckOQ==
+"@testcontainers/localstack@^11.13.0":
+  version "11.13.0"
+  resolved "https://registry.yarnpkg.com/@testcontainers/localstack/-/localstack-11.13.0.tgz#215708e9f6b2accd74f8d8c4c52d0d3e6a6fca36"
+  integrity sha512-BTNa9vS/lltr7OzJ+8+PNkpww/oHtqvkFtz+bD58osjUROL6YHRHKdprr150pMvUjpSwtWI5vFzisXE/OpgY9g==
   dependencies:
-    testcontainers "^11.12.0"
+    testcontainers "^11.13.0"
 
 "@types/body-parser@*":
   version "1.19.6"
@@ -3541,7 +3541,7 @@ tar-stream@^3.0.0, tar-stream@^3.1.5:
     fast-fifo "^1.2.0"
     streamx "^2.15.0"
 
-testcontainers@^11.12.0, testcontainers@^11.13.0:
+testcontainers@^11.13.0:
   version "11.13.0"
   resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-11.13.0.tgz#a18034affe4a25247dbe53d935469436cf5c2d39"
   integrity sha512-fzTvgOtd6U/esOzgmDatJh79OSK0tU6vjDOJ3B6ICrrJf0dqCWtFdpOr6f/g/KixMxKDTDbszmZYjSORJXsVCQ==
