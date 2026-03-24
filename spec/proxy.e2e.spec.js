@@ -1530,4 +1530,94 @@ function doCommonTest(methodName) {
       expect(response.text).toContain("IP address is not allowed: 127.0.0.1");
     });
   });
+
+  describe("default blacklist", () => {
+    let app;
+
+    beforeAll(async () => {
+      ({ app } = await buildApp({
+        proxyAllDomains: true
+      }));
+    });
+
+    // All 25 IANA IPv4 Special-Purpose Address Registry entries
+    // https://www.iana.org/assignments/iana-ipv4-special-registry
+    it("should block all 25 IANA IPv4 special-purpose address entries", async () => {
+      const blacklistedIPs = [
+        "0.0.0.1", //0.0.0.0/8 - "This network" (RFC 791)
+        "0.0.0.0", //0.0.0.0/32 - "This host on this network" (RFC 1122)
+        "10.0.0.1", //10.0.0.0/8 - Private-Use (RFC 1918)
+        "100.64.0.1", //100.64.0.0/10 - Shared Address Space (RFC 6598)
+        "127.0.0.1", //127.0.0.0/8 - Loopback (RFC 1122)
+        "169.254.1.1", //169.254.0.0/16 - Link Local (RFC 3927)
+        "172.16.0.1", //172.16.0.0/12 - Private-Use (RFC 1918)
+        "192.0.0.1", //192.0.0.0/24 - IETF Protocol Assignments (RFC 6890)
+        "192.0.0.2", //192.0.0.0/29 - IPv4 Service Continuity Prefix (RFC 7335)
+        "192.0.0.8", // 192.0.0.8/32 - IPv4 dummy address (RFC 7600)
+        "192.0.0.9", // 192.0.0.9/32 - Port Control Protocol Anycast (RFC 7723)
+        "192.0.0.10", // 192.0.0.10/32 - TURN Anycast (RFC 8155)
+        "192.0.0.170", // 192.0.0.170/32, 192.0.0.171/32 - NAT64/DNS64 Discovery (RFC 8880)
+        "192.0.2.1", // 192.0.2.0/24 - Documentation TEST-NET-1 (RFC 5737)
+        "192.31.196.1", // 192.31.196.0/24 - AS112-v4 (RFC 7535)
+        "192.52.193.1", // 192.52.193.0/24 - AMT (RFC 7450)
+        "192.88.99.1", // 192.88.99.0/24 - 6to4 Relay Anycast (RFC 7526)
+        "192.88.99.2", // 192.88.99.2/32 - 6a44 Relay Anycast (RFC 6751)
+        "192.168.1.1", // 192.168.0.0/16 - Private-Use (RFC 1918)
+        "192.175.48.1", // 192.175.48.0/24 - AS112 Direct Delegation (RFC 7534)
+        "198.18.0.1", // 198.18.0.0/15 - Benchmarking (RFC 2544)
+        "198.51.100.1", // 198.51.100.0/24 - Documentation TEST-NET-2 (RFC 5737)
+        "203.0.113.1", // 203.0.113.0/24 - Documentation TEST-NET-3 (RFC 5737)
+        "240.0.0.1", // 240.0.0.0/4 - Reserved (RFC 1112)
+        "255.255.255.255" // 255.255.255.255/32 - Limited Broadcast (RFC 8190)
+      ];
+
+      for (const ip of blacklistedIPs) {
+        const response = await supertestReq(app)
+          [methodName](`/proxy/http://${ip}/test`)
+          .expect(403);
+
+        expect(response.text).toContain("not in list of allowed hosts");
+      }
+    });
+
+    // All 25 IANA IPv6 Special-Purpose Address Registry entries
+    // https://www.iana.org/assignments/iana-ipv6-special-registry
+    it("should block all 25 IANA IPv6 special-purpose address entries", async () => {
+      const blacklistedIPs = [
+        "[::1]", //::1/128 - Loopback (RFC 4291)
+        "[::]", //::/128 - Unspecified (RFC 4291)
+        "[::ffff:0:1]", //::ffff:0:0/96 - IPv4-mapped (RFC 4291)
+        "[64:ff9b::1]", //64:ff9b::/96 - IPv4-IPv6 Translation (RFC 6052)
+        "[64:ff9b:1::1]", //64:ff9b:1::/48 - IPv4-IPv6 Translation (RFC 8215)
+        "[100::1]", //100::/64 - Discard-Only (RFC 6666)
+        "[100:0:0:1::1]", //100:0:0:1::/64 - DETS (RFC 9780)
+        "[2001::1]", //2001::/23 - IETF Protocol Assignments (RFC 2928)
+        "[2001:0:1::1]", //2001::/32 - TEREDO (RFC 4380)
+        "[2001:1::1]", // 2001:1::1/128 - Port Control Protocol Anycast (RFC 7723)
+        "[2001:1::2]", // 2001:1::2/128 - TURN Anycast (RFC 8155)
+        "[2001:1::3]", // 2001:1::3/128 - DNS-SD Service Registration (RFC 9832)
+        "[2001:2::1]", // 2001:2::/48 - Benchmarking (RFC 5180)
+        "[2001:3::1]", // 2001:3::/32 - AMT (RFC 7450)
+        "[2001:4:112::1]", // 2001:4:112::/48 - AS112-v6 (RFC 7535)
+        "[2001:10::1]", // 2001:10::/28 - ORCHID deprecated (RFC 4843)
+        "[2001:20::1]", // 2001:20::/28 - ORCHIDv2 (RFC 7343)
+        "[2001:30::1]", // 2001:30::/28 - Drone Remote ID Protocol (RFC 9374)
+        "[2001:db8::1]", // 2001:db8::/32 - Documentation (RFC 3849)
+        "[2002::1]", // 2002::/16 - 6to4 (RFC 3056)
+        "[2620:4f:8000::1]", // 2620:4f:8000::/48 - RPKI (RFC 9511)
+        "[3fff::1]", // 3fff::/20 - Documentation (RFC 9637)
+        "[5f00::1]", // 5f00::/16 - Segment Routing SRv6 SIDs (RFC 9602)
+        "[fc00::1]", // fc00::/7 - Unique-Local (RFC 4193)
+        "[fe80::1]" // fe80::/10 - Link-Local Unicast (RFC 4291)
+      ];
+
+      for (const ip of blacklistedIPs) {
+        const response = await supertestReq(app)
+          [methodName](`/proxy/http://${ip}/test`)
+          .expect(403);
+
+        expect(response.text).toContain("not in list of allowed hosts");
+      }
+    });
+  });
 }
