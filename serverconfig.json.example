@@ -33,32 +33,71 @@
     // The default is as shown here. If your server has access to an IP range that is not accessible to clients of the proxy, and you
     // want to ensure that the client can"t get access to it through the proxy, it is vital that you add that IP range to this list.
     "blacklistedAddresses": [
-        // loopback addresses
+        // loopback
         "127.0.0.0/8",
         "::1/128",
-        // link local addresses
+        // link-local
         "169.254.0.0/16",
         "fe80::/10",
-        // private network addresses
+        // private networks (RFC 1918)
         "10.0.0.0/8",
         "172.16.0.0/12",
         "192.168.0.0/16",
         "fc00::/7",
-        // other
+        // current network, "this" host (RFC 1122)
         "0.0.0.0/8",
+        // carrier-grade NAT / shared address space (RFC 6598)
         "100.64.0.0/10",
+        // IETF protocol assignments (RFC 6890)
         "192.0.0.0/24",
+        // documentation / test ranges (RFC 5737)
         "192.0.2.0/24",
-        "198.18.0.0/15",
-        "192.88.99.0/24",
         "198.51.100.0/24",
         "203.0.113.0/24",
+        // benchmarking (RFC 2544)
+        "198.18.0.0/15",
+        // 6to4 relay anycast (RFC 7526)
+        "192.88.99.0/24",
+        // AS112-v4 DNS blackhole (RFC 7535)
+        "192.31.196.0/24",
+        // AMT relay discovery (RFC 7450)
+        "192.52.193.0/24",
+        // AS112 direct delegation (RFC 7534)
+        "192.175.48.0/24",
+        // multicast (RFC 5771)
         "224.0.0.0/4",
+        // reserved for future use (RFC 1112)
         "240.0.0.0/4",
+        // broadcast
         "255.255.255.255/32",
+        // unspecified address (RFC 4291)
         "::/128",
+        // documentation (RFC 3849)
         "2001:db8::/32",
-        "ff00::/8"
+        // multicast (RFC 4291)
+        "ff00::/8",
+        // IPv4-mapped IPv6 (RFC 4291)
+        "::ffff:0:0/96",
+        // NAT64 well-known prefix (RFC 6052)
+        "64:ff9b::/96",
+        // NAT64 local-use prefix (RFC 8215)
+        "64:ff9b:1::/48",
+        // IETF protocol assignments (RFC 2928)
+        "2001::/23",
+        // 6to4 (RFC 3056)
+        "2002::/16",
+        // site-local (RFC 3879, deprecated)
+        "fec0::/10",
+        // discard prefix (RFC 6666)
+        "100::/64",
+        // DETS prefix (RFC 9780)
+        "100:0:0:1::/64",
+        // RPKI (RFC 9511)
+        "2620:4f:8000::/48",
+        // documentation (RFC 9637)
+        "3fff::/20",
+        // segment routing (RFC 9602)
+        "5f00::/16"
     ],
 
     // Pass requests through to another proxy upstream.

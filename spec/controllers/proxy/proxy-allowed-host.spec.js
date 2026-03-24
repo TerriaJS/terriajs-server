@@ -54,6 +54,26 @@ describe("proxyAllowedHost", () => {
       expect(proxyAllowedHost("localhost", undefined)).toBe(false);
     });
 
+    it("should block IPv4-mapped IPv6 addresses that map to blacklisted IPv4", () => {
+      const proxyAllowedHost = makeHostnameMatcher({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["127.0.0.0/8", "10.0.0.0/8", "192.168.0.0/16"]
+      });
+
+      // IPv4-mapped IPv6 in hex form (as URL parser normalizes them)
+      expect(proxyAllowedHost("::ffff:7f00:1", undefined)).toBe(false); // 127.0.0.1
+      expect(proxyAllowedHost("::ffff:a00:1", undefined)).toBe(false); // 10.0.0.1
+      expect(proxyAllowedHost("::ffff:c0a8:101", undefined)).toBe(false); // 192.168.1.1
+
+      // IPv4-mapped IPv6 in dotted form
+      expect(proxyAllowedHost("::ffff:127.0.0.1", undefined)).toBe(false);
+      expect(proxyAllowedHost("::ffff:10.0.0.1", undefined)).toBe(false);
+      expect(proxyAllowedHost("::ffff:192.168.1.1", undefined)).toBe(false);
+
+      // Non-blacklisted IPv4-mapped should still be allowed
+      expect(proxyAllowedHost("::ffff:8.8.8.8", undefined)).toBe(true);
+    });
+
     it("should prioritize blacklist over allowed domains", () => {
       const proxyAllowedHost = makeHostnameMatcher({
         proxyableDomains: ["127.0.0.1"],
