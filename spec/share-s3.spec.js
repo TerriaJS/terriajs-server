@@ -38,7 +38,7 @@ describe("Share Module (e2e) - S3", () => {
 
   beforeAll(async () => {
     localstackContainer = await new LocalstackContainer(
-      "localstack/localstack:s3-latest"
+      "localstack/localstack:4.14.0"
     ).start();
 
     const endpoint = localstackContainer.getConnectionUri();
