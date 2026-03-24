@@ -911,6 +911,56 @@ function doCommonTest(methodName) {
     });
   });
 
+  describe("response size limit", () => {
+    let testServer;
+
+    beforeAll(async () => {
+      testServer = await createTestServer(TEST_SERVER_PORT);
+    });
+
+    afterAll(async () => {
+      await testServer.close();
+    });
+
+    afterEach(async () => {
+      testServer.clearRoutes();
+    });
+
+    it("should abort response when body exceeds configured responseSizeLimit", async () => {
+      testServer.addRoute(methodName, "/large-response", (_req, res) => {
+        res.set("Content-Type", "application/octet-stream");
+        res.send(Buffer.alloc(1024, "x"));
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"],
+        proxyResponseSizeLimit: 500
+      });
+
+      await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/large-response`)
+        .expect(502);
+    });
+
+    it("should allow response when body is within responseSizeLimit", async () => {
+      testServer.addRoute(methodName, "/small-response", (_req, res) => {
+        res.set("Content-Type", "application/octet-stream");
+        res.send(Buffer.alloc(100, "x"));
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"],
+        proxyResponseSizeLimit: 500
+      });
+
+      await supertestReq(app)
+        [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/small-response`)
+        .expect(200);
+    });
+  });
+
   describe("append query params", () => {
     let testServer;
     let testServer2;
