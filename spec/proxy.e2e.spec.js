@@ -1531,6 +1531,21 @@ function doCommonTest(methodName) {
     });
   });
 
+  describe("DNS lookup failure", () => {
+    it("should return 502 when DNS lookup fails", async () => {
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"]
+      });
+
+      const response = await supertestReq(app)
+        [methodName](`/proxy/http://nonexistent.invalid/test`)
+        .expect(502);
+
+      expect(response.text).toContain("DNS lookup failed");
+    });
+  });
+
   describe("default blacklist", () => {
     let app;
 
