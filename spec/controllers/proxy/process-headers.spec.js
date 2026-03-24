@@ -14,6 +14,17 @@ describe("proxy processHeaders", () => {
     expect(result["access-control-allow-origin"]).toBe("*");
   });
 
+  it("strips Set-Cookie headers from upstream responses", () => {
+    const headers = {
+      "Set-cookie": "session=abc123; Path=/; HttpOnly",
+      "content-type": "application/json"
+    };
+
+    const result = processHeaders(headers, 1200);
+    expect(result["Set-cookie"]).toBeUndefined();
+    expect(result["content-type"]).toBe("application/json");
+  });
+
   it("don't set duration when undefined", () => {
     const headers = {
       "Proxy-Connection": "delete me!",
