@@ -12,6 +12,9 @@
 * Fixed: Empty `newShareUrlPrefix` now correctly results in share URLs without a prefix, instead of broken URL starting with `-`.
 * Remove deprecated /proxyableDomains endpoint.
 * Report unused variables and fix errors.
+* Strip Set-Cookie headers from proxy requests.
+* Limit proxy response size to 100MB by default, configurable with `proxyResponseSizeLimit` in the server config.
+
 
 ### 4.0.3 - 2025-12-04
 
