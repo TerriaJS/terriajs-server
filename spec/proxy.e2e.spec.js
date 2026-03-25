@@ -1,3 +1,4 @@
+import dns from "node:dns";
 import supertestReq from "supertest";
 
 import makeServer from "../lib/makeserver.js";
@@ -1361,6 +1362,32 @@ function doCommonTest(methodName) {
       }
     });
 
+    it("should block redirect to host that resolves to blacklisted IP", async () => {
+      testServer.addRoute(methodName, "/redirect-to-loopback", (_req, res) => {
+        res.redirect(302, `http://localhost:${TEST_SERVER_PORT}/final`);
+      });
+
+      testServer.addRoute("get", "/final", (_req, res) => {
+        res.status(200).json({ data: "should not reach here" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["127.0.0.1"]
+      });
+
+      // Initial request via [::1] (IPv6 loopback, not blacklisted).
+      // Redirect goes to localhost which resolves to 127.0.0.1 —
+      // blocked at socket level by secure-agent IP check.
+      const response = await supertestReq(app)
+        [
+          methodName
+        ](`/proxy/http://[::1]:${TEST_SERVER_PORT}/redirect-to-loopback`)
+        .expect(403);
+
+      expect(response.text).toContain("IP address is not allowed: 127.0.0.1");
+    });
+
     it("should follow multiple redirect chain (3 redirects)", async () => {
       // Setup 3-hop redirect chain
       testServer.addRoute(methodName, "/step1", (_req, res) => {
@@ -1528,6 +1555,229 @@ function doCommonTest(methodName) {
         .expect(403);
 
       expect(response.text).toContain("IP address is not allowed: 127.0.0.1");
+    });
+  });
+
+  describe("DNS rebinding protection", () => {
+    let testServer;
+
+    beforeAll(async () => {
+      testServer = await createTestServer(TEST_SERVER_PORT);
+    });
+
+    afterAll(async () => {
+      await testServer.close();
+    });
+
+    afterEach(() => {
+      testServer.clearRoutes();
+    });
+
+    function createRebindingLookup(targetHostname, responses) {
+      let index = 0;
+      return function lookup(hostname, options, callback) {
+        if (typeof options === "function") {
+          callback = options;
+          options = {};
+        }
+        if (hostname === targetHostname) {
+          const resp = responses[Math.min(index, responses.length - 1)];
+          index++;
+          if (options.all) {
+            return process.nextTick(callback, null, [resp]);
+          }
+          return process.nextTick(callback, null, resp.address, resp.family);
+        }
+        return dns.lookup(hostname, options, callback);
+      };
+    }
+
+    function createMultiAddressLookup(targetHostname, addresses) {
+      return function lookup(hostname, options, callback) {
+        if (typeof options === "function") {
+          callback = options;
+          options = {};
+        }
+        if (hostname === targetHostname) {
+          if (options.all) {
+            return process.nextTick(callback, null, addresses);
+          }
+          return process.nextTick(
+            callback,
+            null,
+            addresses[0].address,
+            addresses[0].family
+          );
+        }
+        return dns.lookup(hostname, options, callback);
+      };
+    }
+
+    it("should block when DNS rebinds to blacklisted IP between requests", async () => {
+      const lookup = createRebindingLookup("evil-rebind.test", [
+        { address: "::1", family: 6 },
+        { address: "127.0.0.1", family: 4 }
+      ]);
+
+      testServer.addRoute(methodName, "/data", (_req, res) => {
+        res.status(200).json({ data: "success" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["127.0.0.1"],
+        lookup
+      });
+
+      // First request: DNS resolves to ::1 (safe) — succeeds
+      await supertestReq(app)
+        [methodName](`/proxy/http://evil-rebind.test:${TEST_SERVER_PORT}/data`)
+        .expect(200);
+
+      // Second request: DNS now resolves to 127.0.0.1 (blacklisted) — blocked
+      const response = await supertestReq(app)
+        [methodName](`/proxy/http://evil-rebind.test:${TEST_SERVER_PORT}/data`)
+        .expect(403);
+
+      expect(response.text).toContain("IP address is not allowed: 127.0.0.1");
+    });
+
+    it("should block when DNS rebinds to blacklisted IP during redirect", async () => {
+      const lookup = createRebindingLookup("evil-rebind.test", [
+        { address: "::1", family: 6 },
+        { address: "127.0.0.1", family: 4 }
+      ]);
+
+      testServer.addRoute(methodName, "/start", (_req, res) => {
+        res.set("Connection", "close");
+        res.redirect(302, `http://evil-rebind.test:${TEST_SERVER_PORT}/steal`);
+      });
+
+      testServer.addRoute("get", "/steal", (_req, res) => {
+        res.status(200).json({ data: "should not reach here" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["127.0.0.1"],
+        lookup
+      });
+
+      // First DNS returns ::1 (safe), redirect triggers second DNS
+      // which returns 127.0.0.1 (blacklisted) — blocked at socket level
+      const response = await supertestReq(app)
+        [methodName](`/proxy/http://evil-rebind.test:${TEST_SERVER_PORT}/start`)
+        .expect(403);
+
+      expect(response.text).toContain("IP address is not allowed: 127.0.0.1");
+    });
+
+    it("should block when any resolved IP is blacklisted (multi-A-record)", async () => {
+      const lookup = createMultiAddressLookup("evil-multi-a.test", [
+        { address: "::1", family: 6 },
+        { address: "127.0.0.1", family: 4 }
+      ]);
+
+      testServer.addRoute(methodName, "/data", (_req, res) => {
+        res.status(200).json({ data: "should not reach here" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["127.0.0.1"],
+        lookup
+      });
+
+      // DNS returns both ::1 (safe) and 127.0.0.1 (blacklisted).
+      // Even though ::1 connects first, 127.0.0.1 must still be checked.
+      const response = await supertestReq(app)
+        [methodName](
+          `/proxy/http://evil-multi-a.test:${TEST_SERVER_PORT}/data`
+        )
+        .expect(403);
+
+      expect(response.text).toContain("IP address is not allowed: 127.0.0.1");
+    });
+
+    it("should block DNS rebind on same-origin redirect with keep-alive", async () => {
+      const lookup = createRebindingLookup("evil-rebind.test", [
+        { address: "::1", family: 6 },
+        { address: "127.0.0.1", family: 4 }
+      ]);
+
+      testServer.addRoute(methodName, "/keepalive-start", (_req, res) => {
+        // No Connection: close — keep-alive is the default
+        res.redirect(302, `http://evil-rebind.test:${TEST_SERVER_PORT}/steal`);
+      });
+
+      testServer.addRoute("get", "/steal", (_req, res) => {
+        res.status(200).json({ data: "should not reach here" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["127.0.0.1"],
+        lookup
+      });
+
+      // Same-origin redirect with keep-alive: DNS must still be
+      // re-checked on redirect even if connection could be reused.
+      const response = await supertestReq(app)
+        [methodName](
+          `/proxy/http://evil-rebind.test:${TEST_SERVER_PORT}/keepalive-start`
+        )
+        .expect(403);
+
+      expect(response.text).toContain("IP address is not allowed: 127.0.0.1");
+    });
+
+    it("should isolate DNS checks per request (no cross-request connection reuse)", async () => {
+      let lookupCount = 0;
+      const lookup = (hostname, options, callback) => {
+        if (typeof options === "function") {
+          callback = options;
+          options = {};
+        }
+        if (hostname === "evil-rebind.test") {
+          lookupCount++;
+          // Always return safe IP — simulates DNS cache
+          if (options.all) {
+            return process.nextTick(callback, null, [
+              { address: "::1", family: 6 }
+            ]);
+          }
+          return process.nextTick(callback, null, "::1", 6);
+        }
+        return dns.lookup(hostname, options, callback);
+      };
+
+      testServer.addRoute(methodName, "/data", (_req, res) => {
+        res.status(200).json({ data: "success" });
+      });
+
+      const { app } = await buildApp({
+        proxyAllDomains: true,
+        blacklistedAddresses: ["202.168.1.1"],
+        lookup
+      });
+
+      // Make two requests — each must trigger its own DNS lookup
+      // (no connection reuse across proxy requests)
+      await supertestReq(app)
+        [methodName](
+          `/proxy/http://evil-rebind.test:${TEST_SERVER_PORT}/data`
+        )
+        .expect(200);
+
+      await supertestReq(app)
+        [methodName](
+          `/proxy/http://evil-rebind.test:${TEST_SERVER_PORT}/data`
+        )
+        .expect(200);
+
+      // Each proxy request must create its own Agent/connection
+      // so DNS is resolved independently for every request
+      expect(lookupCount).toBeGreaterThanOrEqual(2);
     });
   });
 

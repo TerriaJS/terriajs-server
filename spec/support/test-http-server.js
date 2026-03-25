@@ -5,7 +5,7 @@ import http from "node:http";
  * Creates a simple HTTP server for testing proxy functionality
  * @param {number} port - Port to listen on
  * @param {object} routes - Object mapping paths to response handlers
- * @returns {object} Server with close method
+ * @returns {Promise<object>} Server with close method
  */
 async function createTestServer(port) {
   const app = express();
