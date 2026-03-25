@@ -14,6 +14,7 @@
 * Report unused variables and fix errors.
 * Strip Set-Cookie headers from proxy requests.
 * Limit proxy response size to 100MB by default, configurable with `proxyResponseSizeLimit` in the server config.
+* Extend blacklist to cover the all IANA special-purpose address registries. If you have overridden the default blacklist, be sure to review and include necessary entires from https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml and https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml
 
 
 ### 4.0.3 - 2025-12-04
