@@ -74,7 +74,7 @@ describe("Share Module (e2e) - S3", () => {
 
     await supertestReq(app)
       .get("/share/s3-aqJr26G16vOvgbBGgrfzSYLIcy")
-      .expect(200, Buffer.from(JSON.stringify({ data: "test content" })));
+      .expect(200, { data: "test content" });
   });
 
   it('returns correct url in response when "newShareUrlPrefix" is empty string', async () => {
@@ -104,7 +104,7 @@ describe("Share Module (e2e) - S3", () => {
 
     await supertestReq(app)
       .get("/share/hBp74ADLrPU6flu0qu07Kyi1FM0")
-      .expect(200, Buffer.from(JSON.stringify({ data: "test content empty" })));
+      .expect(200, { data: "test content empty" });
   });
 
   it("should return 404 for non-existent share", async () => {
