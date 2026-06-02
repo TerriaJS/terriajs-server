@@ -3119,10 +3119,10 @@ range_check@^4.1.0:
     ip6 "^0.2.11"
     ipaddr.js "^2.2.0"
 
-rate-limiter-flexible@^9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-9.1.1.tgz#1abd41242ae7a9a62170af3dc0f44b38a3ac18e5"
-  integrity sha512-imxFjzPCmvDLMe7d2tsgiSQvs5EI2fI9SNymmslAfOqznZhsZ+PqbIjIYKpuSbd3pKovR1aMG47qfCLIO/adVg==
+rate-limiter-flexible@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-11.1.0.tgz#7f23056adcf2aeae50ded91203e55579cbf3ab8b"
+  integrity sha512-lyyC0SqKz+dE5JoHZ4JMqdrM3LSZKBxzuAFAyKCYAnmHnPz/Rb6iDquxoL4CMipDXoR0G+QRhOzYWL3JKihbNw==
 
 raw-body@^3.0.1:
   version "3.0.2"
