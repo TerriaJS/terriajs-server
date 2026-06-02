@@ -727,12 +727,12 @@
     "@smithy/util-buffer-from" "^2.2.0"
     tslib "^2.6.2"
 
-"@testcontainers/localstack@^11.13.0":
-  version "11.13.0"
-  resolved "https://registry.yarnpkg.com/@testcontainers/localstack/-/localstack-11.13.0.tgz#215708e9f6b2accd74f8d8c4c52d0d3e6a6fca36"
-  integrity sha512-BTNa9vS/lltr7OzJ+8+PNkpww/oHtqvkFtz+bD58osjUROL6YHRHKdprr150pMvUjpSwtWI5vFzisXE/OpgY9g==
+"@testcontainers/localstack@^12.0.1":
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/@testcontainers/localstack/-/localstack-12.0.1.tgz#2035c27ccde94fae0112bb1fde8c4ddb31a3f180"
+  integrity sha512-0VRwXxFv/zeKRZaIVhfjWd4VpIPHsijkXXti/LY6i7q1+twC4Big1w4MOaxSnXBDgoHUk88/5or8TGWCokgkYw==
   dependencies:
-    testcontainers "^11.13.0"
+    testcontainers "^12.0.1"
 
 "@types/body-parser@*":
   version "1.19.6"
@@ -1351,7 +1351,7 @@ dezalgo@^1.0.4:
     asap "^2.0.0"
     wrappy "1"
 
-docker-compose@^1.3.2, docker-compose@^1.4.2:
+docker-compose@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/docker-compose/-/docker-compose-1.4.2.tgz#a389b9ab754c722bccf97fba6206859098edf835"
   integrity sha512-rPHigTKGaEHpkUmfd69QgaOp+Os5vGJwG/Ry8lcr8W/382AmI+z/D7qoa9BybKIkqNppaIbs8RYeHSevdQjWww==
@@ -1367,19 +1367,6 @@ docker-modem@^5.0.7:
     readable-stream "^3.5.0"
     split-ca "^1.0.1"
     ssh2 "^1.15.0"
-
-dockerode@^4.0.9:
-  version "4.0.10"
-  resolved "https://registry.yarnpkg.com/dockerode/-/dockerode-4.0.10.tgz#d0fa159d87eace6f59aa1399517c3d07a7455f73"
-  integrity sha512-8L/P9JynLBiG7/coiA4FlQXegHltRqS0a+KqI44P1zgQh8QLHTg7FKOwhkBgSJwZTeHsq30WRoVFLuwkfK0YFg==
-  dependencies:
-    "@balena/dockerignore" "^1.0.2"
-    "@grpc/grpc-js" "^1.11.1"
-    "@grpc/proto-loader" "^0.7.13"
-    docker-modem "^5.0.7"
-    protobufjs "^7.3.2"
-    tar-fs "^2.1.4"
-    uuid "^10.0.0"
 
 dockerode@^5.0.0:
   version "5.0.0"
@@ -1837,7 +1824,7 @@ get-intrinsic@^1.2.5, get-intrinsic@^1.2.6, get-intrinsic@^1.3.0:
     hasown "^2.0.2"
     math-intrinsics "^1.1.0"
 
-get-port@^7.1.0, get-port@^7.2.0:
+get-port@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/get-port/-/get-port-7.2.0.tgz#db0d52eb2d89890cdc010ed0e9a6f2d4b78cbbe7"
   integrity sha512-afP4W205ONCuMoPBqcR6PSXnzX35KTcJygfJfcp+QY+uwm3p20p1YczWXhlICIzGMCxYBQcySEcOgsJcrkyobg==
@@ -2929,27 +2916,6 @@ teex@^1.0.1:
   dependencies:
     streamx "^2.12.5"
 
-testcontainers@^11.13.0:
-  version "11.13.0"
-  resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-11.13.0.tgz#a18034affe4a25247dbe53d935469436cf5c2d39"
-  integrity sha512-fzTvgOtd6U/esOzgmDatJh79OSK0tU6vjDOJ3B6ICrrJf0dqCWtFdpOr6f/g/KixMxKDTDbszmZYjSORJXsVCQ==
-  dependencies:
-    "@balena/dockerignore" "^1.0.2"
-    "@types/dockerode" "^4.0.1"
-    archiver "^7.0.1"
-    async-lock "^1.4.1"
-    byline "^5.0.0"
-    debug "^4.4.3"
-    docker-compose "^1.3.2"
-    dockerode "^4.0.9"
-    get-port "^7.1.0"
-    proper-lockfile "^4.1.2"
-    properties-reader "^3.0.1"
-    ssh-remote-port-forward "^1.0.4"
-    tar-fs "^3.1.2"
-    tmp "^0.2.5"
-    undici "^7.24.3"
-
 testcontainers@^12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-12.0.1.tgz#38a3d073fef3a753793923ceb57b9e3999824aa5"
@@ -2990,7 +2956,7 @@ tldts@^7.0.5:
   dependencies:
     tldts-core "^7.0.27"
 
-tmp@^0.2.5, tmp@^0.2.6:
+tmp@^0.2.6:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.7.tgz#26f4db11d1601ce8012dcb8a798ece1c06a99059"
   integrity sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==
@@ -3057,7 +3023,7 @@ undici-types@~5.26.4:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
-undici@^7.24.3, undici@^7.25.0:
+undici@^7.25.0:
   version "7.27.0"
   resolved "https://registry.yarnpkg.com/undici/-/undici-7.27.0.tgz#8f1d99dfc28273fe8a5736aa93a507850fda78c9"
   integrity sha512-+t2Z/GwkZQDtu00813aP66ygViGtPHKhhoFZpQKpKrE+9jIgES+Zw+mFNaDWOVRKiuJjuqKHzD3B1sfGg8+ZOQ==
@@ -3088,11 +3054,6 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
-
-uuid@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
-  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
 
 vary@^1, vary@^1.1.2, vary@~1.1.2:
   version "1.1.2"
