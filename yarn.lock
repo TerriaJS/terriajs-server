@@ -2642,19 +2642,19 @@ jackspeak@^3.1.2:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
-jasmine-core@~6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-6.1.0.tgz#20d924c5570f002d7515c6c45bd49b9715fea43d"
-  integrity sha512-p/tjBw58O6vxKIWMlrU+yys8lqR3+l3UrqwNTT7wpj+dQ7N4etQekFM8joI+cWzPDYqZf54kN+hLC1+s5TvZvg==
+jasmine-core@~6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-6.2.0.tgz#1e63642766d26e68afd2681d00ace3475004385a"
+  integrity sha512-b16WZG/pFEFj8qRW1ss7nDuNGYz9ji8BDGj7fJNrROauk5rj/diO3KPOuyIpcgUChdC+c0PfQ8iUk4nHE+EN4w==
 
-jasmine@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-6.1.0.tgz#6cbdabdc6ffee59773c0b7e77cf7e058a2f6c63b"
-  integrity sha512-WPphPqEMY0uBRMjuhRHoVoxQNvJuxIMqz0yIcJ3k3oYxBedeGoH60/NXNgasxnx2FvfXrq5/r+2wssJ7WE8ABw==
+jasmine@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-6.2.0.tgz#65b398157345cccd40be8c4a4fbc9463a9db2b23"
+  integrity sha512-dvYt7bidcu0JvvSbiUnSDW7UQQiflUwDr6C+5wzoZ0J7RY9u+UcoSIzyhMPj6fnU/tC7KinJ5QrjwD2Y9p4T4w==
   dependencies:
     "@jasminejs/reporters" "^1.0.0"
     glob "^10.2.2 || ^11.0.3 || ^12.0.0 || ^13.0.0"
-    jasmine-core "~6.1.0"
+    jasmine-core "~6.2.0"
 
 json-buffer@3.0.1:
   version "3.0.1"
