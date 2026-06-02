@@ -824,6 +824,99 @@ function doCommonTest(methodName) {
         .expect(403, { statusCode: 403, message: "No Auth Also Failed" });
     });
 
+    describe("cache-control visibility based on which auth strategy succeeded", () => {
+      it("uses private cache-control and Vary: Authorization when user auth succeeds", async () => {
+        testServer.addRoute(methodName, "/cache-user-auth", (req, res) => {
+          if (req.headers.authorization !== "Bearer user-token") {
+            return res.status(401).json({ error: "Unauthorized" });
+          }
+          res.status(200).json({ data: "protected" });
+        });
+
+        const { app } = await buildApp({
+          proxyAllDomains: true,
+          blacklistedAddresses: ["202.168.1.1"]
+        });
+
+        const userAuthRes = await supertestReq(app)
+          [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/cache-user-auth`)
+          .set("Authorization", "Bearer user-token")
+          .expect(200)
+          .expect("Cache-Control", "private,max-age=1209600");
+        expect(userAuthRes.headers["vary"]).toContain("Authorization");
+      });
+
+      it("uses private cache-control and Vary: Authorization when proxy auth succeeds", async () => {
+        testServer.addRoute(methodName, "/cache-proxy-auth", (req, res) => {
+          if (req.headers.authorization !== "server-token") {
+            return res.status(401).json({ error: "Unauthorized" });
+          }
+          res.status(200).json({ data: "protected" });
+        });
+
+        const { app } = await buildApp(
+          {
+            proxyAllDomains: true,
+            blacklistedAddresses: ["202.168.1.1"]
+          },
+          {
+            [`localhost:${TEST_SERVER_PORT}`]: {
+              authorization: "server-token"
+            }
+          }
+        );
+
+        const proxyAuthRes = await supertestReq(app)
+          [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/cache-proxy-auth`)
+          .expect(200)
+          .expect("Cache-Control", "private,max-age=1209600");
+        expect(proxyAuthRes.headers["vary"]).toContain("Authorization");
+      });
+
+      it("uses public cache-control and no Vary: Authorization when user auth fails and none strategy succeeds", async () => {
+        let attempt = 0;
+        testServer.addRoute(methodName, "/cache-auth-fallback", (_req, res) => {
+          attempt++;
+          if (attempt === 1) {
+            return res.status(401).json({ error: "Auth failed" });
+          }
+          res.status(200).json({ data: "public fallback" });
+        });
+
+        const { app } = await buildApp({
+          proxyAllDomains: true,
+          blacklistedAddresses: ["202.168.1.1"]
+        });
+
+        const response = await supertestReq(app)
+          [
+            methodName
+          ](`/proxy/localhost:${TEST_SERVER_PORT}/cache-auth-fallback`)
+          .set("Authorization", "Bearer bad-token")
+          .expect(200)
+          .expect("Cache-Control", "public,max-age=1209600");
+
+        expect(response.headers["vary"] ?? "").not.toContain("Authorization");
+      });
+
+      it("uses public cache-control and no Vary: Authorization when no auth is involved", async () => {
+        testServer.addRoute(methodName, "/cache-no-auth", (_req, res) => {
+          res.status(200).json({ data: "public" });
+        });
+
+        const { app } = await buildApp({
+          proxyAllDomains: true,
+          blacklistedAddresses: ["202.168.1.1"]
+        });
+
+        const response = await supertestReq(app)
+          [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/cache-no-auth`)
+          .expect(200)
+          .expect("Cache-Control", "public,max-age=1209600");
+        expect(response.headers["vary"] ?? "").not.toContain("Authorization");
+      });
+    });
+
     it("No User Auth, No Proxy Auth defined -> First No Auth attempt (fails) -> Final 403 (no retry)", async () => {
       testServer.addRoute(methodName, "/auth-path4", (req, res) => {
         // No auth header expected, request should fail
