@@ -39,14 +39,25 @@ describe("proxy processHeaders", () => {
   });
 
   describe("cache poisoning prevention", () => {
-    it("uses private cache-control when request is authenticated", () => {
+    it("uses private cache-control and Vary: Authorization when client auth was used", () => {
       const result = processHeaders(
         { "content-type": "application/json" },
+
         1200,
-        true
+        { isAuthenticated: true, varyByAuthorization: true }
       );
       expect(result["cache-control"]).toBe("private,max-age=1200");
       expect(result["vary"]).toBe("Authorization");
+    });
+
+    it("uses private cache-control without Vary when server-configured auth was used", () => {
+      const result = processHeaders(
+        { "content-type": "application/json" },
+        1200,
+        { isAuthenticated: true, varyByAuthorization: false }
+      );
+      expect(result["cache-control"]).toBe("private,max-age=1200");
+      expect(result["vary"]).toBeUndefined();
     });
 
     it("uses public cache-control and no Vary when request is not authenticated", () => {

@@ -870,7 +870,9 @@ function doCommonTest(methodName) {
           [methodName](`/proxy/localhost:${TEST_SERVER_PORT}/cache-proxy-auth`)
           .expect(200)
           .expect("Cache-Control", "private,max-age=1209600");
-        expect(proxyAuthRes.headers["vary"]).toContain("Authorization");
+        expect(proxyAuthRes.headers["vary"] ?? "").not.toContain(
+          "Authorization"
+        );
       });
 
       it("uses public cache-control and no Vary: Authorization when user auth fails and none strategy succeeds", async () => {
