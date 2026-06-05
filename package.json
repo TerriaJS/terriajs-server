@@ -9,8 +9,12 @@
   "type": "module",
   "exports": {
     "./terriajs-server.js": "./terriajs-server.js",
-    ".": "./lib/app.js"
+    ".": {
+      "default": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    }
   },
+  "types": "./lib/index.d.ts",
   "scripts": {
     "test": "jasmine",
     "lint": "eslint .",
