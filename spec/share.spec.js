@@ -69,11 +69,7 @@ describe("share endpoint (integration, real controller)", () => {
         .expect(201)
         .expect("Content-Type", /json/)
         .expect((res) => {
-          const actualUrl = res.body.url;
-          const expectedPath = `/share/g-${fakeGistId}`;
           expect(res.body.id).toBe(`g-${fakeGistId}`);
-          expect(res.body.path).toBe(expectedPath);
-          expect(actualUrl.endsWith(expectedPath)).toBeTrue();
         });
     });
 

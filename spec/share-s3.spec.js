@@ -99,8 +99,8 @@ describe("Share Module (e2e) - S3", () => {
       .send({ data: "test content empty" })
       .expect(201);
 
-    expect(response.body.url).toBeDefined();
-    expect(response.body.url).toContain("/share/hBp74ADLrPU6flu0qu07Kyi1FM0");
+    expect(response.body.id).toBeDefined();
+    expect(response.body.id).toEqual("hBp74ADLrPU6flu0qu07Kyi1FM0");
 
     await supertestReq(app)
       .get("/share/hBp74ADLrPU6flu0qu07Kyi1FM0")
