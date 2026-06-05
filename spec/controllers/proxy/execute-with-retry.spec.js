@@ -22,7 +22,11 @@ describe("executeWithRetry", () => {
       fetchFn: mockFetch
     });
 
-    expect(result.statusCode).toBe(200);
+    expect(result.response.statusCode).toBe(200);
+    expect(result.usedAuthStrategy).toEqual({
+      type: "user",
+      authorization: "Bearer token"
+    });
     expect(mockFetch).toHaveBeenCalledWith({
       headers: {
         authorization: "Bearer token"
@@ -55,7 +59,11 @@ describe("executeWithRetry", () => {
       fetchFn: mockFetch
     });
 
-    expect(result.statusCode).toBe(200);
+    expect(result.response.statusCode).toBe(200);
+    expect(result.usedAuthStrategy).toEqual({
+      type: "proxy",
+      authorization: "Bearer correct"
+    });
     expect(mockFetch).toHaveBeenCalledTimes(2);
     expect(mockFetch.calls.argsFor(0)).toEqual([
       { headers: { authorization: "Bearer wrong" } }
@@ -95,7 +103,8 @@ describe("executeWithRetry", () => {
       fetchFn: mockFetch
     });
 
-    expect(result.statusCode).toBe(200);
+    expect(result.response.statusCode).toBe(200);
+    expect(result.usedAuthStrategy).toEqual({ type: "none" });
 
     expect(mockFetch.calls.argsFor(0)).toEqual([
       { headers: { authorization: "Bearer wrong" } }
