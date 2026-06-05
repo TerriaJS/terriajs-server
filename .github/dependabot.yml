@@ -5,9 +5,13 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "master"
+    cooldown:
+      default-days: 5
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: "daily"
     target-branch: "master"
     versioning-strategy: increase
+    cooldown:
+      default-days: 5
