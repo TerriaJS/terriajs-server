@@ -15,6 +15,10 @@
 * Strip Set-Cookie headers from proxy requests.
 * Limit proxy response size to 100MB by default, configurable with `proxyResponseSizeLimit` in the server config.
 * Extend blacklist to cover the all IANA special-purpose address registries. If you have overridden the default blacklist, be sure to review and include necessary entires from https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml and https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml
+* Set Content-Type `application/json` for share endpoint responses.
+* Stop returning incorrect location in share urls. Now when generating share url, only share id is returned.
+* Define and export types for server config response.
+* Prevent proxy cache poisoning on authenticated response. When authentication is used as part of proxy request we will set Cache-Control to private so CDNs and other shared caches won't cache the response. This is to prevent a malicious user from poisoning the cache with a response that includes authentication credentials, which could then be served to other users. https://github.com/TerriaJS/terriajs-server/pull/353
 
 
 ### 4.0.3 - 2025-12-04
