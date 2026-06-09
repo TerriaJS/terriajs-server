@@ -1,4 +1,8 @@
-import { CreateBucketCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  CreateBucketCommand,
+  PutObjectCommand,
+  S3Client
+} from "@aws-sdk/client-s3";
 import { LocalstackContainer } from "@testcontainers/localstack";
 import supertestReq from "supertest";
 
@@ -53,10 +57,12 @@ describe("Share Module (e2e) - S3", () => {
       }
     });
 
-    const createBucketResponse = await client.send(
-      new CreateBucketCommand({ Bucket: "sample-bucket" })
-    );
-    expect(createBucketResponse.$metadata.httpStatusCode).toEqual(200);
+    const [bucket1, bucket2] = await Promise.all([
+      client.send(new CreateBucketCommand({ Bucket: "sample-bucket" })),
+      client.send(new CreateBucketCommand({ Bucket: "sample-bucket-2" }))
+    ]);
+    expect(bucket1.$metadata.httpStatusCode).toEqual(200);
+    expect(bucket2.$metadata.httpStatusCode).toEqual(200);
   }, 120000);
 
   it("should save and resolve share via s3 provider", async () => {
@@ -150,6 +156,102 @@ describe("Share Module (e2e) - S3", () => {
     expect(response.body.message).toContain(
       "not been configured to generate new share URLs"
     );
+  });
+
+  describe("multiple S3 prefixes with separate buckets", () => {
+    const idToObject = (id) => id.replace(/^(.)(.)/, "$1/$2/$1$2");
+
+    function buildMultiBucketApp() {
+      const opts = options.init(true);
+      return makeServer(
+        Object.assign({}, opts, {
+          wwwroot: "./spec/mockwwwroot",
+          hostName: "localhost",
+          port: "3001",
+          settings: {
+            shareUrlPrefixes: {
+              primary: {
+                service: "s3",
+                region: "us-east-1",
+                bucket: "sample-bucket",
+                endpoint: localstackContainer.getConnectionUri(),
+                accessKeyId: "test",
+                secretAccessKey: "test",
+                keyLength: 54,
+                forcePathStyle: true
+              },
+              secondary: {
+                service: "s3",
+                region: "us-east-1",
+                bucket: "sample-bucket-2",
+                endpoint: localstackContainer.getConnectionUri(),
+                accessKeyId: "test",
+                secretAccessKey: "test",
+                keyLength: 54,
+                forcePathStyle: true
+              }
+            },
+            newShareUrlPrefix: "primary",
+            shareMaxRequestSize: "200kb"
+          }
+        })
+      );
+    }
+
+    function secondaryClient() {
+      return new S3Client({
+        endpoint: localstackContainer.getConnectionUri(),
+        forcePathStyle: true,
+        region: "us-east-1",
+        credentials: { accessKeyId: "test", secretAccessKey: "test" }
+      });
+    }
+
+    it("resolves share stored in secondary bucket using secondary prefix", async () => {
+      const shareId = "ab1SecondaryTestShareId123456789012345678901234567890";
+      await secondaryClient().send(
+        new PutObjectCommand({
+          Bucket: "sample-bucket-2",
+          Key: idToObject(shareId),
+          Body: JSON.stringify({ source: "secondary bucket" })
+        })
+      );
+
+      await supertestReq(buildMultiBucketApp())
+        .get(`/share/secondary-${shareId}`)
+        .expect(200, { source: "secondary bucket" });
+    });
+
+    it("stores new share only in primary bucket", async () => {
+      const app = buildMultiBucketApp();
+      const { body } = await supertestReq(app)
+        .post("/share")
+        .send({ data: "primary only content" })
+        .expect(201);
+
+      const baseId = body.id.replace(/^primary-/, "");
+
+      await supertestReq(app).get(`/share/primary-${baseId}`).expect(200, {
+        data: "primary only content"
+      });
+
+      await supertestReq(app).get(`/share/secondary-${baseId}`).expect(404);
+    });
+
+    it("returns 404 when resolving secondary share id using primary prefix", async () => {
+      const shareId = "cd2SecondaryOnlyShareId1234567890123456789012345678901";
+      await secondaryClient().send(
+        new PutObjectCommand({
+          Bucket: "sample-bucket-2",
+          Key: idToObject(shareId),
+          Body: JSON.stringify({ source: "secondary only" })
+        })
+      );
+
+      await supertestReq(buildMultiBucketApp())
+        .get(`/share/primary-${shareId}`)
+        .expect(404);
+    });
   });
 
   afterAll(async () => {
