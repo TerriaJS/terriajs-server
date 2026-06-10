@@ -2548,10 +2548,10 @@ range_check@^4.1.0:
     ip6 "^0.2.11"
     ipaddr.js "^2.2.0"
 
-rate-limiter-flexible@^11.1.0:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-11.1.0.tgz#7f23056adcf2aeae50ded91203e55579cbf3ab8b"
-  integrity sha512-lyyC0SqKz+dE5JoHZ4JMqdrM3LSZKBxzuAFAyKCYAnmHnPz/Rb6iDquxoL4CMipDXoR0G+QRhOzYWL3JKihbNw==
+rate-limiter-flexible@^11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-11.1.1.tgz#23d9236c8476c5fd36868bad20b20d0bf83db03b"
+  integrity sha512-ZT/GnTlqjX+vEnI39tubPX8bQY7xIvp0e0q+DgxiA2RTfwj7t/jy6GTgdkJNb22qPCqjXJLoPLxff7RolmGc8Q==
 
 raw-body@^3.0.1:
   version "3.0.2"
