@@ -738,12 +738,12 @@
     "@smithy/util-buffer-from" "^2.2.0"
     tslib "^2.6.2"
 
-"@testcontainers/localstack@^12.0.1":
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/@testcontainers/localstack/-/localstack-12.0.1.tgz#2035c27ccde94fae0112bb1fde8c4ddb31a3f180"
-  integrity sha512-0VRwXxFv/zeKRZaIVhfjWd4VpIPHsijkXXti/LY6i7q1+twC4Big1w4MOaxSnXBDgoHUk88/5or8TGWCokgkYw==
+"@testcontainers/localstack@^12.0.4":
+  version "12.0.4"
+  resolved "https://registry.yarnpkg.com/@testcontainers/localstack/-/localstack-12.0.4.tgz#6ad4140e80ee0d1b50a07810d1cd5119886bac28"
+  integrity sha512-NrByLWmsG0QNK+Mp59XOD5NxyviyghGAyL6EggTdUmeLKQNg0agSXZIL2QjzXccER7G2FshLiCFGGoK+5vleIw==
   dependencies:
-    testcontainers "^12.0.1"
+    testcontainers "^12.0.4"
 
 "@types/body-parser@*":
   version "1.19.6"
@@ -1865,10 +1865,10 @@ get-intrinsic@^1.2.5, get-intrinsic@^1.2.6, get-intrinsic@^1.3.0:
     hasown "^2.0.2"
     math-intrinsics "^1.1.0"
 
-get-port@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/get-port/-/get-port-7.2.0.tgz#db0d52eb2d89890cdc010ed0e9a6f2d4b78cbbe7"
-  integrity sha512-afP4W205ONCuMoPBqcR6PSXnzX35KTcJygfJfcp+QY+uwm3p20p1YczWXhlICIzGMCxYBQcySEcOgsJcrkyobg==
+get-port@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/get-port/-/get-port-5.1.1.tgz#0469ed07563479de6efb986baf053dcd7d4e3193"
+  integrity sha512-g/Q1aTSDOxFpchXC4i8ZWvxA1lnPqx/JHqcpIw0/LX9T8x/GBbi6YnlN5nhaKIFkT8oFsscUKgDJYxfwfS6QsQ==
 
 get-proto@^1.0.1:
   version "1.0.1"
@@ -2960,10 +2960,10 @@ teex@^1.0.1:
   dependencies:
     streamx "^2.12.5"
 
-testcontainers@^12.0.1:
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-12.0.1.tgz#38a3d073fef3a753793923ceb57b9e3999824aa5"
-  integrity sha512-EMjjfMNJf3HlL7V3elkxqKUO1r3CtqNBTdmKGwwma/lOtUGfoWvFJ0WQ/KQf1DHEMnRjLWzW4cXbv/Tndsbcbw==
+testcontainers@^12.0.1, testcontainers@^12.0.4:
+  version "12.0.4"
+  resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-12.0.4.tgz#b0b78d59da9b8fa5c20536acc909516b46911b74"
+  integrity sha512-QIR/8xF1+F/26cIM+9B4yyxNTbKJxAv3hygZyhPRgZ8Q2AhlPZjDdpXRuk16V37X4bgJRI3hXFhoEICMBA7Adg==
   dependencies:
     "@balena/dockerignore" "^1.0.2"
     "@types/dockerode" "^4.0.1"
@@ -2973,13 +2973,13 @@ testcontainers@^12.0.1:
     debug "^4.4.3"
     docker-compose "^1.4.2"
     dockerode "^5.0.0"
-    get-port "^7.2.0"
+    get-port "^5.1.1"
     proper-lockfile "^4.1.2"
     properties-reader "^3.0.1"
     ssh-remote-port-forward "^1.0.4"
     tar-fs "^3.1.2"
-    tmp "^0.2.6"
-    undici "^7.25.0"
+    tmp "^0.2.7"
+    undici "^8.5.0"
 
 text-decoder@^1.1.0:
   version "1.2.7"
@@ -3000,7 +3000,7 @@ tldts@^7.0.5:
   dependencies:
     tldts-core "^7.4.2"
 
-tmp@^0.2.6:
+tmp@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.7.tgz#26f4db11d1601ce8012dcb8a798ece1c06a99059"
   integrity sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==
@@ -3060,15 +3060,15 @@ undici-types@~5.26.4:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
-undici@^7.25.0:
-  version "7.27.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-7.27.0.tgz#8f1d99dfc28273fe8a5736aa93a507850fda78c9"
-  integrity sha512-+t2Z/GwkZQDtu00813aP66ygViGtPHKhhoFZpQKpKrE+9jIgES+Zw+mFNaDWOVRKiuJjuqKHzD3B1sfGg8+ZOQ==
-
 undici@^8.4.0:
   version "8.4.0"
   resolved "https://registry.yarnpkg.com/undici/-/undici-8.4.0.tgz#5a1bc4bbaf7a16277393e05a66b9d641fd966340"
   integrity sha512-tDR4LgFBeV7YBWOFMlmbhtrnFVWuZ6HKbkG+88/csQdhK2tPlW78PnLI2VRjIQtTlslvgSZ4R43WBE+4g6rhng==
+
+undici@^8.5.0:
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-8.7.0.tgz#04c5aae1db34d9867488588b44b8c749dee9baee"
+  integrity sha512-N7iQtfyLhIMOFgQubvmLV26svHpO0bqKnAiWotTQCVKCmWrcGbBotPuW1x+xwYZ2VHdSTVUfPQQnlEt1/LouTQ==
 
 unpipe@~1.0.0:
   version "1.0.0"
