@@ -243,6 +243,14 @@
         "localhost"
     ],
 
+    // Hostnames this server trusts as its own, in addition to `hostName`.
+    // Used to constrain the http->https redirect target so an attacker-supplied `Host`
+    // header cannot turn it into an open redirect (requests for any other host get a 400).
+    // List any additional hostnames this server is legitimately served under.
+    "trustedHosts": [
+        "maps.example.com"
+    ],
+
     // An array of options which you to inform which additional parameters are appended to the url querystring.
     // By default no additional parameters are appended.
     // A regex pattern is used to test whether parameters should be attached. Set to "." to match everything
