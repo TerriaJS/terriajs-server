@@ -19,9 +19,9 @@
 * Stop returning incorrect location in share urls. Now when generating share url, only share id is returned.
 * Define and export types for server config response.
 * Prevent proxy cache poisoning on authenticated response. When authentication is used as part of proxy request we will set Cache-Control to private so CDNs and other shared caches won't cache the response. This is to prevent a malicious user from poisoning the cache with a response that includes authentication credentials, which could then be served to other users. https://github.com/TerriaJS/terriajs-server/pull/353
+* Create the Express router per invocation in the `feedback`, `esri-token-auth`, `initfile` and `single-page-routing` controllers instead of sharing a module-level router. This prevents route handlers and middleware from accumulating on a shared router when a controller factory is called more than once (e.g. in tests).
 * Prevent open redirect via the `Host` header when `redirectToHttps` is enabled. The http→https redirect target is now validated against the configured `hostName` plus an optional `trustedHosts` list; requests with an unrecognized `Host` receive a 400 instead of being redirected to it.
 * Reject cross-origin (CSRF) requests to the state-changing endpoints `/share`, `/feedback` and `/esri-token-auth`. Their `Origin` (or `Referer`) is validated against the `trustedHosts` list; requests from an untrusted origin receive a 403. Requests without an `Origin`/`Referer` (non-browser clients) are unaffected.
-
 
 ### 4.0.3 - 2025-12-04
 
