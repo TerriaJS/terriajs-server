@@ -21,6 +21,30 @@ async function buildApp(settings = {}, proxyAuth = {}) {
 }
 
 describe("Proxy (e2e)", () => {
+  describe("appendParamToQueryString validation at startup", () => {
+    it("refuses to start when a configured regex is ReDoS-prone", async () => {
+      await expectAsync(
+        buildApp({
+          proxyAllDomains: true,
+          appendParamToQueryString: {
+            "example.com": [{ regexPattern: "(a+)+$", params: { key: "v" } }]
+          }
+        })
+      ).toBeRejectedWithError(/vulnerable to catastrophic backtracking/i);
+    });
+
+    it("starts normally when configured regexes are safe", async () => {
+      await expectAsync(
+        buildApp({
+          proxyAllDomains: true,
+          appendParamToQueryString: {
+            "example.com": [{ regexPattern: "api", params: { key: "v" } }]
+          }
+        })
+      ).toBeResolved();
+    });
+  });
+
   describe("/ (GET)", () => {
     doCommonTest("get");
   });
