@@ -243,9 +243,11 @@
         "localhost"
     ],
 
-    // Hostnames this server trusts as its own, in addition to `hostName`.
-    // Used to constrain the http->https redirect target so an attacker-supplied `Host`
-    // header cannot turn it into an open redirect (requests for any other host get a 400).
+    // Hostnames this server trusts as its own, in addition to `hostName`. Used to
+    // (a) constrain the http->https redirect target so an attacker-supplied `Host`
+    // header cannot turn it into an open redirect (other hosts get a 400), and
+    // (b) reject cross-origin (CSRF) requests to state-changing endpoints
+    // (/share, /feedback, /esri-token-auth) whose `Origin` is not trusted (403).
     // List any additional hostnames this server is legitimately served under.
     "trustedHosts": [
         "maps.example.com"
