@@ -68,7 +68,7 @@
     "globals": "^17.7.0",
     "http-proxy": "^1.18.1",
     "jasmine": "^6.3.0",
-    "msw": "^2.14.6",
+    "msw": "^2.15.0",
     "prettier": "^3.9.4",
     "supertest": "^7.2.2",
     "testcontainers": "^12.0.1"
