@@ -2880,12 +2880,7 @@ undici-types@~8.3.0:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-8.3.0.tgz#44e9fc9f3244648cdea35e4f9bb2d681e9410809"
   integrity sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==
 
-undici@^8.4.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-8.4.0.tgz#5a1bc4bbaf7a16277393e05a66b9d641fd966340"
-  integrity sha512-tDR4LgFBeV7YBWOFMlmbhtrnFVWuZ6HKbkG+88/csQdhK2tPlW78PnLI2VRjIQtTlslvgSZ4R43WBE+4g6rhng==
-
-undici@^8.5.0:
+undici@^8.5.0, undici@^8.7.0:
   version "8.7.0"
   resolved "https://registry.yarnpkg.com/undici/-/undici-8.7.0.tgz#04c5aae1db34d9867488588b44b8c749dee9baee"
   integrity sha512-N7iQtfyLhIMOFgQubvmLV26svHpO0bqKnAiWotTQCVKCmWrcGbBotPuW1x+xwYZ2VHdSTVUfPQQnlEt1/LouTQ==
