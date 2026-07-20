@@ -52,7 +52,7 @@
     "proj4-cli-defs": "^2.1.0",
     "range_check": "^4.1.0",
     "rate-limiter-flexible": "^11.2.0",
-    "safe-regex": "^2.1.1",
+    "safe-regex2": "^5.1.1",
     "undici": "^8.7.0",
     "yargs": "^18.0.0"
   },
