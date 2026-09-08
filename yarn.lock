@@ -401,10 +401,10 @@
     wrap-ansi "^8.1.0"
     wrap-ansi-cjs "npm:wrap-ansi@^7.0.0"
 
-"@jasminejs/reporters@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@jasminejs/reporters/-/reporters-1.0.0.tgz#1d06099c11ff9793544e6d84ad8fb45c37630a60"
-  integrity sha512-rM3GG4vx2H1Gp5kYCTr9aKlOEJFd43pzpiMAiy5b1+FUc2ub4e6bS6yCi/WQNDzAa5MVp9++dwcoEtcIfoEnhA==
+"@jasminejs/reporters@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@jasminejs/reporters/-/reporters-1.1.0.tgz#46e2e69950097c2475e95e84e85824d1cf83c9a3"
+  integrity sha512-JIrlfaf9c6m0+GtBAgZdcFB6RIRbFBbXxZDZ0WOewq4cLIEcVKEe0RgI1FA77M39FNzeSMTAm+LK/kcQVIkfGQ==
 
 "@js-sdsl/ordered-map@^4.4.2":
   version "4.4.2"
@@ -1905,19 +1905,19 @@ jackspeak@^3.1.2:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
-jasmine-core@~6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-6.3.0.tgz#ff8e4e771a4c8e7bebd0966bc4625f000f78fa84"
-  integrity sha512-eMm5qBovNjNoGOcgE/W207+wrcK5zrQv0Rg/rWGboUJUmZp0dFCpHTyjpuDAfCwRCqg7f9U2q2jtv/aUuzdCQg==
+jasmine-core@~7.0.0:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-7.0.2.tgz#afee5b1edd630c714b3b064193756d28f201a317"
+  integrity sha512-YMVijt84KPQQFm1db1AQAxTXfq0k3wU06OkepLViljURFqiRQ7EYYX2eUAshhUv9fA9t1E2N65GrdqvupA9VPQ==
 
-jasmine@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-6.3.0.tgz#da5f5c7e4ddc5e67e634ad357d0a6724e99f642e"
-  integrity sha512-u6L7yYtrtS1JALlp7f4k7Wz7o7ZKXauSKKkXc0L3qUkKrdaxYvNiMHhHp5gtTuVZZXVihXRxS7bWwDBX1wJ7EQ==
+jasmine@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-7.0.0.tgz#2df083e74d9f079b1b51bcfc4545d569b968b9b8"
+  integrity sha512-rnjiyg1LAhFZMoyU8ei/Wqyvti5oCzFhW7ZtkD6o+CSx3LpU9aYurPrh5BKyX3coGvmdEVYPC2HYh1rrBvZoWg==
   dependencies:
-    "@jasminejs/reporters" "^1.0.0"
+    "@jasminejs/reporters" "^1.1.0"
     glob "^10.2.2 || ^11.0.3 || ^12.0.0 || ^13.0.0"
-    jasmine-core "~6.3.0"
+    jasmine-core "~7.0.0"
 
 json-buffer@3.0.1:
   version "3.0.1"
