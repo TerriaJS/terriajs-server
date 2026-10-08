@@ -1,8 +1,6 @@
 ## TerriaJS-Server
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/TerriaJS/terriajs-server.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://travis-ci.org/TerriaJS/terriajs-server.svg?branch=master)](https://travis-ci.org/TerriaJS/terriajs-server)
+Terriajs-server is now maintained as part of the terriajs monorepo https://github.com/TerriaJS/TerriaJS. 
 
 --------------------
 
